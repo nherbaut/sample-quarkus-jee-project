@@ -2,56 +2,45 @@ package fr.pantheonsorbonne.ufr27.miage.model;
 
 import javax.persistence.*;
 
+@NamedQueries(
+        {
+                @NamedQuery(name = "getQuotaForVendorForVenue", query = "SELECT v from VenueQuota v where v.id.vendor.id =:idVendor and v.id.venue.id =:idVenue"),
+                @NamedQuery(name = "getAvailableVenuesForVendor", query = "SELECT v.id.venue from VenueQuota v where v.id.vendor.id = :idVendor and (v.seatingQuota>0 or v.standingQuota>0)")
+        }
+)
+@Table(name = "VenueQuota")
 @Entity
 public class VenueQuota {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @EmbeddedId
+    private VenueQuotaId id;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "seatingQuota", nullable = false)
+    private Integer seatingQuota;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(name = "standingQuota", nullable = false)
+    private Integer standingQuota;
 
-    @OneToOne
-    Vendor vendor;
-
-
-    @OneToOne
-    Venue venue;
-
-    Long standingQuota;
-    Long seatingQuota;
-
-    public Venue getVenue() {
-        return venue;
-    }
-
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
-    }
-
-    public Long getStandingQuota() {
+    public Integer getStandingQuota() {
         return standingQuota;
     }
 
-    public void setStandingQuota(Long standingQuota) {
+    public void setStandingQuota(Integer standingQuota) {
         this.standingQuota = standingQuota;
     }
 
-    public Long getSeatingQuota() {
+    public Integer getSeatingQuota() {
         return seatingQuota;
     }
 
-    public void setSeatingQuota(Long seatingQuota) {
+    public void setSeatingQuota(Integer seatingQuota) {
         this.seatingQuota = seatingQuota;
     }
 
-    public Vendor getVendor() {
-        return vendor;
+    public VenueQuotaId getId() {
+        return id;
+    }
+
+    public void setId(VenueQuotaId id) {
+        this.id = id;
     }
 }

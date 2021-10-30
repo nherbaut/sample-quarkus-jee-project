@@ -1,43 +1,30 @@
 package fr.pantheonsorbonne.ufr27.miage.model;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 public class Vendor {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idVendor", nullable = false)
+    private Integer id;
 
-    public Long getId() {
+    @Column(name = "name", nullable = false, length = 45)
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-
-    @OneToMany
-    Collection<Ticket> tickets;
-
-    public Collection<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(Collection<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
-
-    public Collection<VenueQuota> getVenueQuotas() {
-        return venueQuotas;
-    }
-
-    public void setVenueQuotas(Collection<VenueQuota> venues) {
-        this.venueQuotas = venues;
-    }
-
-    @OneToMany
-    Collection<VenueQuota> venueQuotas;
 }

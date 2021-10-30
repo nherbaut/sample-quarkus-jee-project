@@ -1,36 +1,46 @@
 package fr.pantheonsorbonne.ufr27.miage.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Collection;
 
+@Table(name = "Venue")
 @Entity
 public class Venue {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idVenue", nullable = false)
+    private Integer id;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
 
-    @OneToMany
-    @JoinTable(name = "Artists_for_venue")
-    private Collection<Artist> artists;
-
-    public Collection<Artist> getArtists() {
-        return artists;
+    public Collection<VenueLineUp> getLineUp() {
+        return lineUp;
     }
 
-    public void setArtists(Collection<Artist> artists) {
-        this.artists = artists;
+    public void setLineUp(Collection<VenueLineUp> lineUp) {
+        this.lineUp = lineUp;
     }
+
+    @OneToMany(
+
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "id.idVenue"
+
+    )
+    private Collection<VenueLineUp> lineUp;
+
+    @ManyToOne
+    @JoinColumn(name = "idLocation")
+    private Location location;
 
     public Location getLocation() {
         return location;
@@ -40,7 +50,13 @@ public class Venue {
         this.location = location;
     }
 
-    @OneToOne
-    private Location location;
+    private LocalDate venueDate;
 
+    public LocalDate getVenueDate() {
+        return venueDate;
+    }
+
+    public void setVenueDate(LocalDate venueDate) {
+        this.venueDate = venueDate;
+    }
 }

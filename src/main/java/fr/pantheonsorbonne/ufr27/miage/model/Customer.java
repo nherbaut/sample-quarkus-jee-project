@@ -1,35 +1,29 @@
 package fr.pantheonsorbonne.ufr27.miage.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import java.util.Collection;
 
 @Entity
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idCustomer", nullable = false)
+    private Integer id;
 
-    public Long getId() {
-        return id;
+    @Column(name = "fname", nullable = false, length = 45)
+    private String fname;
+
+    @Column(name = "lname", nullable = false, length = 45)
+    private String lname;
+
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    public String getEmail() {
+        return email;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    String fname;
-    String lname;
-    @Email
-    String email;
-
-    public String getFname() {
-        return fname;
-    }
-
-    public void setFname(String fname) {
-        this.fname = fname;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getLname() {
@@ -40,14 +34,19 @@ public class Customer {
         this.lname = lname;
     }
 
-    public String getEmail() {
-        return email;
+    public String getFname() {
+        return fname;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFname(String fname) {
+        this.fname = fname;
     }
 
-    @OneToMany
-    Collection<Ticket> tickets;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

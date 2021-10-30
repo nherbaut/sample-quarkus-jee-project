@@ -2,52 +2,70 @@ package fr.pantheonsorbonne.ufr27.miage.model;
 
 import javax.persistence.*;
 
+@Table(name = "Ticket", indexes = {
+        @Index(name = "fk_Ticket_3_idx", columnList = "idCustomer"),
+        @Index(name = "fk_Ticket_1_idx", columnList = "idVendor"),
+        @Index(name = "fk_Ticket_2_idx", columnList = "idVenue")
+})
 @Entity
 public class Ticket {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idTicket", nullable = false)
+    private Integer id;
 
-    public Long getId() {
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "idVenue", nullable = false)
+    private Venue idVenue;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "idVendor", nullable = false)
+    private Vendor idVendor;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "idCustomer", nullable = false)
+    private Customer idCustomer;
+
+    public String getSeatReference() {
+        return seatReference;
+    }
+
+    public void setSeatReference(String seatReference) {
+        this.seatReference = seatReference;
+    }
+
+    @Column(nullable = true)
+    private String seatReference;
+
+    public Customer getIdCustomer() {
+        return idCustomer;
+    }
+
+    public void setIdCustomer(Customer idCustomer) {
+        this.idCustomer = idCustomer;
+    }
+
+    public Vendor getIdVendor() {
+        return idVendor;
+    }
+
+    public void setIdVendor(Vendor idVendor) {
+        this.idVendor = idVendor;
+    }
+
+    public Venue getIdVenue() {
+        return idVenue;
+    }
+
+    public void setIdVenue(Venue idVenue) {
+        this.idVenue = idVenue;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-
-    @OneToOne
-    @JoinColumn(name = "customer_id")
-    Customer customer;
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    @ManyToOne(optional = true)
-    Seat seat;
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Seat getSeat() {
-        return seat;
-    }
-
-    public void setSeat(Seat seat) {
-        this.seat = seat;
-    }
-
-    public Venue getVenue() {
-        return venue;
-    }
-
-    public void setVenue(Venue venue) {
-        this.venue = venue;
-    }
-
-    @ManyToOne
-    Venue venue;
 }

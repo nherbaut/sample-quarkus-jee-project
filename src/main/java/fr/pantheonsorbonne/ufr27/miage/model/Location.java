@@ -1,27 +1,27 @@
 package fr.pantheonsorbonne.ufr27.miage.model;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 public class Location {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idLocation", nullable = false)
+    private Integer id;
 
-    public Long getId() {
-        return id;
+    @Column(name = "name", nullable = false, length = 45)
+    private String name;
+
+    @Column(name = "standingGauge", nullable = false)
+    private Integer standingGauge;
+
+    public Integer getStandingGauge() {
+        return standingGauge;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setStandingGauge(Integer standingGauge) {
+        this.standingGauge = standingGauge;
     }
-
-    String name;
-
-    @OneToMany
-    Collection<Seat> seats;
 
     public String getName() {
         return name;
@@ -31,11 +31,11 @@ public class Location {
         this.name = name;
     }
 
-    public Collection<Seat> getSeats() {
-        return seats;
+    public Integer getId() {
+        return id;
     }
 
-    public void setSeats(Collection<Seat> seats) {
-        this.seats = seats;
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

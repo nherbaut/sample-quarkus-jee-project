@@ -1,30 +1,16 @@
 package fr.pantheonsorbonne.ufr27.miage.model;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 public class Artist {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idArtist", nullable = false)
+    private Integer idArtist;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    @Column(name = "name", nullable = false, length = 45)
     private String name;
-
-    @OneToMany
-    @JoinTable(name = "Tour_for_artist")
-    private Collection<Venue> venues;
-
-
 
     public String getName() {
         return name;
@@ -32,5 +18,13 @@ public class Artist {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getIdArtist() {
+        return idArtist;
+    }
+
+    public void setIdArtist(Integer id) {
+        this.idArtist = id;
     }
 }
