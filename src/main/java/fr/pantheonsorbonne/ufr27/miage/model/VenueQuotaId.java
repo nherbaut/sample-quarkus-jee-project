@@ -29,4 +29,17 @@ public class VenueQuotaId implements Serializable {
 
     @ManyToOne
     private Vendor vendor;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VenueQuotaId that = (VenueQuotaId) o;
+        return venue.equals(that.venue) && vendor.equals(that.vendor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(venue, vendor);
+    }
 }

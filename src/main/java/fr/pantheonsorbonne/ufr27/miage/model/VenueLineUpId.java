@@ -10,6 +10,19 @@ import java.util.Objects;
 public class VenueLineUpId implements Serializable {
     private static final long serialVersionUID = -879274964975792491L;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VenueLineUpId that = (VenueLineUpId) o;
+        return idVenue.equals(that.idVenue) && artist.equals(that.artist);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idVenue, artist);
+    }
+
     @Column(name = "idVenue", nullable = false)
     private Integer idVenue;
 

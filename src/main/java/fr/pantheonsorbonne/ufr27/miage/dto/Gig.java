@@ -8,6 +8,15 @@ public class Gig {
     String artistName;
     String location;
     LocalDate date;
+    int venueId;
+
+    public int getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(int venueId) {
+        this.venueId = venueId;
+    }
 
     public LocalDate getDate() {
         return date;
@@ -17,10 +26,11 @@ public class Gig {
         this.date = date;
     }
 
-    public Gig(String artistName, String location, LocalDate date) {
+    public Gig(String artistName, String location, LocalDate date, int venueId) {
         this.artistName = artistName;
         this.location = location;
         this.date = date;
+        this.venueId = venueId;
     }
 
     public Gig() {

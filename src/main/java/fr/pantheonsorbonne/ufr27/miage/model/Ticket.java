@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.ufr27.miage.model;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Table(name = "Ticket", indexes = {
         @Index(name = "fk_Ticket_3_idx", columnList = "idCustomer"),
@@ -22,8 +23,8 @@ public class Ticket {
     @JoinColumn(name = "idVendor", nullable = false)
     private Vendor idVendor;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "idCustomer", nullable = false)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "idCustomer", nullable = true)
     private Customer idCustomer;
 
     public String getSeatReference() {
@@ -35,7 +36,28 @@ public class Ticket {
     }
 
     @Column(nullable = true)
+    private Instant validUntil;
+
+    public Instant getValidUntil() {
+        return validUntil;
+    }
+
+    public void setValidUntil(Instant validUntil) {
+        this.validUntil = validUntil;
+    }
+
+    @Column(nullable = true)
     private String seatReference;
+
+    public String getTicketKey() {
+        return ticketKey;
+    }
+
+    public void setTicketKey(String ticketKey) {
+        this.ticketKey = ticketKey;
+    }
+
+    private String ticketKey;
 
     public Customer getIdCustomer() {
         return idCustomer;

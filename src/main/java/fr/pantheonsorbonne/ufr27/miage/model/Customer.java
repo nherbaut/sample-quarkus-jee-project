@@ -18,6 +18,15 @@ public class Customer {
     @Column(name = "email", nullable = false)
     private String email;
 
+    public Customer(String fname, String lname, String email) {
+        this.fname = fname;
+        this.lname = lname;
+        this.email = email;
+    }
+
+    public Customer() {
+    }
+
     public String getEmail() {
         return email;
     }

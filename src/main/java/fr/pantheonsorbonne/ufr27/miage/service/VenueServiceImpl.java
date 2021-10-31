@@ -43,7 +43,7 @@ public class VenueServiceImpl implements VenueService {
                 builder.append(" and ");
             }
             String allArtists = builder.substring(0, builder.length() - 5);
-            gigs.add(new Gig(allArtists, venue.getLocation().getName(),venue.getVenueDate()));
+            gigs.add(new Gig(allArtists, venue.getLocation().getName(),venue.getVenueDate(),venue.getId().intValue()));
         }
 
         return gigs;
