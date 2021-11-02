@@ -34,7 +34,7 @@ public class VenueLineUpId implements Serializable {
         this.artist = artist;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Artist artist;
 
 

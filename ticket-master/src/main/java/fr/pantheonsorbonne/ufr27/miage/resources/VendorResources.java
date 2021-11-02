@@ -2,7 +2,6 @@ package fr.pantheonsorbonne.ufr27.miage.resources;
 
 import fr.pantheonsorbonne.ufr27.miage.dto.Gig;
 import fr.pantheonsorbonne.ufr27.miage.dto.RemainingQuota;
-import fr.pantheonsorbonne.ufr27.miage.model.Venue;
 import fr.pantheonsorbonne.ufr27.miage.service.VenueService;
 
 import javax.inject.Inject;
@@ -17,7 +16,7 @@ import java.util.Collection;
 public class VendorResources {
 
     @Inject
-    private VenueService service;
+    protected VenueService service;
 
     @Path("{idVendor}/venue/{idVenue}/quota")
     @GET

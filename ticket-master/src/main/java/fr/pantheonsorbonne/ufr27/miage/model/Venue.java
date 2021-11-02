@@ -1,5 +1,8 @@
 package fr.pantheonsorbonne.ufr27.miage.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -29,13 +32,8 @@ public class Venue {
         this.lineUp = lineUp;
     }
 
-    @OneToMany(
+    @OneToMany(mappedBy = "id.idVenue")
 
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            mappedBy = "id.idVenue"
-
-    )
     private Collection<VenueLineUp> lineUp;
 
     @ManyToOne

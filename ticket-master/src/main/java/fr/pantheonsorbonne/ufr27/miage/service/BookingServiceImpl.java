@@ -1,6 +1,8 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
+
 import fr.pantheonsorbonne.ufr27.miage.dto.Booking;
+import fr.pantheonsorbonne.ufr27.miage.exception.UnsuficientQuotaForVenueException;
 import fr.pantheonsorbonne.ufr27.miage.model.Ticket;
 import fr.pantheonsorbonne.ufr27.miage.model.Vendor;
 import fr.pantheonsorbonne.ufr27.miage.model.Venue;
@@ -24,7 +26,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional
-    public Booking book(Booking booking) {
+    public Booking book(Booking booking) throws UnsuficientQuotaForVenueException {
         try {
             VenueQuota vq = (VenueQuota) (em.createQuery("select q from VenueQuota q where q.id.venue.id=:venueId and q.id.vendor.id=:vendorId and q.seatingQuota>=:countSeating and q.standingQuota>=:countStanding")
                     .setParameter("vendorId", booking.getVendorId())
@@ -53,13 +55,15 @@ public class BookingServiceImpl implements BookingService {
                 ticket.setValidUntil(Instant.now().plus(10, ChronoUnit.MINUTES));
                 ticket.setIdVendor(vendor);
                 ticket.setIdVenue(venue);
+                ticket.setSeatReference("");
                 em.persist(ticket);
+
                 booking.getSeatingTransitionalTicket().add(ticket.getId());
 
             }
 
         } catch (NonUniqueResultException | NoResultException e) {
-            throw new RuntimeException(e);
+            throw new UnsuficientQuotaForVenueException(booking.getVenueId());
         }
         return booking;
 

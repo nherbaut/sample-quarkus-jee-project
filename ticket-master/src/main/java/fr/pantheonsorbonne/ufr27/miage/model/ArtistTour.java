@@ -5,9 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
-@Table(name = "ArtistTour", indexes = {
-        @Index(name = "fk_ArtistTour_2_idx", columnList = "idVenue")
-})
+
 @Entity
 public class ArtistTour {
     @EmbeddedId

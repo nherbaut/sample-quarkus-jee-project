@@ -1,8 +1,7 @@
 package fr.pantheonsorbonne.ufr27.miage.dao;
 
-import fr.pantheonsorbonne.ufr27.miage.dto.Gig;
+
 import fr.pantheonsorbonne.ufr27.miage.model.Venue;
-import fr.pantheonsorbonne.ufr27.miage.model.VenueLineUp;
 import fr.pantheonsorbonne.ufr27.miage.model.VenueQuota;
 
 import javax.enterprise.context.RequestScoped;
