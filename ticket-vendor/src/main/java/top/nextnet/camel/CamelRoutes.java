@@ -26,6 +26,18 @@ public class CamelRoutes extends RouteBuilder {
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.vendorId")
     Integer vendorId;
 
+    @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.smtp.user")
+    String smtpUser;
+
+    @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.smtp.password")
+    String smtpPassword;
+
+    @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.smtp.host")
+    String smtpHost;
+
+    @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.smtp.port")
+    String smtpPort;
+
     @Inject
     top.nextnet.camel.handler.BookingResponseHandler BookingResponseHandler;
 
@@ -85,7 +97,7 @@ public class CamelRoutes extends RouteBuilder {
                     }
                 })
                 .log("cancellation notice ${body} ${headers}")
-                .to("smtps:mail.gandi.net:465?username=vendor@miage.dev&password=ahh)aeD3ies3&contentType=")
+                .to("smtps:" + smtpHost + ":" + smtpPort + "?username=" + smtpUser + "&password=" + smtpPassword + "&contentType=")
                 .bean(eCommerce, "showErrorMessage");
 
 
