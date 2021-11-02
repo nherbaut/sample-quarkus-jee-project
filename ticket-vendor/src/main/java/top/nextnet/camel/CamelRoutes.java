@@ -57,7 +57,7 @@ public class CamelRoutes extends RouteBuilder {
 
 
         from("direct:cli")//
-                .marshal().json()//
+                .marshal().json()//, "onBookedResponseReceived"
                 .to("jms:" + jmsPrefix + "booking?exchangePattern=InOut")//
                 .choice()
                 .when(header("success").isEqualTo(false))
@@ -65,9 +65,9 @@ public class CamelRoutes extends RouteBuilder {
                 .bean(eCommerce, "showErrorMessage").stop()
                 .otherwise()
                 .unmarshal().json(Booking.class)
-                .bean(BookingResponseHandler, "onBookedResponseReceived")
+                .bean(BookingResponseHandler)
                 .log("response received ${in.body}")
-                .bean(ticketingService, "initiateTicketing")
+                .bean(ticketingService, "fillTicketsWithCustomerInformations")
                 .split(body())
                 .marshal().json(ETicket.class)
                 .to("jms:" + jmsPrefix + "ticket?exchangePattern=InOut")
@@ -75,7 +75,7 @@ public class CamelRoutes extends RouteBuilder {
                 .when(header("success").isEqualTo(false))
                 .bean(eCommerce, "showErrorMessage").stop()
                 .otherwise()
-                .bean(ticketingService, "onTicketCreated");
+                .bean(ticketingService, "notifyCreatedTicket");
 
 
         from("jms:topic:" + jmsPrefix + "cancellation")

@@ -12,9 +12,8 @@ import javax.transaction.Transactional;
 @ApplicationScoped
 public class CustomerDAOImpl implements CustomerDAO {
 
-    @PersistenceContext
+    @PersistenceContext(name = "mysql")
     EntityManager em;
-
 
     @Override
     public Customer findMatchingCustomer(String email) throws CustomerNotFoundException {

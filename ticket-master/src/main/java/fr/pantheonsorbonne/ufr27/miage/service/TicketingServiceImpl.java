@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.ufr27.miage.service;
 
 import com.google.common.hash.Hashing;
 import fr.pantheonsorbonne.ufr27.miage.dto.ETicket;
+import fr.pantheonsorbonne.ufr27.miage.dto.TicketType;
 import fr.pantheonsorbonne.ufr27.miage.exception.CustomerNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.ExpiredTransitionalTicketException;
 import fr.pantheonsorbonne.ufr27.miage.dao.CustomerDAO;
@@ -51,7 +52,9 @@ public class TicketingServiceImpl implements TicketingService {
         }
         ticket = ticketDAO.emitTicketForCustomer(eticket.getTransitionalTicketId(), customer);
         ticket.setTicketKey(this.getKeyForTicket(ticket));
-        ticket.setSeatReference(seatPlacementService.bookSeat(ticket.getIdVenue().getId()));
+        if (eticket.getType().equals(TicketType.SEATING)) {
+            ticket.setSeatReference(seatPlacementService.bookSeat(ticket.getIdVenue().getId()));
+        }
         return ticket.getTicketKey();
 
 
