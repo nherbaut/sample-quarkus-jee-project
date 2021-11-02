@@ -42,7 +42,7 @@ end
 ```
 ![](seqDiagram.png)
 
-## Schéma rélationnel
+## Schéma relationnel
 
 ![](EER.png)
 
@@ -54,7 +54,7 @@ end
 * le master DOIT informer le vendor en cas d'annulation de concert
 * le vendor DOIT informer les clients de l'annulation du concert par mail
 
-## Exigences non-fonctionnelles
+## Exigences non fonctionnelles
 
 * le booking et le ticketing, bien qu'étant des opérations synchrones, DOIVENT être fiables et donc utiliser le messaging
 * Lors de l'annulation de tickets, le master DOIT informer tous les vendors de l'annulation, de façon fiable.
