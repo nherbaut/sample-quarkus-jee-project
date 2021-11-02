@@ -1,10 +1,10 @@
 ## Objectifs du système à modéliser
 
-On propose de modéliser un système de réservation (master) de tickets pouvant supporter plusieurs vendeurs (vendor). Le système master gère les salles, les concerts et la réservation des tickets alors que les vendeurs assurent la vente de billet. Chaque vendeur a un quota pour un concert donné, qui peut évoluer avec le temps.
-En cas d'annulation de concert, le système de réservation informe les vendors qui doivent contacter les clients (customers).
+On propose de modéliser un système de réservation (master) de tickets pouvant supporter plusieurs vendeurs (vendor). Le système master gère les salles, les concerts, les différents artistes se produisant dans les concerts et la réservation des tickets alors que les vendeurs assurent la vente de billets. Chaque vendeur a un quota pour un concert donné, qui peut évoluer avec le temps.
+En cas d'annulation de concert, le système de réservation informe les vendors qui doivent contacter les clients (customers). Le master propose des services de validation de l'authenticité des tickets à l'entrée des concerts.
 
 Lors de la réservation de ticket, on a 2 phases:
-- le booking (réservation)
+- le booking (réservation des places)
 - le ticketing (émission de billets sécurisés avec clé.)
 
 Le vendor va demander au master via une API rest les concerts pour lesquels il possède un quota. Seuls ces concerts seront proposés à la vente au client.
@@ -53,6 +53,7 @@ end
 * le master DOIT permettre à l'artiste d'annuler son concert.
 * le master DOIT informer le vendor en cas d'annulation de concert
 * le vendor DOIT informer les clients de l'annulation du concert par mail
+* le master DOIT proposer un service de validation de la clé du ticket, pour les contrôles aux entées.
 
 ## Exigences non fonctionnelles
 
