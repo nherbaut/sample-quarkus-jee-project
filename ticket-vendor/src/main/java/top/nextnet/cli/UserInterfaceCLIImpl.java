@@ -33,6 +33,7 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
     Integer vendorId;
 
     public void displayAvailableGigsToCli(){
+        terminal.println("VendorId="+vendorId);
         for (Gig gig : vendorService.getGigs(vendorId)) {
             terminal.println("[" + gig.getVenueId() + "] " + gig.getArtistName() + " " + gig.getDate().format(DateTimeFormatter.ISO_DATE) + " " + gig.getLocation());
         }
