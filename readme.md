@@ -1,61 +1,70 @@
-## Objectifs du système à modéliser
+# Acteurs
+Tom Nook, le maire
+Les habitants
+Les commerçants
+Les fournisseurs (?)
 
-On propose de modéliser un système de réservation (master) de tickets pouvant supporter plusieurs vendeurs (vendor). Le système master gère les salles, les concerts, les différents artistes se produisant dans les concerts et la réservation des tickets alors que les vendeurs assurent la vente de billets. Chaque vendeur a un quota pour un concert donné, qui peut évoluer avec le temps.
-En cas d'annulation de concert, le système de réservation informe les vendors qui doivent contacter les clients (customers). Le master propose des services de validation de l'authenticité des tickets à l'entrée des concerts.
+# Objectifs du système à modéliser
 
-Lors de la réservation de ticket, on a 2 phases:
-- le booking (réservation des places)
-- le ticketing (émission de billets sécurisés avec clé.)
+On propose de modéliser un système de gestion de village permettant à ses habitants de communiquer directement avec le maire (Tom Nook) afin d’effectuer des achats pour améliorer leur habitat. 
 
-Le vendor va demander au master via une API rest les concerts pour lesquels il possède un quota. Seuls ces concerts seront proposés à la vente au client.
-Le client spécifie ensuite le nombre de places assises et le nombre de places debout qu'il souhaite acheter. Le vendor interroge le master sur la disponibilité. Celui-ci va lui renvoyer des tickets transitionnels valables 10 minutes en cas de disponibilité de places.
-Le vendeur va ensuite renseigner les informations du client et les transmettre au master pour l'émission finale des tickets avec clé sécurisée qui sera transmise au client pour qu'il puisse entrer dans la salle.
-En cas d'annulation du concert, le master prévient les vendors (avec les informations des tickets à annuler et les emails des clients) le vendeur doit envoyer un email au client pour chaque ticket annulé.
+Chaque personne doit obtenir l’approbation de Tom Nook pour devenir habitant et faire construire sa maison dans le village. Une personne peut se voir refuser la demande de devenir habitant si le village est trop petit. En effet, le village a un nombre maximum de maisons. Lorsque ce maximum est atteint, les habitants doivent payer une somme pour permettre d’agrandir le village.
 
-## Interfaces
+Une fois installé, les habitants peuvent acheter des objets chez les commerçants afin d'emménager. Les commerçants interagissent directement avec les fournisseurs et doivent vérifier à chaque vente, si le stock est suffisant. Dans le cas contraire, ils passent commande chez les fournisseurs qui se chargent de leur donner du stock. 
 
-```
-artist->master: POST venue
-vendor->master: GET Gigs
-master->vendor: Collection<Gigs>
+Il y a une limite maximum d’objet dans une maison. Lorsque celle-ci est atteinte, un habitant doit demander l’autorisation à Tom Nook d’agrandir sa maison, ce qui permettra d’augmenter la limite maximum de celle-ci. 
 
-Customer->vendor: cli:gig selection
+Le projet inclus :
 
-vendor->master: jms:booking
-alt booking successfull
-    master->vendor: transitional tickets
-    vendor->Customer: ticket purshase ok
-    Customer->vendor: cli:customer informations
-    
-    vendor->master: jms:ticketing
-    master->vendor: tickets
+Service de gestion des villageois
+Service de gestion des logements
+Service de gestion des stocks
+Service de gestion d’inventaires
+Service de gestion des comptes
+Service de gestion des prêts
 
-else booking unsuccessfull
-    master->vendor: no quota for gigs
-end
+Exigences fonctionnelles :
 
-opt venue cancellation
-    artist->master: DELETE venue
-    master->vendor: jms:topic:cancellation
-    vendor->Customer: smtp:cancellation email
-end
-```
-![](seqDiagram.png)
+VILLAGEOIS 
+Un villageois possède un logement
+Un villageois peut upgrade son logement
+Un villageois possède un compte bancaire
+Un villageois peut consulter son solde
+Un villageois peut effectuer un prêt (jusqu’à 3)
+Un villageois peut acheter des objets de décorations 
+Un villageois peut consulter la liste de ses objets
 
-## Schéma relationnel
+COMMERÇANTS 
+Un commerçant peut vendre des objets de décorations
+Un commerçant peut recharger son stock
+Un commerçant peut consulter son stock
 
-![](EER.png)
+TOM NOOK
+Tom Nook peut accorder un prêt
+Tom Nook peut valider l’upgrade d’une maison
+Tom Nook peut agrandir le village 
+Tom Nook peut ajouter un nouveau villageois
+Tom Nook peut expulser un villageois
+Tom Nook peut consulter la liste des villageois
 
-## Exigences fonctionnelles
+LOGEMENT
+Un logement peut être une tente, un appartement ou une maison
+Un logement possède un nombre maximum d’objet
+Un logement possède un prix
+Un logement ne peut pas être mis à niveau s’il ne contient pas le maximum d’objet
 
-* le vendor NE DOIT proposer que les concerts pour lesquels il a un quota disponible, transmis par le master.
-* le vendor DOIT pouvoir effectuer les opérations de booking et ticketing
-* le master DOIT permettre à l'artiste d'annuler son concert.
-* le master DOIT informer le vendor en cas d'annulation de concert
-* le vendor DOIT informer les clients de l'annulation du concert par mail
-* le master DOIT proposer un service de validation de la clé du ticket, pour les contrôles aux entées.
+Règles métier :
 
-## Exigences non fonctionnelles
+Un villageois ne peut pas upgrade son logement si celui-ci ne possède pas le nombre d’objet maximum
+Un villageois ne peut avoir qu’un seul logement
+Le logement par défaut d’un habitant est une tente
+Lorsque le villageois effectue plus de 3 prêts il est expulsé du village 
+Un villageois ne peut plus acheter d’objets si son logement atteint le maximum d’objet autorisé 
 
-* le booking et le ticketing, bien qu'étant des opérations synchrones, DOIVENT être fiables et donc utiliser le messaging
-* Lors de l'annulation de tickets, le master DOIT informer tous les vendors de l'annulation, de façon fiable.
+![](2022-11-10-14-18-30.png)
+
+![](2022-11-10-14-18-51.png)
+
+![](2022-11-10-14-19-05.png)
+
+![](2022-11-10-14-19-28.png)
