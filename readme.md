@@ -1,8 +1,9 @@
 # Acteurs
-Tom Nook, le maire
-Les habitants
-Les commerçants
-Les fournisseurs (?)
+
+- Tom Nook, le maire
+- Les habitants
+- Les commerçants
+- Les fournisseurs (?)
 
 # Objectifs du système à modéliser
 
