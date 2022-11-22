@@ -38,4 +38,8 @@ nb-configuration.xml
 .jbang
 .sdkmanrc
 .envrc
+/employee/src/main/resources/application.properties
+/terminal/src/main/resources/application.properties
+/bank/src/main/resources/application.properties
+/fidelity/src/main/resources/application.properties
 
