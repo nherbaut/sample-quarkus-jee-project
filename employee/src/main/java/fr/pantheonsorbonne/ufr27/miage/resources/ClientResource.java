@@ -16,7 +16,7 @@ public class ClientResource {
 
     @Inject
     ProductService productService;
-    @Inject
+    //@Inject
     OrderService orderService;
 
     @Path("products")
@@ -26,7 +26,7 @@ public class ClientResource {
         //Employee ask terminal for product list
         //Terminal sends product list
         //Employee returns product list to client
-        return null;
+        return productService.getAllProduct();
     }
 
     @Path("order/{productId}")
