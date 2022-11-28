@@ -1,16 +1,15 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
 import fr.pantheonsorbonne.ufr27.miage.dao.ProductDAO;
-import fr.pantheonsorbonne.ufr27.miage.dto.Product;
-import org.apache.camel.Exchange;
+import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTO;
+import fr.pantheonsorbonne.ufr27.miage.model.Product;
 import org.apache.camel.Handler;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.Collection;
 
-@RequestScoped
+@ApplicationScoped
 public class ProductServiceImpl implements ProductService {
 
     @Inject

@@ -1,12 +1,12 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
 import fr.pantheonsorbonne.ufr27.miage.camel.ProductGateway;
-import fr.pantheonsorbonne.ufr27.miage.dto.Product;
+import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTO;
+import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTOContainer;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.Collection;
 
@@ -16,23 +16,33 @@ public class ProductServiceImpl implements ProductService {
     @Inject
     ProductGateway productGateway;
 
-    private Collection<Product> res;
+    private Collection<ProductDTO> res;
 
-    @Override
+
     public void askAllProduct() {
         //On va dire au ProductGateway que l'on souhaite récupérer la liste de tous les produits
         //Création du message et de la queue pour demander la liste de produits
+        this.res=null;
         productGateway.askAllProduct();
     }
 
     @Override
     @Handler
-    public Collection<Product> receiveAllProduct(Exchange exchange) {
-        return getAllProduct((Collection<Product>) exchange.getMessage().getBody());
+    public void receiveAllProduct(ProductDTOContainer productDTOContainer) {
+        this.res=productDTOContainer.getContainer();
     }
 
     @Override
-    public Collection<Product> getAllProduct(Collection<Product> products) {
-        return products;
+    public Collection<ProductDTO> getAllProduct() {
+        this.askAllProduct();
+        while(this.res==null){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+        return res;
     }
 }
