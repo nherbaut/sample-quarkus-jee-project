@@ -22,11 +22,13 @@ public class ClientResource {
     @Path("products")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Product> getAllProduct(){
+    public String getAllProduct(){
         //Employee ask terminal for product list
         //Terminal sends product list
         //Employee returns product list to client
-        return productService.getAllProduct();
+        System.out.println("asking for products");
+        productService.askAllProduct();
+        return null;
     }
 
     @Path("order/{productId}")

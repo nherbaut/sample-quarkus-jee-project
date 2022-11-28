@@ -10,9 +10,6 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class OrderGateway {
 
-    //@Inject
-    OrderService orderService;
-
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.jmsPrefix")
     String jmsPrefix;
 

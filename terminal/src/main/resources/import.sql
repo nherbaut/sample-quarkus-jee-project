@@ -1,3 +1,4 @@
+REPLACE INTO `Product` (`product_name`, `product_type`, `product_price`) VALUES ('frites', 'accompagnement', 3.5),('poulet frit', 'plat', 7.5);
 /*
 REPLACE INTO `Artist` (`idArtist`, `name`) VALUES (1,'Radiohead'),(2,'Billie Eillish'),(3,'French Cowboy');
 
