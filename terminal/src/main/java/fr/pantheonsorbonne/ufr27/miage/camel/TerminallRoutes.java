@@ -1,9 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
 
-import fr.pantheonsorbonne.ufr27.miage.dao.ProductDAO;
-import fr.pantheonsorbonne.ufr27.miage.dto.Product;
-import fr.pantheonsorbonne.ufr27.miage.service.ProductService;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -29,13 +26,14 @@ public class TerminallRoutes extends RouteBuilder {
 
         camelContext.setTracing(true);
 
-        from("jms:" + jmsPrefix + "register?exchangePattern=InOut")
+        from("jms:queue:" + jmsPrefix + "/register?exchangePattern=InOut")
                 .unmarshal().json()
-                .log("${in.body}")
+                .log("## ${in.body}")
                 .bean(productGateway, "getProducts")
-                .log("${in.body}")
-                .split(body())
-                .marshal().json(Product.class);
+
+                .log("### ${in.body}")
+
+                .marshal().json();
 
 
         //Faire en sorte d'appeler productService.getProductList et envoyer la réponse dans la queue
