@@ -3,8 +3,10 @@ package fr.pantheonsorbonne.ufr27.miage.service;
 import fr.pantheonsorbonne.ufr27.miage.camel.OrderGateway;
 import fr.pantheonsorbonne.ufr27.miage.dto.Order;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
+@RequestScoped
 public class OrderServiceImpl implements OrderService{
 
     @Inject
