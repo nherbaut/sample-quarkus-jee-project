@@ -20,6 +20,13 @@ public class Client {
     @Column(name = "clientLastName", length = 30)
     private String clientLastName;
 
+    public Client(String clientFirstName, String clientLastName) {
+    }
+
+    public Client() {
+
+    }
+
     public Integer getId() {
         return id;
     }

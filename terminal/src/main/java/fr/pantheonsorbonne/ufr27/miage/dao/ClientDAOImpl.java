@@ -1,4 +1,23 @@
 package fr.pantheonsorbonne.ufr27.miage.dao;
 
-public class ClientDAOImpl {
+import fr.pantheonsorbonne.ufr27.miage.model.Client;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+
+@ApplicationScoped
+public class ClientDAOImpl implements ClientDAO{
+
+    @PersistenceContext(name = "mysql")
+    EntityManager em;
+
+    @Override
+    @Transactional
+    public Client createNewClient(String clientFirstName, String clientLastName) {
+        Client client = new Client(clientFirstName, clientLastName);
+        em.persist(client);
+        return client;
+    }
 }
