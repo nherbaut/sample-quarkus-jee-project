@@ -1,32 +1,17 @@
-REPLACE INTO `Product` (`product_name`, `product_type`, `product_price`) VALUES ('frites', 'accompagnement', 3.5),('poulet frit', 'plat', 7.5);
+REPLACE INTO `Product` (`product_id`, `product_name`, `product_price`, `product_type`) VALUES (0, 'TOASTÉ GRILLED CHEESE', 5.0, 'SANDWICH'), (1, 'TOASTÉ POULET RACLETTE', 5.0, 'SANDWICH'), (2, 'CUISINÉ SAUMON AVOCAT', 6.0, 'SANDWICH'), (3, 'AUTHENTIQUE THON CRUDITÉS', 5.0, 'SANDWICH'), (4, 'FUSETTE AUX FRAMBOISES', 5.0, 'DESSERT'), (5, 'FUSETTE CHOCOLAT BANANE', 5.50, 'DESSERT'), (6, 'PEPSI 50cl', 1.50, 'BOISSON');
+
+REPLACE INTO `Client` (`client_id`, `clientFirstName`, `clientLastName`) VALUES (0, 'Max', 'Verstappen'), (1, 'Nico', 'Roseberg'), (2, 'Lewis', 'Hamilton'), (3, 'Sebastien', 'Vettel');
+
+REPLACE INTO `Employee` (`employee_id`, `firstName`, `lastName`) VALUES (0, 'Liza', 'Watson'), (1, 'Florent', 'Lousy');
+
+/*REPLACE INTO `Order` (`order_id`, `order_date`, `order_price`, `order_content`, `employee_id`, `employee_id`) VALUES () */
+
 /*
-REPLACE INTO `Artist` (`idArtist`, `name`) VALUES (1,'Radiohead'),(2,'Billie Eillish'),(3,'French Cowboy');
 
-
-
-REPLACE INTO `Customer` (`idCustomer`, `email`, `fname`, `lname`) VALUES (1,'nicolas.herbaut@univ-paris1.fr','nicolas','herbaut');
-
-
-REPLACE INTO `Location` (`idLocation`, `name`, `standingGauge`) VALUES (1,'Bordeaux Akea Arena',2000),(2,'Le Moulin (Marseille)',800),(3,'Espace 3000 (Hyères)',200);
-
-
-REPLACE INTO `Seat` (`idVenue`, `seatReference`, `sold`) VALUES (1,'ABC-01',_binary '\0'),(1,'ABC-02',_binary '\0'),(1,'ABC-03',_binary '\0'),(1,'ABC-04',_binary '\0'),(1,'ABC-05',_binary '\0'),(1,'ABC-06',_binary '\0'),(1,'ABC-07',_binary '\0'),(1,'ABC-08',_binary '\0'),(1,'ABC-09',_binary '\0'),(1,'ABC-10',_binary '\0'),(1,'ABC-11',_binary '\0'),(1,'ABC-12',_binary '\0'),(1,'ABC-13',_binary '\0'),(1,'ABC-14',_binary '\0'),(1,'ABC-15',_binary '\0'),(2,'ABC-01',_binary '\0'),(2,'ABC-02',_binary '\0'),(2,'ABC-03',_binary '\0'),(2,'ABC-04',_binary '\0'),(2,'ABC-05',_binary '\0'),(2,'ABC-06',_binary '\0'),(2,'ABC-07',_binary '\0'),(2,'ABC-08',_binary '\0'),(2,'ABC-09',_binary '\0'),(2,'ABC-10',_binary '\0'),(2,'ABC-11',_binary '\0'),(2,'ABC-12',_binary '\0'),(2,'ABC-13',_binary '\0'),(2,'ABC-14',_binary '\0'),(2,'ABC-15',_binary '\0');
-
-
-
-
-
-REPLACE INTO `Vendor` (`idVendor`, `name`) VALUES (1,'fnac'),(2,'ticket master');
-
+REPLACE INTO `Product` (`product_name`, `product_type`, `product_price`) VALUES ('frites', 'accompagnement', 3.5),('poulet frit', 'plat', 7.5);
 
 REPLACE INTO `Venue` (`idVenue`, `venueDate`, `idLocation`) VALUES (1,'2022-06-06',1),(2,'2022-06-06',1),(3,'2021-02-03',3),(4,'2022-01-03',2);
 
-
 REPLACE INTO `VenueLineUp` (`idVenue`, `showTime`, `artist_idArtist`) VALUES (1,'20:00',1),(2,'22:00',1),(2,'19:30',2),(3,'22:00',3);
 
-
-REPLACE INTO `VenueQuota` (`seatingQuota`, `standingQuota`, `vendor_idVendor`, `venue_idVenue`) VALUES (10,20,1,2),(15,50,2,1),(5,5,2,2),(0,0,2,3);
-
-
-REPLACE INTO `Ticket` (`idTicket`, `seatReference`, `ticketKey`, `validUntil`, `idCustomer`, `idVendor`, `idVenue`) VALUES (1,NULL,'dummyKey',NULL,1,1,1),(2,'ABC-01','dummyKey',NULL,1,2,1);
 */
