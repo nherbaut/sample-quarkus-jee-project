@@ -36,6 +36,16 @@ public class TerminallRoutes extends RouteBuilder {
                 .marshal().json();
 
 
+        from("jms:queue:" + jmsPrefix + "/register?exchangePattern=InOut")
+                .unmarshal().json()
+                .log("## ${in.body}")
+                .bean(productGateway, "getProducts")
+
+                .log("### ${in.body}")
+
+                .marshal().json();
+
+
         //Faire en sorte d'appeler productService.getProductList et envoyer la réponse dans la queue
         //.to("jms:queue/miage.register");
 
