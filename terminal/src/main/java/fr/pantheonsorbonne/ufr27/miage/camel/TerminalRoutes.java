@@ -43,12 +43,9 @@ public class TerminalRoutes extends RouteBuilder {
                 .marshal().json();
 
 
-        from("jms:queue:" + jmsPrefix + "/sqdqsd?exchangePattern=InOut")
+        from("jms:queue:" + jmsPrefix + "/newOrder?exchangePattern=InOut")
                 .unmarshal().json()
-                .log("## ${in.body}azeazeaze")
                 .bean(orderService, "creatOrder")
-
-                .log("### ${in.body}finished")
 
                 .marshal().json();
 
