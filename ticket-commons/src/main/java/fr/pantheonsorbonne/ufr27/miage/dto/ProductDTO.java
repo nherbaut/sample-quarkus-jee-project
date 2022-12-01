@@ -8,6 +8,10 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
+    public ProductDTO(String id_product) {
+        this.id_product = id_product;
+    }
+
     public ProductDTO(double unitaryPrice, String id, String name) {
         this.unitaryPrice = unitaryPrice;
         this.id_product = id;

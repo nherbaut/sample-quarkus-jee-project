@@ -7,6 +7,6 @@ import java.util.Collection;
 
 public interface OrderService {
 
-    Order creatOrder(Integer productId);
+    Integer creatOrder(Integer productId);
 
 }

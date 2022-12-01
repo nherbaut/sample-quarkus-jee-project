@@ -25,6 +25,10 @@ public class Product {
     @Column(name = "product_type", nullable = false, length = 20)
     private String productType;
 
+    public Product() {
+
+    }
+
     public Integer getId() {
         return id;
     }
@@ -57,4 +61,7 @@ public class Product {
         this.productType = productType;
     }
 
+    public Product(Integer id) {
+        this.id = id;
+    }
 }

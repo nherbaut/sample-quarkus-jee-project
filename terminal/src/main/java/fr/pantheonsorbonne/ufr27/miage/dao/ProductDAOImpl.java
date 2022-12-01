@@ -17,8 +17,9 @@ public class ProductDAOImpl implements ProductDAO{
     EntityManager em;
 
     @Override
-    public ProductDTO findSingleProduct(String productId) {
-        return null;
+    public Product findSingleProduct(Integer productId) {
+        return (Product) em.createQuery("Select p from Product p where p.id=:productId").setParameter("productId", productId).getSingleResult();
+
     }
     @Transactional
     public Collection<Product> findAllProduct() {

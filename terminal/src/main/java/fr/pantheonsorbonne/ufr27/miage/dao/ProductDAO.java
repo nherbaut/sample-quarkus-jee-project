@@ -6,6 +6,6 @@ import java.util.Collection;
 
 public interface ProductDAO {
 
-    ProductDTO findSingleProduct(String productId);
+    Product findSingleProduct(Integer productId);
     Collection<Product> findAllProduct();
 }

@@ -2,12 +2,9 @@ package fr.pantheonsorbonne.ufr27.miage.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "`Order`")
@@ -19,8 +16,8 @@ public class Order {
     @ManyToMany
     @JoinTable(
             name="productOrder",
-            joinColumns=@JoinColumn(name="Product_ID", referencedColumnName="order_id"),
-            inverseJoinColumns=@JoinColumn(name="Order_ID", referencedColumnName="product_id"))
+            joinColumns=@JoinColumn(name= "Order_ID", referencedColumnName="order_id"),
+            inverseJoinColumns=@JoinColumn(name= "Product_ID", referencedColumnName="product_id"))
     private List<Product> orderContent = new ArrayList<>();
 
     @NotNull
@@ -39,6 +36,10 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
+
+    public Order() {
+
+    }
 
     public Integer getId() {
         return id;
@@ -87,4 +88,14 @@ public class Order {
     public void setProducts(List<Product> products) {
         this.orderContent = products;
     }
+
+    public Order(Integer id, List<Product> orderContent, LocalDate orderDate, Float orderPrice, Client client, Employee employee) {
+        this.id = id;
+        this.orderContent = orderContent;
+        this.orderDate = orderDate;
+        this.orderPrice = orderPrice;
+        this.client = client;
+        this.employee = employee;
+    }
+
 }
