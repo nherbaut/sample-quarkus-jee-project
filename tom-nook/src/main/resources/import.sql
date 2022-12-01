@@ -28,3 +28,12 @@ REPLACE INTO `VenueQuota` (`seatingQuota`, `standingQuota`, `vendor_idVendor`, `
 
 
 REPLACE INTO `Ticket` (`idTicket`, `seatReference`, `ticketKey`, `validUntil`, `idCustomer`, `idVendor`, `idVenue`) VALUES (1,NULL,'dummyKey',NULL,1,1,1),(2,'ABC-01','dummyKey',NULL,1,2,1);
+
+
+REPLACE INTO `Villager` (`id`, `name`, `level`) VALUES (1, 'Vincent', 1);
+
+
+REPLACE INTO `Villager` (`id`, `name`, `level`) VALUES (2, 'Teya', 1);
+
+
+REPLACE INTO `Villager` (`id`, `name`, `level`) VALUES (1, 'Merwane', 1);
