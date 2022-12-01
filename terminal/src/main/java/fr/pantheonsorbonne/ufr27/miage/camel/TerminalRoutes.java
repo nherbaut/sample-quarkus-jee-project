@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
 
+import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -9,7 +10,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 @ApplicationScoped
-public class TerminallRoutes extends RouteBuilder {
+public class TerminalRoutes extends RouteBuilder {
 
 
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.jmsPrefix")
@@ -20,6 +21,12 @@ public class TerminallRoutes extends RouteBuilder {
 
     @Inject
     ProductGateway productGateway;
+
+    @Inject
+    OrderGateway orderGateway;
+
+    @Inject
+    OrderService orderService;
 
     @Override
     public void configure() throws Exception {
@@ -36,12 +43,12 @@ public class TerminallRoutes extends RouteBuilder {
                 .marshal().json();
 
 
-        from("jms:queue:" + jmsPrefix + "/register?exchangePattern=InOut")
+        from("jms:queue:" + jmsPrefix + "/sqdqsd?exchangePattern=InOut")
                 .unmarshal().json()
-                .log("## ${in.body}")
-                .bean(productGateway, "getProducts")
+                .log("## ${in.body}azeazeaze")
+                .bean(orderService, "creatOrder")
 
-                .log("### ${in.body}")
+                .log("### ${in.body}finished")
 
                 .marshal().json();
 

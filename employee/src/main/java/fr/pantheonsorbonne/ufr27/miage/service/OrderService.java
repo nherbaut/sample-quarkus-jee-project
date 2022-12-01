@@ -1,14 +1,16 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
-import fr.pantheonsorbonne.ufr27.miage.dto.Order;
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
 
 public interface OrderService {
 
-    Order createOrder();
+    OrderDTO createOrder(Integer productId);
 
-    Order addProduct(String productId);
+    void askCreateOrder(Integer productId);
 
-    Order deleteProduct(String productId);
+    OrderDTO addProduct(String productId);
+
+    OrderDTO deleteProduct(String productId);
 
     boolean deleteOrder();
 

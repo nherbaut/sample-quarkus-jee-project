@@ -14,7 +14,7 @@ public class ClientResource {
 
     @Inject
     ProductService productService;
-    //@Inject
+    @Inject
     OrderService orderService;
 
     @Path("products")
@@ -30,11 +30,11 @@ public class ClientResource {
 
     @Path("order/{productId}")
     @POST
-    public Response createOrder(@PathParam("productId") String productId){
+    public Response createOrder(@PathParam("productId") Integer productId){
         //Créer la commande
         //Ajouter l'article en paramètre, update prix etc..
         //Retourner l'id de la commande
-        return null;
+        return Response.ok(orderService.createOrder(productId)).build();
     }
 
     @Path("order/{orderId}/add/{productId}")

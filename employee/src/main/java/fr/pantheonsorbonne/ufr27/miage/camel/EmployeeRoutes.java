@@ -34,6 +34,13 @@ public class EmployeeRoutes extends RouteBuilder {
                 .unmarshal().json(ProductDTOContainer.class)
                 .log("${in.body}")
                 .bean(productService, "receiveAllProduct");
+
+
+        from("direct:newOrder")
+                .setHeader("newOrder", constant("newOrder"))
+                .log("${in.body}")
+                .to("jms:queue:" + jmsPrefix + "/sqdqsd?exchangePattern=InOut");
+
     }
 
 }
