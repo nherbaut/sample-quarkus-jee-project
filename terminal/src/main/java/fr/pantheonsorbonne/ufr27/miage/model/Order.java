@@ -87,13 +87,4 @@ public class Order {
     public void setProducts(List<Product> products) {
         this.orderContent = products;
     }
-
-    public Order(Integer id, List<Product> orderContent, LocalDate orderDate, Float orderPrice, Client client, Employee employee) {
-        this.id = id;
-        this.orderContent = orderContent;
-        this.orderDate = orderDate;
-        this.orderPrice = orderPrice;
-        this.client = client;
-        this.employee = employee;
-    }
 }

@@ -3,6 +3,8 @@ package fr.pantheonsorbonne.ufr27.miage.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 public class Client {
@@ -19,6 +21,17 @@ public class Client {
     @Size(max = 30)
     @Column(name = "clientLastName", length = 30)
     private String clientLastName;
+
+    @OneToMany(mappedBy = "client")
+    private Set<Order> orders = new LinkedHashSet<>();
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
 
     public Client(String clientFirstName, String clientLastName) {
     }
