@@ -26,7 +26,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Integer creatOrder(Integer productId) {
+    public Integer createOrder(Integer productId) {
         return  orderDAO.createOrder(productId);
+    }
+
+    @Override
+    public Integer addProductOrder(Integer productId, Integer orderId) {
+        return orderDAO.addProductOrder(productId,orderId);
     }
 }

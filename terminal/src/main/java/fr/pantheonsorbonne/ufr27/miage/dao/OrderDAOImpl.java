@@ -27,6 +27,11 @@ public class OrderDAOImpl implements OrderDAO{
     @Inject
     ProductDAO productDAO;
 
+    @Override
+    public Order findSingleOrder(Integer orderId) {
+        return (Order) em.createQuery("Select o from Order o where o.id = :orderId ").setParameter("orderId", orderId).getSingleResult();
+
+    }
 
     @Override
     @Transactional
@@ -40,5 +45,18 @@ public class OrderDAOImpl implements OrderDAO{
         em.persist(o);
         return o.getId();
     }
+    @Override
+    @Transactional
+    public Integer addProductOrder(Integer productId, Integer orderId) {
+        Order o = findSingleOrder(orderId);
+        Product product = productDAO.findSingleProduct(productId);
+        List<Product> productList = o.getProducts();
+        productList.add(product);
+        o.setProducts(productList);
+        o.setOrderPrice(o.getOrderPrice()+product.getProductPrice());
+        em.persist(o);
+        return o.getId();
+    }
+
 
 }

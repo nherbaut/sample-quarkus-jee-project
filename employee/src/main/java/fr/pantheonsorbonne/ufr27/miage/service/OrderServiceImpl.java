@@ -27,8 +27,15 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public OrderDTO addProduct(String productId) {
-        return null;
+    public OrderDTO addProduct(Integer productId, Integer orderId){
+        this.askAddProduct(productId,orderId);
+        return orderDTO;
+    }
+
+    @Override
+    public void askAddProduct(Integer productId, Integer orderId){
+        orderGateway.askAddProduct(productId,orderId);
+
     }
 
     @Override

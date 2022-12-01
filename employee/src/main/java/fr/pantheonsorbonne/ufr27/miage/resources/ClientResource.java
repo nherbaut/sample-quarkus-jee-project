@@ -39,10 +39,10 @@ public class ClientResource {
 
     @Path("order/{orderId}/add/{productId}")
     @PUT
-    public Response addProduct(@PathParam("productId") String productId, @PathParam("orderId") String orderId){
+    public Response addProduct(@PathParam("productId") Integer productId, @PathParam("orderId") Integer orderId){
         //Récupére l'order de la bdd du terminal ?
         //Ajouter le produit, update prix etc..
-        return null;
+        return Response.ok(orderService.addProduct(productId,orderId)).build();
     }
 
     @Path("order/{orderId}/delete/{productId}")

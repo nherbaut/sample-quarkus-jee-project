@@ -41,6 +41,12 @@ public class EmployeeRoutes extends RouteBuilder {
                 .log("${in.body}")
                 .to("jms:queue:" + jmsPrefix + "/newOrder?exchangePattern=InOut");
 
+        from(  "direct:addProductInOrder")
+                .setHeader("addProductOrder", constant("addProductOrder"))
+                .marshal().json()
+               .to("jms:queue:" + jmsPrefix + "/addProductInOrder?exchangePattern=InOut");
+
+
     }
 
 }

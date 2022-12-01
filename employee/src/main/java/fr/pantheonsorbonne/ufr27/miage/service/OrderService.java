@@ -8,7 +8,9 @@ public interface OrderService {
 
     void askCreateOrder(Integer productId);
 
-    OrderDTO addProduct(String productId);
+    void askAddProduct(Integer productId, Integer orderId);
+
+    OrderDTO addProduct(Integer productId, Integer orderId);
 
     OrderDTO deleteProduct(String productId);
 

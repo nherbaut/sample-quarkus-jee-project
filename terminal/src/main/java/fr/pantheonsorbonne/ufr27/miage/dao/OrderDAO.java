@@ -8,4 +8,8 @@ import java.util.Collection;
 public interface OrderDAO {
 
     Integer createOrder(Integer productId);
+
+    Integer addProductOrder(Integer productId, Integer orderId);
+
+    Order findSingleOrder(Integer orderId);
 }
