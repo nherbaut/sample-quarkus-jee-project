@@ -55,9 +55,10 @@ public class ClientResource {
 
     @Path("order/{orderId}/delete")
     @DELETE
-    public Response deleterOrder(@PathParam("orderId") String orderId){
+    public void deleterOrder(@PathParam("orderId") String orderId){
         //Delete order in terminal
-        return null;
+        Integer id = Integer.parseInt(orderId);
+        orderService.deleteOrder(id);
     }
 
     @Path("order/{orderId}/getTotal") //Le client demande à passer au paiement

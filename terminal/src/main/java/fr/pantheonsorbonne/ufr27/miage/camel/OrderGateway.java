@@ -42,4 +42,10 @@ public class OrderGateway {
         return orderService.getTotalPrice(message);
     }
 
+    @Handler
+    public void deleteOrder(Integer orderId){
+        orderService.deleteOrder(orderId);
+    }
+
+
 }

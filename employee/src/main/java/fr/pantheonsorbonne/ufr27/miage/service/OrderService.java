@@ -14,7 +14,7 @@ public interface OrderService {
 
     OrderDTO deleteProduct(String productId);
 
-    boolean deleteOrder();
+    void deleteOrder(Integer orderId);
 
     void askTotalPrice(Integer orderId);
     Float getTotalPrice(Integer orderId);
