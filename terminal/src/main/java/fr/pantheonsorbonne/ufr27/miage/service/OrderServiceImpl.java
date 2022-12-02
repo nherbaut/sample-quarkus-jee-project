@@ -39,4 +39,8 @@ public class OrderServiceImpl implements OrderService {
     public Float getTotalPrice(Integer orderId){
         return orderDAO.getTotalPrice(orderId);
     }
+    
+    public void deleteOrder(Integer orderId){
+        orderDAO.deleteOrder(orderId);
+    }
 }

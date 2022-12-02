@@ -48,6 +48,14 @@ public class OrderGateway {
     public void askGetTotalPrice(Integer orderId){
         try (ProducerTemplate producer = camelContext.createProducerTemplate()){
             producer.sendBody("direct:getTotalPrice", orderId);
+        }catch (IOException e){
+        e.printStackTrace();
+         }
+    
+    }
+    public void askDeleteOrder(Integer orderId){
+        try (ProducerTemplate producer = camelContext.createProducerTemplate()){
+            producer.sendBody("direct:deleteOrder",orderId);
         } catch (IOException e){
             e.printStackTrace();
         }

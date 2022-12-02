@@ -14,4 +14,5 @@ public interface OrderDAO {
     Order findSingleOrder(Integer orderId);
 
     Float getTotalPrice(Integer orderId);
+    void deleteOrder(Integer orderId);
 }
