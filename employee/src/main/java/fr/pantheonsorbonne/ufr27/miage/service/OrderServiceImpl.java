@@ -5,6 +5,7 @@ import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
 import org.apache.camel.Handler;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 @ApplicationScoped

@@ -54,9 +54,10 @@ public class TerminalRoutes extends RouteBuilder {
         from("jms:queue:" + jmsPrefix + "/totalPrice?exchangePattern=InOut")
                 .unmarshal().json()
                 .bean(orderGateway,"getTotalPrice").marshal().json();
+
         from("jms:queue:" + jmsPrefix + "/deleteOrder?exchangePattern=InOut")
                 .unmarshal().json()
-                .bean(orderGateway, "deleteOrder");
+                .bean(orderGateway, "deleteOrder").marshal().json();
 
     }
 

@@ -7,6 +7,7 @@ import fr.pantheonsorbonne.ufr27.miage.model.Product;
 import org.apache.camel.Handler;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.Collection;
 
@@ -39,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     public Float getTotalPrice(Integer orderId){
         return orderDAO.getTotalPrice(orderId);
     }
-    
+
     public void deleteOrder(Integer orderId){
         orderDAO.deleteOrder(orderId);
     }
