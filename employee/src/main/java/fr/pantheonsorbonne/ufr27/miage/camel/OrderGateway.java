@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
 import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
 import org.apache.camel.CamelContext;;
 import org.apache.camel.ProducerTemplate;
@@ -21,6 +22,9 @@ public class OrderGateway {
     @Inject
     CamelContext camelContext;
 
+    @Inject
+    OrderService orderService;
+
     public void askCreateOrder(Integer productId){
         try (ProducerTemplate producer = camelContext.createProducerTemplate()){
             producer.sendBody("direct:newOrder",productId.toString());
@@ -39,6 +43,18 @@ public class OrderGateway {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void askGetTotalPrice(Integer orderId){
+        try (ProducerTemplate producer = camelContext.createProducerTemplate()){
+            producer.sendBody("direct:getTotalPrice", orderId);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void recieveTotalPrice(Float totalPrice){
+        orderService.recieveTotalPrice(totalPrice);
     }
 
 }

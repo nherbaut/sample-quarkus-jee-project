@@ -61,11 +61,12 @@ public class ClientResource {
     }
 
     @Path("order/{orderId}/getTotal") //Le client demande à passer au paiement
+    @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public Response getTotalPrice(@PathParam("orderId") String orderId){
+    public Response getOrderPrice(@PathParam("orderId") Integer orderId){
         //Récupérer la commande
         //renvoyer le prix
-        return null;
+        return Response.ok(orderService.getTotalPrice(orderId)).build();
     }
 
 }

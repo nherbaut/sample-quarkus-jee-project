@@ -16,6 +16,8 @@ public interface OrderService {
 
     boolean deleteOrder();
 
-    Float getTotal();
-
+    void askTotalPrice(Integer orderId);
+    Float getTotalPrice(Integer orderId);
+    void recieveTotalPrice(Float totalPrice);
 }
+

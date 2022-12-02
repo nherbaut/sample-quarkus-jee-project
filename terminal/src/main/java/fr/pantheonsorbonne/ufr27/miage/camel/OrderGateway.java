@@ -32,10 +32,14 @@ public class OrderGateway {
     public Integer createOrder(Integer message){
         return  orderService.createOrder(message);
     }
+
     @Handler
     public Integer addProductOrder(List<Integer> messageBody){
         return orderService.addProductOrder(messageBody.get(1),messageBody.get(0));
     }
-
+    @Handler
+    public Float getTotalPrice(Integer message){
+        return orderService.getTotalPrice(message);
+    }
 
 }

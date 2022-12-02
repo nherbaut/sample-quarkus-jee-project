@@ -11,4 +11,6 @@ public interface OrderService {
 
     Integer addProductOrder(Integer productId, Integer orderId);
 
+    Float getTotalPrice(Integer orderId);
+
 }

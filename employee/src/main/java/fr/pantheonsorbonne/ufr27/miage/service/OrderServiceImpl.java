@@ -2,18 +2,20 @@ package fr.pantheonsorbonne.ufr27.miage.service;
 
 import fr.pantheonsorbonne.ufr27.miage.camel.OrderGateway;
 import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
+import org.apache.camel.Handler;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.criteria.Order;
 
-@RequestScoped
+@ApplicationScoped
 public class OrderServiceImpl implements OrderService{
 
     @Inject
     OrderGateway orderGateway;
 
     private OrderDTO orderDTO;
+
+    private Float res;
 
     @Override
     public OrderDTO createOrder(Integer productId) {
@@ -48,8 +50,29 @@ public class OrderServiceImpl implements OrderService{
         return false;
     }
 
-    @Override
-    public Float getTotal() {
-        return null;
+    public void askTotalPrice(Integer orderId){
+        this.res = null;
+        orderGateway.askGetTotalPrice(orderId);
     }
+
+    @Override
+    public Float getTotalPrice(Integer orderId) {
+        this.askTotalPrice(orderId);
+        while(this.res==null){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+        return res;
+    }
+
+    @Override
+    @Handler
+    public void recieveTotalPrice(Float totalPrice) {
+        this.res = totalPrice;
+    }
+
 }

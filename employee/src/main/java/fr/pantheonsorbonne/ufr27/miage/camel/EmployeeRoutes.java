@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.ufr27.miage.camel;
 
 import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTO;
 import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTOContainer;
+import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
 import fr.pantheonsorbonne.ufr27.miage.service.ProductService;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
@@ -20,6 +21,12 @@ public class EmployeeRoutes extends RouteBuilder {
     ProductService productService;
 
     @Inject
+    ProductGateway productGateway;
+
+    @Inject
+    OrderGateway orderGateway;
+
+    @Inject
     CamelContext camelContext;
 
     @Override
@@ -32,19 +39,25 @@ public class EmployeeRoutes extends RouteBuilder {
                 .log("${in.body}")
                 .to("jms:queue:" + jmsPrefix + "/register?exchangePattern=InOut")
                 .unmarshal().json(ProductDTOContainer.class)
-                .log("${in.body}")
-                .bean(productService, "receiveAllProduct");
+                .bean(productGateway, "receiveAllProduct");
 
 
         from("direct:newOrder")
                 .setHeader("newOrder", constant("newOrder"))
-                .log("${in.body}")
                 .to("jms:queue:" + jmsPrefix + "/newOrder?exchangePattern=InOut");
 
         from(  "direct:addProductInOrder")
                 .setHeader("addProductOrder", constant("addProductOrder"))
                 .marshal().json()
                .to("jms:queue:" + jmsPrefix + "/addProductInOrder?exchangePattern=InOut");
+
+        from("direct:getTotalPrice")
+                .setHeader("getTotalPrice",constant("totalPrice"))
+                .marshal().json()
+                .to("jms:queue:" + jmsPrefix + "/totalPrice?exchangePattern=InOut")
+                .unmarshal().json()
+                .bean(orderGateway,"recieveTotalPrice");
+
 
 
     }

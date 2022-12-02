@@ -34,4 +34,9 @@ public class OrderServiceImpl implements OrderService {
     public Integer addProductOrder(Integer productId, Integer orderId) {
         return orderDAO.addProductOrder(productId,orderId);
     }
+
+    @Override
+    public Float getTotalPrice(Integer orderId){
+        return orderDAO.getTotalPrice(orderId);
+    }
 }
