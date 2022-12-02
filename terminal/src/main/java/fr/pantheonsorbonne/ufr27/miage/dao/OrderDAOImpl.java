@@ -64,7 +64,8 @@ public class OrderDAOImpl implements OrderDAO{
         Order o = findSingleOrder(orderId);
         return o.getOrderPrice();
     }
-    
+    @Override
+    @Transactional
     public void deleteOrder(Integer orderId){
         Order o = this.findSingleOrder(orderId);
         em.remove(o);

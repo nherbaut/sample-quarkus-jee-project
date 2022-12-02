@@ -63,7 +63,6 @@ public class EmployeeRoutes extends RouteBuilder {
                 .setHeader("deleteOrder", constant("deleteOrder"))
                 .marshal().json()
                 .to("jms:queue:" + jmsPrefix + "/deleteOrder?exchangePattern=InOut");
-
     }
 
 }
