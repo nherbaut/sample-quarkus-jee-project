@@ -2,7 +2,7 @@ package fr.pantheonsorbonne.ufr27.miage.camel;
 
 import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
 import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
-import org.apache.camel.CamelContext;;
+import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -48,11 +48,11 @@ public class OrderGateway {
     public void askGetTotalPrice(Integer orderId) {
         try (ProducerTemplate producer = camelContext.createProducerTemplate()) {
             producer.sendBody("direct:getTotalPrice", orderId);
-        }catch (IOException e){
-        e.printStackTrace();
-         }
-    
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
     public void askDeleteOrder(Integer orderId){
         try (ProducerTemplate producer = camelContext.createProducerTemplate()){
             producer.sendBody("direct:deleteOrder",orderId);

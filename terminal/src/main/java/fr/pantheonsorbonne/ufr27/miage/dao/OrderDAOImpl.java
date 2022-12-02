@@ -61,7 +61,7 @@ public class OrderDAOImpl implements OrderDAO{
     @Override
     @Transactional
     public Float getTotalPrice(Integer orderId){
-        Order o = findSingleOrder(orderId);
+        Order o = this.findSingleOrder(orderId);
         return o.getOrderPrice();
     }
     @Override
