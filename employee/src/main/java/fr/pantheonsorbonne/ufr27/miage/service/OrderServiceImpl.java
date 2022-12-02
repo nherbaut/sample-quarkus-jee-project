@@ -44,8 +44,8 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public boolean deleteOrder() {
-        return false;
+    public void deleteOrder(Integer orderId) {
+        orderGateway.askDeleteOrder(orderId);
     }
 
     @Override

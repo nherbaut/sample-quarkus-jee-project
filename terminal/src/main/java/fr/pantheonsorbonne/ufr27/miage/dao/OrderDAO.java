@@ -12,4 +12,6 @@ public interface OrderDAO {
     Integer addProductOrder(Integer productId, Integer orderId);
 
     Order findSingleOrder(Integer orderId);
+
+    void deleteOrder(Integer orderId);
 }

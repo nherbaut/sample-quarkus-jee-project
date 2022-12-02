@@ -37,5 +37,10 @@ public class OrderGateway {
         return orderService.addProductOrder(messageBody.get(1),messageBody.get(0));
     }
 
+    @Handler
+    public void deleteOrder(Integer orderId){
+        orderService.deleteOrder(orderId);
+    }
+
 
 }

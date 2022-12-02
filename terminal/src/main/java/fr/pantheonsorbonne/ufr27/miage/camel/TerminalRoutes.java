@@ -51,6 +51,10 @@ public class TerminalRoutes extends RouteBuilder {
                 .bean(orderGateway,"addProductOrder")
                 .marshal().json();
 
+        from("jms:queue:" + jmsPrefix + "/deleteOrder?exchangePattern=InOut")
+                .unmarshal().json()
+                .bean(orderGateway, "deleteOrder");
+
         //Faire en sorte d'appeler productService.getProductList et envoyer la réponse dans la queue
         //.to("jms:queue/miage.register");
 
