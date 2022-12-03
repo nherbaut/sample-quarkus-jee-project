@@ -1,20 +1,16 @@
 package fr.pantheonsorbonne.ufr27.miage.dao;
 
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTO;
-import fr.pantheonsorbonne.ufr27.miage.model.Client;
+
 import fr.pantheonsorbonne.ufr27.miage.model.Employee;
 import fr.pantheonsorbonne.ufr27.miage.model.Order;
 import fr.pantheonsorbonne.ufr27.miage.model.Product;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -71,5 +67,18 @@ public class OrderDAOImpl implements OrderDAO{
         em.remove(o);
     }
 
+    @Override
+    @Transactional
+    public Integer deleteProductOrder(Integer productId, Integer orderId) {
+
+        Order o = findSingleOrder(orderId);
+        Product product = productDAO.findSingleProduct(productId);
+        List<Product> productList = o.getProducts();
+        productList.remove(product);
+        o.setProducts(productList);
+        o.setOrderPrice(o.getOrderPrice()-product.getProductPrice());
+        em.persist(o);
+        return o.getId();
+    }
 
 }

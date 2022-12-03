@@ -37,6 +37,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Integer deleteProductOrder(Integer productId, Integer orderId) {
+        return orderDAO.deleteProductOrder(productId,orderId);
+    }
+    @Override
     public Float getTotalPrice(Integer orderId){
         return orderDAO.getTotalPrice(orderId);
     }

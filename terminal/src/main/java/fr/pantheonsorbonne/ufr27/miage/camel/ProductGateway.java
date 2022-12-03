@@ -6,11 +6,9 @@ import fr.pantheonsorbonne.ufr27.miage.service.ProductService;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Handler;
 import org.modelmapper.ModelMapper;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.jms.ConnectionFactory;
-import java.util.Collection;
 import java.util.stream.Collectors;
 
 @ApplicationScoped

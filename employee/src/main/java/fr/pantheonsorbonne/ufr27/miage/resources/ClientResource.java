@@ -47,10 +47,10 @@ public class ClientResource {
 
     @Path("order/{orderId}/delete/{productId}")
     @DELETE
-    public Response deleteProduct(@PathParam("productId") String productId, @PathParam("orderId") String orderId){
+    public Response deleteProduct(@PathParam("productId") Integer productId, @PathParam("orderId") Integer orderId){
         //Récupére l'order de la mémoire locale du terminal
         //Supprimer le produit, update prix etc..
-        return null;
+        return Response.ok(orderService.deleteProduct(orderId,productId)).build();
     }
 
     @Path("order/{orderId}/delete")
