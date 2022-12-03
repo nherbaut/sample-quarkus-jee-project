@@ -15,4 +15,6 @@ public interface OrderDAO {
 
     Float getTotalPrice(Integer orderId);
     void deleteOrder(Integer orderId);
+
+    Integer deleteProductOrder(Integer productId, Integer orderId);
 }

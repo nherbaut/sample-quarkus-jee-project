@@ -42,9 +42,18 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public OrderDTO deleteProduct(String productId) {
-        return null;
+    public void askDeleteProduct(Integer productId, Integer orderId){
+        orderGateway.askDeleteProduct(productId,orderId);
+
     }
+    @Override
+    public OrderDTO deleteProduct(Integer orderId, Integer productId) {
+
+        this.askDeleteProduct(productId, orderId);
+        return orderDTO;
+    }
+
+
 
     @Override
     public void deleteOrder(Integer orderId) {
