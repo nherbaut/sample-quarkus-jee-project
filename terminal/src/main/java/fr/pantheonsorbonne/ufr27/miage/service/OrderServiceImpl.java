@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Integer createOrder(Integer productId) {
+    public Integer createOrder(Integer productId) throws ProductNotFoundException {
         return  orderDAO.createOrder(productId);
     }
 

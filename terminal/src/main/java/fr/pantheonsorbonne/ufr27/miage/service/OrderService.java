@@ -9,7 +9,7 @@ import java.util.Collection;
 
 public interface OrderService {
 
-    Integer createOrder(Integer productId);
+    Integer createOrder(Integer productId) throws ProductNotFoundException;
 
     Integer addProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
 
