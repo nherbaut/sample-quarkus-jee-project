@@ -1,5 +1,7 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
+import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.model.Order;
 import fr.pantheonsorbonne.ufr27.miage.model.Product;
 
@@ -9,12 +11,12 @@ public interface OrderService {
 
     Integer createOrder(Integer productId);
 
-    Integer addProductOrder(Integer productId, Integer orderId);
+    Integer addProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
 
-    Float getTotalPrice(Integer orderId);
+    Float getTotalPrice(Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
     
-    void deleteOrder(Integer orderId);
+    void deleteOrder(Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
 
-    Integer deleteProductOrder(Integer productId, Integer orderId);
+    Integer deleteProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
 
 }
