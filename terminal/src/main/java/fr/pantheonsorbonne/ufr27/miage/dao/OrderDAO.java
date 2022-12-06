@@ -13,7 +13,7 @@ public interface OrderDAO {
 
     Integer addProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
 
-    Order findSingleOrder(Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
+    Order findSingleOrder(Integer orderId) throws OrderNotFoundException;
 
     Float getTotalPrice(Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
     void deleteOrder(Integer orderId) throws OrderNotFoundException, ProductNotFoundException;

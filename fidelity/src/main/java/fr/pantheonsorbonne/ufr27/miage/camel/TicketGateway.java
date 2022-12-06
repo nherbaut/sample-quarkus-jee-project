@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 
 @ApplicationScoped
-public class TicketGateway {
+public class                                                                                                                                                                                                                                                                                                                                                                                                                                                                           TicketGateway {
 
     @Inject
     TicketingService ticketingService;

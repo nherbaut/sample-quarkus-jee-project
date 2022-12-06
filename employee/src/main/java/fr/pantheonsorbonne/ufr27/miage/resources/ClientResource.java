@@ -4,6 +4,7 @@ package fr.pantheonsorbonne.ufr27.miage.resources;
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
+import fr.pantheonsorbonne.ufr27.miage.service.PaymentService;
 import fr.pantheonsorbonne.ufr27.miage.service.ProductService;
 
 import javax.inject.Inject;
@@ -18,6 +19,9 @@ public class ClientResource {
     ProductService productService;
     @Inject
     OrderService orderService;
+
+//    @Inject
+//    PaymentService paymentService;
 
     @Path("products")
     @GET
@@ -71,5 +75,12 @@ public class ClientResource {
         //renvoyer le prix
         return Response.ok(orderService.getTotalPrice(orderId)).build();
     }
+
+//    @Path("order/{orderId}/payByCard")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @POST
+//    public Response payByCard(@PathParam("orderId") Integer orderId) throws OrderNotFoundException {
+//        return Response.ok(paymentService.payByCard(orderId)).build();
+//    }
 
 }

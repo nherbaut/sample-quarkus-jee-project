@@ -64,6 +64,12 @@ public class TerminalRoutes extends RouteBuilder {
                 .unmarshal().json()
                 .bean(orderGateway, "deleteOrder").marshal().json();
 
+//        from("jms:queue:" + jmsPrefix + "/payByCard?exchangePattern=InOut")
+//                .unmarshal().json()
+//                .
+
+
+
     }
 
 }
