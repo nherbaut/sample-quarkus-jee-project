@@ -4,7 +4,9 @@ REPLACE INTO `Client` (`client_id`, `clientFirstName`, `clientLastName`) VALUES 
 
 REPLACE INTO `Employee` (`employee_id`, `firstName`, `lastName`) VALUES (0, 'Liza', 'Watson'), (1, 'Florent', 'Lousy');
 
-/*REPLACE INTO `Order` (`order_id`, `order_date`, `order_price`, `order_content`, `employee_id`, `employee_id`) VALUES () */
+/*REPLACE INTO `productOrder` (Product_ID, Order_ID) VALUES (1, 1), (2, 1), (3, 1);*/
+
+/*REPLACE INTO `Order` (`order_id`, `order_date`, `order_price`, `order_content`, `employee_id`, `employee_id`) VALUES (1, "2022-09-12", 12.3, , 1, 1)*/
 
 /*
 
