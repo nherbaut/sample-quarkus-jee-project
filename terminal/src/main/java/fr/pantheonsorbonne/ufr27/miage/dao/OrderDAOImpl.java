@@ -44,7 +44,7 @@ public class OrderDAOImpl implements OrderDAO{
             Employee employee = new Employee();
             float floatvalue = productDAO.findSingleProduct(productId).getProductPrice();
             employee.setId(1);
-            Order o = new Order(UUID.randomUUID().hashCode(), productList, LocalDate.now(), floatvalue, null, employee);
+            Order o = new Order(productList, LocalDate.now(), floatvalue, null, employee);
             em.persist(o);
             return o.getId();
         }catch (NoResultException e){

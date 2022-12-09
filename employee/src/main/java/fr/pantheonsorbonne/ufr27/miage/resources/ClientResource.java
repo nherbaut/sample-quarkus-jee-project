@@ -37,7 +37,7 @@ public class ClientResource {
         //Créer la commande
         //Ajouter l'article en paramètre, update prix etc..
         //Retourner l'id de la commande
-        return Response.created(URI.create("order/"+orderService.createOrder(productId).getOrderId())).build();
+        return Response.created(URI.create("order/"+orderService.createOrder(productId))).build();
     }
 
     @Path("order/{orderId}/add/{productId}")

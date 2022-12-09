@@ -90,8 +90,7 @@ public class Order {
         this.orderContent = products;
     }
 
-    public Order(Integer id, List<Product> orderContent, LocalDate orderDate, Float orderPrice, Client client, Employee employee) {
-        this.id = id;
+    public Order(List<Product> orderContent, LocalDate orderDate, Float orderPrice, Client client, Employee employee) {
         this.orderContent = orderContent;
         this.orderDate = orderDate;
         this.orderPrice = orderPrice;
