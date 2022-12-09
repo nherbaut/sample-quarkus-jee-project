@@ -2,6 +2,8 @@ package fr.pantheonsorbonne.ufr27.miage.service;
 
 import fr.pantheonsorbonne.ufr27.miage.dao.OrderDAO;
 import fr.pantheonsorbonne.ufr27.miage.dao.ProductDAO;
+import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.model.Order;
 import fr.pantheonsorbonne.ufr27.miage.model.Product;
 import org.apache.camel.Handler;
@@ -27,21 +29,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Integer createOrder(Integer productId) {
+    public Integer createOrder(Integer productId) throws ProductNotFoundException {
         return  orderDAO.createOrder(productId);
     }
 
     @Override
-    public Integer addProductOrder(Integer productId, Integer orderId) {
+    public Integer addProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
         return orderDAO.addProductOrder(productId,orderId);
     }
 
     @Override
-    public Float getTotalPrice(Integer orderId){
+    public Integer deleteProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
+        return orderDAO.deleteProductOrder(productId,orderId);
+    }
+    @Override
+    public Float getTotalPrice(Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
         return orderDAO.getTotalPrice(orderId);
     }
 
-    public void deleteOrder(Integer orderId){
+    public void deleteOrder(Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
         orderDAO.deleteOrder(orderId);
     }
 }

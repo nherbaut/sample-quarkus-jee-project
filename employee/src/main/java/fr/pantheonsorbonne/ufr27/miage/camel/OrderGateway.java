@@ -65,4 +65,15 @@ public class OrderGateway {
         orderService.recieveTotalPrice(totalPrice);
     }
 
+    public void askDeleteProduct(Integer productId, Integer orderId) {
+        try (ProducerTemplate producer = camelContext.createProducerTemplate()) {
+            List<Integer> messageBody = new ArrayList();
+            messageBody.add(orderId);
+            messageBody.add(productId);
+            producer.sendBody("direct:deleteProductFromOrder",messageBody);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

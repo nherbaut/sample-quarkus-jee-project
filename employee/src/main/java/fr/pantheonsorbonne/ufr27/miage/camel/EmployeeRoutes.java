@@ -59,6 +59,12 @@ public class EmployeeRoutes extends RouteBuilder {
                 .bean(orderGateway,"recieveTotalPrice");
 
 
+        from(  "direct:deleteProductFromOrder")
+                .setHeader("deleteProductOrder", constant("deleteProductOrder"))
+                .marshal().json()
+                .to("jms:queue:" + jmsPrefix + "/deleteProductFromOrder?exchangePattern=InOut");
+
+
         from("direct:deleteOrder")
                 .setHeader("deleteOrder", constant("deleteOrder"))
                 .marshal().json()

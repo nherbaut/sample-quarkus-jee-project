@@ -20,6 +20,13 @@ public class Order {
             inverseJoinColumns=@JoinColumn(name= "Product_ID", referencedColumnName="product_id"))
     private List<Product> orderContent = new ArrayList<>();
 
+
+    @ManyToMany
+    @JoinTable(
+            name="menuOrder",
+            joinColumns=@JoinColumn(name= "Order_ID", referencedColumnName="order_id"),
+            inverseJoinColumns=@JoinColumn(name= "Menu_ID", referencedColumnName="menu_id"))
+    private List<Menu> orderMenus = new ArrayList<>();
     @NotNull
     @Column(name = "order_date", nullable = false)
     private LocalDate orderDate;
@@ -39,6 +46,14 @@ public class Order {
 
     public Order() {
 
+    }
+
+    public List<Menu> getOrderMenus() {
+        return orderMenus;
+    }
+
+    public void setOrderMenus(List<Menu> orderMenus) {
+        this.orderMenus = orderMenus;
     }
 
     public Integer getId() {

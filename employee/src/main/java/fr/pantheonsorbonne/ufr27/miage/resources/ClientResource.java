@@ -1,6 +1,8 @@
 package fr.pantheonsorbonne.ufr27.miage.resources;
 
 
+import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
 import fr.pantheonsorbonne.ufr27.miage.service.ProductService;
 
@@ -30,7 +32,7 @@ public class ClientResource {
 
     @Path("order/{productId}")
     @POST
-    public Response createOrder(@PathParam("productId") Integer productId){
+    public Response createOrder(@PathParam("productId") Integer productId) throws ProductNotFoundException {
         //Créer la commande
         //Ajouter l'article en paramètre, update prix etc..
         //Retourner l'id de la commande
@@ -47,15 +49,15 @@ public class ClientResource {
 
     @Path("order/{orderId}/delete/{productId}")
     @DELETE
-    public Response deleteProduct(@PathParam("productId") String productId, @PathParam("orderId") String orderId){
+    public Response deleteProduct(@PathParam("productId") Integer productId, @PathParam("orderId") Integer orderId){
         //Récupére l'order de la mémoire locale du terminal
         //Supprimer le produit, update prix etc..
-        return null;
+        return Response.ok(orderService.deleteProduct(orderId,productId)).build();
     }
 
     @Path("order/{orderId}/delete")
     @DELETE
-    public void deleterOrder(@PathParam("orderId") String orderId){
+    public void deleterOrder(@PathParam("orderId") String orderId) throws OrderNotFoundException {
         //Delete order in terminal
         Integer id = Integer.parseInt(orderId);
         orderService.deleteOrder(id);
@@ -64,7 +66,7 @@ public class ClientResource {
     @Path("order/{orderId}/getTotal") //Le client demande à passer au paiement
     @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public Response getOrderPrice(@PathParam("orderId") Integer orderId){
+    public Response getOrderPrice(@PathParam("orderId") Integer orderId) throws OrderNotFoundException {
         //Récupérer la commande
         //renvoyer le prix
         return Response.ok(orderService.getTotalPrice(orderId)).build();
