@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
 
 @Path("client")
 public class ClientResource {
@@ -32,11 +33,11 @@ public class ClientResource {
 
     @Path("order/{productId}")
     @POST
-    public Response createOrder(@PathParam("productId") Integer productId) throws ProductNotFoundException {
+    public Response addProduct(@PathParam("productId") Integer productId) throws ProductNotFoundException {
         //Créer la commande
         //Ajouter l'article en paramètre, update prix etc..
         //Retourner l'id de la commande
-        return Response.ok(orderService.createOrder(productId)).build();
+        return Response.created(URI.create("order/"+orderService.createOrder(productId).getOrderId())).build();
     }
 
     @Path("order/{orderId}/add/{productId}")
@@ -57,10 +58,13 @@ public class ClientResource {
 
     @Path("order/{orderId}/delete")
     @DELETE
-    public void deleterOrder(@PathParam("orderId") String orderId) throws OrderNotFoundException {
+    public void deleterOrder(@PathParam("orderId") Integer orderId) {
         //Delete order in terminal
-        Integer id = Integer.parseInt(orderId);
-        orderService.deleteOrder(id);
+        try {
+            orderService.deleteOrder(orderId);
+        } catch (OrderNotFoundException e) {
+            throw new WebApplicationException(404);
+        }
     }
 
     @Path("order/{orderId}/getTotal") //Le client demande à passer au paiement

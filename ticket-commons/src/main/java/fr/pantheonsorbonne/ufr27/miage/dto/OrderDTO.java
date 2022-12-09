@@ -24,6 +24,8 @@ public class OrderDTO {
         this.totalPrice = totalPrice;
     }
 
+    public OrderDTO(){};
+
     Collection<ProductDTO> productDTO;
 
     public LocalDate getLocalDate() {
@@ -82,5 +84,18 @@ public class OrderDTO {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDTO{" +
+                "orderId='" + orderId + '\'' +
+                ", localDate=" + localDate +
+                ", orderPrice=" + orderPrice +
+                ", employeeId=" + employeeId +
+                ", clientId=" + clientId +
+                ", productDTO=" + productDTO +
+                ", totalPrice=" + totalPrice +
+                '}';
     }
 }

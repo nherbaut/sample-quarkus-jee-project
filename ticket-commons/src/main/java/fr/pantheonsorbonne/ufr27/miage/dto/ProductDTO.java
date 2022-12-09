@@ -48,6 +48,6 @@ public class ProductDTO {
                 "id_product='" + id_product + '\'' +
                 ", unitaryPrice=" + unitaryPrice +
                 ", name='" + name + '\'' +
-                '}';
+                "} \n";
     }
 }

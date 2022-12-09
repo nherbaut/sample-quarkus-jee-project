@@ -1,10 +1,13 @@
 package fr.pantheonsorbonne.ufr27.miage.resource;
 
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
+import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTO;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 
 @Path("client")
 @RegisterRestClient(configKey = "vendor-api")
@@ -13,11 +16,12 @@ public interface EmployeeService {
     @Path("products")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllProduct();
+    public String getAllProduct();
 
     @Path("order/{productId}")
     @POST
-    public Response createOrder(@PathParam("productId") Integer productId);
+    @Produces(MediaType.APPLICATION_JSON)
+    public OrderDTO createOrder(@PathParam("productId") Integer productId);
 
     @Path("order/{orderId}/add/{productId}")
     @PUT
