@@ -10,7 +10,7 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public Integer addPointToAccount(Integer account_id, Integer client_id) {
+    public Integer addPointsToAccount(Integer account_id, Integer client_id) {
         //rajoute des point après que le client ai effectué un achat
         //il faut récuperer le total price et convertir chaque euro en 10 points
         return null;
