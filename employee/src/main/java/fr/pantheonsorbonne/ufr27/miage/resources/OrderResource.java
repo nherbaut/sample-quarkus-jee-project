@@ -14,9 +14,7 @@ import java.net.URI;
 
 @Path("order")
 public class OrderResource {
-
-    @Inject
-    ProductService productService;
+    
     @Inject
     OrderService orderService;
 
