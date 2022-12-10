@@ -1,9 +1,7 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTO;
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
 import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTOContainer;
-import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
-import fr.pantheonsorbonne.ufr27.miage.service.ProductService;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -16,9 +14,6 @@ public class EmployeeRoutes extends RouteBuilder {
 
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.jmsPrefix")
     String jmsPrefix;
-
-    @Inject
-    ProductService productService;
 
     @Inject
     ProductGateway productGateway;
@@ -41,15 +36,18 @@ public class EmployeeRoutes extends RouteBuilder {
                 .unmarshal().json(ProductDTOContainer.class)
                 .bean(productGateway, "receiveAllProduct");
 
-
         from("direct:newOrder")
                 .setHeader("newOrder", constant("newOrder"))
-                .to("jms:queue:" + jmsPrefix + "/newOrder?exchangePattern=InOut");
+                .to("jms:queue:" + jmsPrefix + "/newOrder?exchangePattern=InOut")
+                .unmarshal().json(OrderDTO.class)
+                .bean(orderGateway, "receiveOrder");
 
         from(  "direct:addProductInOrder")
                 .setHeader("addProductOrder", constant("addProductOrder"))
                 .marshal().json()
-               .to("jms:queue:" + jmsPrefix + "/addProductInOrder?exchangePattern=InOut");
+               .to("jms:queue:" + jmsPrefix + "/addProductInOrder?exchangePattern=InOut")
+                .unmarshal().json(OrderDTO.class)
+                .bean(orderGateway, "receiveOrder");
 
         from("direct:getTotalPrice")
                 .setHeader("getTotalPrice",constant("totalPrice"))
@@ -58,12 +56,12 @@ public class EmployeeRoutes extends RouteBuilder {
                 .unmarshal().json()
                 .bean(orderGateway,"recieveTotalPrice");
 
-
         from(  "direct:deleteProductFromOrder")
                 .setHeader("deleteProductOrder", constant("deleteProductOrder"))
                 .marshal().json()
-                .to("jms:queue:" + jmsPrefix + "/deleteProductFromOrder?exchangePattern=InOut");
-
+                .to("jms:queue:" + jmsPrefix + "/deleteProductFromOrder?exchangePattern=InOut")
+                .unmarshal().json(OrderDTO.class)
+                .bean(orderGateway, "receiveOrder");
 
         from("direct:deleteOrder")
                 .setHeader("deleteOrder", constant("deleteOrder"))

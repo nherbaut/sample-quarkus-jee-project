@@ -25,13 +25,8 @@ public class ProductGateway {
 
     @Handler
     ProductDTOContainer getProducts(String msg){
-
         ModelMapper modelMapper = new ModelMapper();
-
-        return new ProductDTOContainer(productService.getProductList().stream().map(p->new ProductDTO(p.getProductPrice(),""+p.getId(),p.getProductName())).collect(Collectors.toList()));
-
-
+        return new ProductDTOContainer(productService.getProductList().stream().map(p->new ProductDTO(p.getProductPrice(),+p.getId(),p.getProductName())).collect(Collectors.toList()));
     }
-
 
 }

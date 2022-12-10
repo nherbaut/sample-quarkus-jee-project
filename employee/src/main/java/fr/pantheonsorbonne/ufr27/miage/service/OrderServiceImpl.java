@@ -5,10 +5,8 @@ import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
 import org.apache.camel.Handler;
-import org.hibernate.criterion.Order;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 
@@ -20,48 +18,72 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderDTO orderDTO;
 
-    private Float res;
+    private Float totalPrice;
+
+    @Override
+    public void receiveOrder(OrderDTO order) {
+        this.orderDTO = order;
+    }
 
     @Override
     public OrderDTO createOrder(Integer productId) throws ProductNotFoundException {
-        try {
-            this.askCreateOrder(productId);
-            return orderDTO;
-        }catch (NoResultException e){
-            throw new ProductNotFoundException(productId);
+        this.askCreateOrder(productId);
+        while(this.orderDTO==null){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
         }
+        return orderDTO;
     }
 
     @Override
     public void askCreateOrder(Integer productId) {
+        this.orderDTO = null;
         orderGateway.askCreateOrder(productId);
     }
 
     @Override
     public OrderDTO addProduct(Integer productId, Integer orderId) {
         this.askAddProduct(productId, orderId);
+        while(this.orderDTO==null){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
         return orderDTO;
     }
 
     @Override
     public void askAddProduct(Integer productId, Integer orderId) {
+        this.orderDTO = null;
         orderGateway.askAddProduct(productId, orderId);
-
     }
 
     @Override
     public void askDeleteProduct(Integer productId, Integer orderId) {
+        this.orderDTO = null;
         orderGateway.askDeleteProduct(productId, orderId);
-
     }
 
     @Override
     public OrderDTO deleteProduct(Integer orderId, Integer productId) {
-
         this.askDeleteProduct(productId, orderId);
+        while(this.orderDTO==null){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
         return orderDTO;
     }
-
 
     @Override
     public void deleteOrder(Integer orderId) throws OrderNotFoundException {
@@ -69,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public void askTotalPrice(Integer orderId) {
-        this.res = null;
+        this.totalPrice = null;
         orderGateway.askGetTotalPrice(orderId);
     }
 
@@ -77,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
     public Float getTotalPrice(Integer orderId) throws OrderNotFoundException {
         try {
             this.askTotalPrice(orderId);
-            while (this.res == null) {
+            while (this.totalPrice == null) {
                 try {
                     Thread.sleep(100);
                 } catch (NoResultException e) {
@@ -85,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
                     System.exit(-1);
                 }
             }
-            return res;
+            return totalPrice;
         }catch (NoResultException | InterruptedException e){
             throw new OrderNotFoundException();
         }
@@ -93,8 +115,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Handler
-    public void recieveTotalPrice(Float totalPrice) {
-        this.res = totalPrice;
+    public void receiveTotalPrice(Float totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
 }

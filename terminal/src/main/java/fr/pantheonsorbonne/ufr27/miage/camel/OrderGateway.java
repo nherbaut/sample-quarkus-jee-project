@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
@@ -22,14 +23,13 @@ public class OrderGateway {
     @Inject
     OrderService orderService;
 
-
     @Handler
-    public Integer createOrder(Integer message) throws ProductNotFoundException {
+    public OrderDTO createOrder(Integer message) throws ProductNotFoundException {
         return  orderService.createOrder(message);
     }
 
     @Handler
-    public Integer addProductOrder(List<Integer> messageBody) throws OrderNotFoundException, ProductNotFoundException {
+    public OrderDTO addProductOrder(List<Integer> messageBody) throws OrderNotFoundException, ProductNotFoundException {
         return orderService.addProductOrder(messageBody.get(1),messageBody.get(0));
     }
     @Handler
@@ -43,9 +43,7 @@ public class OrderGateway {
     }
 
     @Handler
-    public Integer deleteProductOrder(List<Integer> messageBody) throws OrderNotFoundException, ProductNotFoundException {
+    public OrderDTO deleteProductOrder(List<Integer> messageBody) throws OrderNotFoundException, ProductNotFoundException {
         return orderService.deleteProductOrder(messageBody.get(1),messageBody.get(0));
     }
-
-
 }

@@ -12,10 +12,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @ApplicationScoped
 public class OrderDAOImpl implements OrderDAO{
@@ -37,16 +36,16 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     @Transactional
-    public Integer createOrder(Integer productId) throws ProductNotFoundException {
+    public Order createOrder(Integer productId) throws ProductNotFoundException {
         try {
             List<Product> productList = new ArrayList<>();
             productList.add(productDAO.findSingleProduct(productId));
             Employee employee = new Employee();
             float floatvalue = productDAO.findSingleProduct(productId).getProductPrice();
             employee.setId(1);
-            Order o = new Order(productList, LocalDate.now(), floatvalue, null, employee);
+            Order o = new Order(productList, new Date(), floatvalue, null, employee);
             em.persist(o);
-            return o.getId();
+            return o;
         }catch (NoResultException e){
             throw new ProductNotFoundException(productId);
         }
@@ -54,7 +53,7 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     @Transactional
-    public Integer addProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
+    public Order addProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
         try {
             Order o = findSingleOrder(orderId);
             Product product = productDAO.findSingleProduct(productId);
@@ -63,7 +62,7 @@ public class OrderDAOImpl implements OrderDAO{
             o.setProducts(productList);
             o.setOrderPrice(o.getOrderPrice() + product.getProductPrice());
             em.persist(o);
-            return o.getId();
+            return o;
         }catch (NoResultException e){
             throw new ProductNotFoundException(productId);
         }
@@ -84,7 +83,7 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     @Transactional
-    public Integer deleteProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
+    public Order deleteProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
         try {
             Order o = findSingleOrder(orderId);
             Product product = productDAO.findSingleProduct(productId);
@@ -93,7 +92,7 @@ public class OrderDAOImpl implements OrderDAO{
             o.setProducts(productList);
             o.setOrderPrice(o.getOrderPrice() - product.getProductPrice());
             em.persist(o);
-            return o.getId();
+            return o;
         }catch (NoResultException e){
             throw new ProductNotFoundException(productId);
         }

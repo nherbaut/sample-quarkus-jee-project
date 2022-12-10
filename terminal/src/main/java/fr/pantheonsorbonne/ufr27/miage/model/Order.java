@@ -2,8 +2,8 @@ package fr.pantheonsorbonne.ufr27.miage.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,7 +23,7 @@ public class Order {
 
     @NotNull
     @Column(name = "order_date", nullable = false)
-    private LocalDate orderDate;
+    private Date orderDate;
 
     @NotNull
     @Column(name = "order_price", nullable = false)
@@ -50,11 +50,11 @@ public class Order {
         this.id = id;
     }
 
-    public LocalDate getOrderDate() {
+    public Date getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDate orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -90,7 +90,7 @@ public class Order {
         this.orderContent = products;
     }
 
-    public Order(List<Product> orderContent, LocalDate orderDate, Float orderPrice, Client client, Employee employee) {
+    public Order(List<Product> orderContent, Date orderDate, Float orderPrice, Client client, Employee employee) {
         this.orderContent = orderContent;
         this.orderDate = orderDate;
         this.orderPrice = orderPrice;
