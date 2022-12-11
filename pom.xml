@@ -12,6 +12,7 @@
     <module>employee</module>
     <module>fidelity</module>
     <module>terminal</module>
+    <module>client</module>
     <module>ticket-commons</module>
   </modules>
   <dependencyManagement>

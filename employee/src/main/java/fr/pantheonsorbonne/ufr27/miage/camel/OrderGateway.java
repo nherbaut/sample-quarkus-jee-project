@@ -62,7 +62,11 @@ public class OrderGateway {
     }
 
     public void recieveTotalPrice(Float totalPrice){
-        orderService.recieveTotalPrice(totalPrice);
+        orderService.receiveTotalPrice(totalPrice);
+    }
+
+    public void receiveOrder(OrderDTO order) {
+        orderService.receiveOrder(order);
     }
 
     public void askDeleteProduct(Integer productId, Integer orderId) {

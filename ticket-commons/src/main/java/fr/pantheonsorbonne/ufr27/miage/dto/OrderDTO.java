@@ -1,13 +1,13 @@
 package fr.pantheonsorbonne.ufr27.miage.dto;
 
-import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 
 public class OrderDTO {
 
-    String orderId;
+    Integer orderId;
 
-    LocalDate localDate;
+    Date localDate;
 
     Float orderPrice;
 
@@ -15,22 +15,27 @@ public class OrderDTO {
 
     Integer clientId;
 
-    public OrderDTO(String orderId, LocalDate localDate, Float orderPrice, Integer employeeId, Integer clientId, double totalPrice) {
+    double totalPrice;
+
+    Collection<ProductDTO> productDTO;
+
+    public OrderDTO(Integer orderId, Date localDate, Float orderPrice, Integer employeeId, Integer clientId, double totalPrice, Collection<ProductDTO> productDTO) {
         this.orderId = orderId;
         this.localDate = localDate;
         this.orderPrice = orderPrice;
         this.employeeId = employeeId;
         this.clientId = clientId;
         this.totalPrice = totalPrice;
+        this.productDTO = productDTO;
     }
 
-    Collection<ProductDTO> productDTO;
+    public OrderDTO(){};
 
-    public LocalDate getLocalDate() {
+    public Date getLocalDate() {
         return localDate;
     }
 
-    public void setLocalDate(LocalDate localDate) {
+    public void setLocalDate(Date localDate) {
         this.localDate = localDate;
     }
 
@@ -58,13 +63,11 @@ public class OrderDTO {
         this.clientId = clientId;
     }
 
-    double totalPrice;
-
-    public String getOrderId() {
+    public Integer getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 
@@ -82,5 +85,18 @@ public class OrderDTO {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDTO{" +
+                "orderId='" + orderId + '\'' +
+                ", localDate=" + localDate +
+                ", orderPrice=" + orderPrice +
+                ", employeeId=" + employeeId +
+                ", clientId=" + clientId +
+                ", productDTO=" + productDTO +
+                ", totalPrice=" + totalPrice +
+                '}';
     }
 }

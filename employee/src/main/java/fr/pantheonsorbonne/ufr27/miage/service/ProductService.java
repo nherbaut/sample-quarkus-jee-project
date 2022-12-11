@@ -9,9 +9,7 @@ import java.util.Collection;
 
 public interface ProductService {
 
-
     void receiveAllProduct(ProductDTOContainer productDTOContainer);
-
 
     Collection<ProductDTO> getAllProduct();
 
