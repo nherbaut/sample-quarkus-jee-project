@@ -39,35 +39,6 @@ public class CamelRoutes extends RouteBuilder {
 
         camelContext.setTracing(true);
 
-        onException(ExpiredTransitionalTicketException.class)
-                .handled(true)
-                .process(new ExpiredTransitionalTicketProcessor())
-                .setHeader("success", simple("false"))
-                .log("Clearning expired transitional ticket ${body}")
-                .bean(ticketingService, "cleanUpTransitionalTicket");
-
-        onException(UnsuficientQuotaForVenueException.class)
-                .handled(true)
-                .setHeader("success", simple("false"))
-                .setBody(simple("Vendor has not enough quota for this venue"));
-
-
-        onException(NoSuchTicketException.class)
-                .handled(true)
-                .setHeader("success", simple("false"))
-                .setBody(simple("Ticket has expired"));
-
-        onException(CustomerNotFoundException.NoSeatAvailableException.class)
-                .handled(true)
-                .setHeader("success", simple("false"))
-                .setBody(simple("No seat is available"));
-
-
-        from("jms:" + jmsPrefix + "booking?exchangePattern=InOut")//
-                .log("ticker received: ${in.headers}")//
-                .unmarshal().json(Booking.class)//
-                .bean(bookingHandler, "book").marshal().json()
-        ;
 
 
         from("jms:" + jmsPrefix + "ticket?exchangePattern=InOut")

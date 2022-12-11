@@ -5,6 +5,6 @@ import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
 
 public interface PaymentService {
 
-    Float payByCard(Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
+    Float askPayByCard(Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
 
 }

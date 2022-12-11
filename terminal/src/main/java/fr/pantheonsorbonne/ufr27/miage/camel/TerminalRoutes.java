@@ -26,7 +26,7 @@ public class TerminalRoutes extends RouteBuilder {
     OrderGateway orderGateway;
 
     @Inject
-    OrderService orderService;
+    PaymentGateway paymentGateway;
 
     @Override
     public void configure() throws Exception {
@@ -64,9 +64,9 @@ public class TerminalRoutes extends RouteBuilder {
                 .unmarshal().json()
                 .bean(orderGateway, "deleteOrder").marshal().json();
 
-//        from("jms:queue:" + jmsPrefix + "/payByCard?exchangePattern=InOut")
-//                .unmarshal().json()
-//                .
+        from("jms:queue:" + jmsPrefix + "/payByCard?exchangePattern=InOut")
+                .unmarshal().json()
+                .bean(paymentGateway,"askPayByCard").marshal().json();
 
 
 

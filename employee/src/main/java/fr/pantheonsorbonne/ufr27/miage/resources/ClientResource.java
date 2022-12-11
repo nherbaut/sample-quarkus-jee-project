@@ -19,9 +19,8 @@ public class ClientResource {
     ProductService productService;
     @Inject
     OrderService orderService;
-
-//    @Inject
-//    PaymentService paymentService;
+    @Inject
+    PaymentService paymentService;
 
     @Path("products")
     @GET
@@ -76,11 +75,11 @@ public class ClientResource {
         return Response.ok(orderService.getTotalPrice(orderId)).build();
     }
 
-//    @Path("order/{orderId}/payByCard")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @POST
-//    public Response payByCard(@PathParam("orderId") Integer orderId) throws OrderNotFoundException {
-//        return Response.ok(paymentService.payByCard(orderId)).build();
-//    }
+    @Path("order/{orderId}/payByCard")
+    @Produces(MediaType.APPLICATION_JSON)
+    @POST
+    public Response payByCard(@PathParam("orderId") Integer orderId) throws OrderNotFoundException {
+        return Response.ok(paymentService.payByCard(orderId)).build();
+    }
 
 }
