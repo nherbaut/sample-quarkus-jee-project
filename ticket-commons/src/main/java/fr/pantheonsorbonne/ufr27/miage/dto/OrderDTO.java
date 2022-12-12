@@ -17,19 +17,22 @@ public class OrderDTO {
 
     double totalPrice;
 
-    Collection<ProductDTO> productDTO;
+    Collection<OrderItemDTO> orderItemDTOS;
 
-    public OrderDTO(Integer orderId, Date localDate, Float orderPrice, Integer employeeId, Integer clientId, double totalPrice, Collection<ProductDTO> productDTO) {
+    public OrderDTO(Integer orderId, Date localDate, Float orderPrice, Integer employeeId, Integer clientId, double totalPrice, Collection<OrderItemDTO> productDTO) {
         this.orderId = orderId;
         this.localDate = localDate;
         this.orderPrice = orderPrice;
         this.employeeId = employeeId;
         this.clientId = clientId;
         this.totalPrice = totalPrice;
-        this.productDTO = productDTO;
+        this.orderItemDTOS = productDTO;
     }
 
     Collection<OrderItemDTO> productDTO;
+
+    public OrderDTO() {
+    }
 
     public Date getLocalDate() {
         return localDate;
@@ -71,12 +74,12 @@ public class OrderDTO {
         this.orderId = orderId;
     }
 
-    public Collection<OrderItemDTO> getProductDTO() {
-        return productDTO;
+    public Collection<OrderItemDTO> getOrderItemDTOS() {
+        return orderItemDTOS;
     }
 
-    public void setProductDTO(Collection<OrderItemDTO> productDTO) {
-        this.productDTO = productDTO;
+    public void setOrderItemDTOS(Collection<OrderItemDTO> orderItemDTOS) {
+        this.orderItemDTOS = orderItemDTOS;
     }
 
     public double getTotalPrice() {
@@ -95,7 +98,7 @@ public class OrderDTO {
                 ", orderPrice=" + orderPrice +
                 ", employeeId=" + employeeId +
                 ", clientId=" + clientId +
-                ", productDTO=" + productDTO +
+                ", productDTO=" + orderItemDTOS +
                 ", totalPrice=" + totalPrice +
                 '}';
     }

@@ -1,29 +1,29 @@
 package fr.pantheonsorbonne.ufr27.miage.dto;
 
 public class OrderItemDTO {
-    String id_item;
+    Integer id_item;
     double unitaryPrice;
     String name;
 
     public OrderItemDTO() {
     }
 
-    public OrderItemDTO(String id_item) {
+    public OrderItemDTO(Integer id_item) {
         this.id_item = id_item;
     }
 
-    public OrderItemDTO(double unitaryPrice, String id, String name) {
+    public OrderItemDTO(double unitaryPrice, Integer id, String name) {
         this.unitaryPrice = unitaryPrice;
         this.id_item = id;
         this.name = name;
 
     }
 
-    public String getId_item() {
+    public Integer getId_item() {
         return id_item;
     }
 
-    public void setId_item(String id_item) {
+    public void setId_item(Integer id_item) {
         this.id_item = id_item;
     }
 

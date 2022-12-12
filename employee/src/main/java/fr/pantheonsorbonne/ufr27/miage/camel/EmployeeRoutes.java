@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
 import fr.pantheonsorbonne.ufr27.miage.dto.OrderItemDTOContainer;
 import fr.pantheonsorbonne.ufr27.miage.service.ProductService;
 import org.apache.camel.CamelContext;
@@ -42,7 +43,9 @@ public class EmployeeRoutes extends RouteBuilder {
         from("direct:newOrder")
                 .setHeader("newOrder", constant("newOrder"))
                 .to("jms:queue:" + jmsPrefix + "/newOrder?exchangePattern=InOut")
+                .log("${in.body}")
                 .unmarshal().json(OrderDTO.class)
+                .log("${in.body}")
                 .bean(orderGateway, "receiveOrder");
 
         from(  "direct:addProductInOrder")
@@ -77,7 +80,6 @@ public class EmployeeRoutes extends RouteBuilder {
                 .to("jms:queue:" + jmsPrefix + "/payByCard?exchangePattern=InOut")
                 .log(" ### ${in.body}")
                 .bean(paymentGateway, "receiveURL");
-
 
     }
 

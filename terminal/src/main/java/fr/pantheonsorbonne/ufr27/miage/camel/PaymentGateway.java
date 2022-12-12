@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.ufr27.miage.camel;
 
 
 import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
+import fr.pantheonsorbonne.ufr27.miage.exception.ItemNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.service.PaymentService;
 import org.apache.camel.CamelContext;
@@ -31,7 +32,7 @@ public class PaymentGateway {
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.jmsPrefix")
     String jmsPrefix;
 
-    public void isAbleForPayment(Integer orderId) throws OrderNotFoundException {
+    public void isAbleForPayment(Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
         paymentService.isAbleForPayment(orderId);
     }
 

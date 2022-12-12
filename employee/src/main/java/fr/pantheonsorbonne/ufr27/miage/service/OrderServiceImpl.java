@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDTO createOrder(Integer productId) throws ProductNotFoundException {
+    public OrderDTO createOrder(Integer productId) {
         this.askCreateOrder(productId);
         while(this.orderDTO==null){
             try {

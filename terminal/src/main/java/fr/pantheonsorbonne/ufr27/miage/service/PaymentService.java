@@ -1,15 +1,13 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
+import fr.pantheonsorbonne.ufr27.miage.exception.ItemNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
-import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
-
-import javax.enterprise.context.ApplicationScoped;
 
 public interface PaymentService {
 
-    String isAbleForPayment(Integer orderId) throws OrderNotFoundException;
+    String isAbleForPayment(Integer orderId) throws OrderNotFoundException, ItemNotFoundException;
 
-    String readyToPay(Float totalPrice) throws OrderNotFoundException, ProductNotFoundException;
+    String readyToPay(Float totalPrice) throws OrderNotFoundException;
 
     String receiveURL(String url);
 

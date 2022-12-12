@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.ufr27.miage.service;
 
 import fr.pantheonsorbonne.ufr27.miage.camel.PaymentGateway;
 import fr.pantheonsorbonne.ufr27.miage.dao.OrderDAO;
+import fr.pantheonsorbonne.ufr27.miage.exception.ItemNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.model.Order;
 import org.apache.camel.Handler;
@@ -14,13 +15,11 @@ public class PaymentServiceImpl implements PaymentService{
 
     @Inject
     OrderDAO orderDao;
-    @Inject
-    PaymentGateway paymentGateway;
 
     String url;
 
     @Override
-    public String isAbleForPayment(Integer orderId) throws OrderNotFoundException {
+    public String isAbleForPayment(Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
         Order o = orderDao.findSingleOrder(orderId);
         if (o.getOrderPrice() > 0){
             return readyToPay(o.getOrderPrice());

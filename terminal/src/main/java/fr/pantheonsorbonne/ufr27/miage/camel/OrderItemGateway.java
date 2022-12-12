@@ -28,7 +28,7 @@ public class OrderItemGateway {
 
         ModelMapper modelMapper = new ModelMapper();
 
-        return new OrderItemDTOContainer(orderItemService.getOrderItemList().stream().map(p->new OrderItemDTO(p.getItemPrice(),""+p.getId(),p.getItemName())).collect(Collectors.toList()));
+        return new OrderItemDTOContainer(orderItemService.getOrderItemList().stream().map(p->new OrderItemDTO(p.getItemPrice(),p.getId(),p.getItemName())).collect(Collectors.toList()));
 
 
     }

@@ -38,14 +38,14 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     @Transactional
-    public Integer createOrder(Integer itemId) throws ItemNotFoundException {
+    public Order createOrder(Integer itemId) throws ItemNotFoundException {
         try {
             List<OrderItem> orderItemList = new ArrayList<>();
             orderItemList.add(orderItemDAO.findSingleItem(itemId));
             Employee employee = new Employee();
             float floatvalue = orderItemDAO.findSingleItem(itemId).getItemPrice();
             employee.setId(1);
-            Order o = new Order(UUID.randomUUID().hashCode(), orderItemList, LocalDate.now(), floatvalue, null, employee);
+            Order o = new Order(orderItemList, new Date(), floatvalue, null, employee);
             em.persist(o);
             return o;
         }catch (NoResultException e){
@@ -55,7 +55,7 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     @Transactional
-    public Integer addItemOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
+    public Order addItemOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
         try {
             Order o = findSingleOrder(orderId);
             OrderItem orderItem = orderItemDAO.findSingleItem(itemId);
@@ -85,7 +85,7 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     @Transactional
-    public Integer deleteItemOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
+    public Order deleteItemOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
         try {
             Order o = findSingleOrder(orderId);
             OrderItem orderItem = orderItemDAO.findSingleItem(itemId);

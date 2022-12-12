@@ -35,15 +35,11 @@ public class TerminalRoutes extends RouteBuilder {
 
         from("jms:queue:" + jmsPrefix + "/register?exchangePattern=InOut")
                 .unmarshal().json()
-                .log("## ${in.body}")
                 .bean(orderItemGateway, "getItems")
-
-                .log("### ${in.body}")
                 .marshal().json();
 
 
         from("jms:queue:" + jmsPrefix + "/newOrder?exchangePattern=InOut")
-                .log("first log")
                 .bean(orderGateway, "createOrder")
                 .marshal().json();
 

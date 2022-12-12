@@ -15,7 +15,7 @@ public class ProductServiceImpl implements ProductService {
     @Inject
     ProductGateway productGateway;
 
-    private Collection<OrderItemDTO> res;
+    private Collection<OrderItemDTO> productDTOS;
 
 
     public void askAllProduct() {
@@ -28,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Handler
     public void receiveAllProduct(OrderItemDTOContainer productDTOContainer) {
-        this.res=productDTOContainer.getContainer();
+        this.productDTOS=productDTOContainer.getContainer();
     }
 
     @Override

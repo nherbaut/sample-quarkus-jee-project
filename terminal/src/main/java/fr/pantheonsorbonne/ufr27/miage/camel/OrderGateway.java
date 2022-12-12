@@ -35,12 +35,12 @@ public class OrderGateway {
     }
 
     @Handler
-    public Integer addItemToOrder(List<Integer> messageBody) throws OrderNotFoundException, ItemNotFoundException {
+    public OrderDTO addItemToOrder(List<Integer> messageBody) throws OrderNotFoundException, ItemNotFoundException {
         return orderService.addItemToOrder(messageBody.get(1),messageBody.get(0));
     }
 
     @Handler
-    public Integer deleteItemOrder(List<Integer> messageBody) throws OrderNotFoundException, ItemNotFoundException {
+    public OrderDTO deleteItemOrder(List<Integer> messageBody) throws OrderNotFoundException, ItemNotFoundException {
         return orderService.deleteItemOrder(messageBody.get(1),messageBody.get(0));
     }
 
