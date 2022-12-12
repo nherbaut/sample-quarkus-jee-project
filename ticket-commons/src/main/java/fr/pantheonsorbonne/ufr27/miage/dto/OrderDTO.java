@@ -29,7 +29,7 @@ public class OrderDTO {
         this.productDTO = productDTO;
     }
 
-    public OrderDTO(){};
+    Collection<OrderItemDTO> productDTO;
 
     public Date getLocalDate() {
         return localDate;
@@ -71,11 +71,11 @@ public class OrderDTO {
         this.orderId = orderId;
     }
 
-    public Collection<ProductDTO> getProductDTO() {
+    public Collection<OrderItemDTO> getProductDTO() {
         return productDTO;
     }
 
-    public void setProductDTO(Collection<ProductDTO> productDTO) {
+    public void setProductDTO(Collection<OrderItemDTO> productDTO) {
         this.productDTO = productDTO;
     }
 

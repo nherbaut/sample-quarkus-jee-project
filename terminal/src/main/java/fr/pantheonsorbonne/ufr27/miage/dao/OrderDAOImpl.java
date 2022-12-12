@@ -2,10 +2,11 @@ package fr.pantheonsorbonne.ufr27.miage.dao;
 
 
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
-import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.exception.ItemNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.model.Employee;
 import fr.pantheonsorbonne.ufr27.miage.model.Order;
-import fr.pantheonsorbonne.ufr27.miage.model.Product;
+import fr.pantheonsorbonne.ufr27.miage.model.OrderItem;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -23,7 +24,7 @@ public class OrderDAOImpl implements OrderDAO{
     EntityManager em;
 
     @Inject
-    ProductDAO productDAO;
+    OrderItemDAO orderItemDAO;
 
     @Override
     @Transactional
@@ -37,35 +38,35 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     @Transactional
-    public Order createOrder(Integer productId) throws ProductNotFoundException {
+    public Integer createOrder(Integer itemId) throws ItemNotFoundException {
         try {
-            List<Product> productList = new ArrayList<>();
-            productList.add(productDAO.findSingleProduct(productId));
+            List<OrderItem> orderItemList = new ArrayList<>();
+            orderItemList.add(orderItemDAO.findSingleItem(itemId));
             Employee employee = new Employee();
-            float floatvalue = productDAO.findSingleProduct(productId).getProductPrice();
+            float floatvalue = orderItemDAO.findSingleItem(itemId).getItemPrice();
             employee.setId(1);
-            Order o = new Order(productList, new Date(), floatvalue, null, employee);
+            Order o = new Order(UUID.randomUUID().hashCode(), orderItemList, LocalDate.now(), floatvalue, null, employee);
             em.persist(o);
             return o;
         }catch (NoResultException e){
-            throw new ProductNotFoundException(productId);
+            throw new ItemNotFoundException(itemId);
         }
     }
 
     @Override
     @Transactional
-    public Order addProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
+    public Integer addItemOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
         try {
             Order o = findSingleOrder(orderId);
-            Product product = productDAO.findSingleProduct(productId);
-            List<Product> productList = o.getProducts();
-            productList.add(product);
-            o.setProducts(productList);
-            o.setOrderPrice(o.getOrderPrice() + product.getProductPrice());
+            OrderItem orderItem = orderItemDAO.findSingleItem(itemId);
+            List<OrderItem> orderItemList = o.getOrderContent();
+            orderItemList.add(orderItem);
+            o.setOrderContent(orderItemList);
+            o.setOrderPrice(o.getOrderPrice() + orderItem.getItemPrice());
             em.persist(o);
             return o;
         }catch (NoResultException e){
-            throw new ProductNotFoundException(productId);
+            throw new ItemNotFoundException(itemId);
         }
     }
 
@@ -84,18 +85,18 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     @Transactional
-    public Order deleteProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
+    public Integer deleteItemOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
         try {
             Order o = findSingleOrder(orderId);
-            Product product = productDAO.findSingleProduct(productId);
-            List<Product> productList = o.getProducts();
-            productList.remove(product);
-            o.setProducts(productList);
-            o.setOrderPrice(o.getOrderPrice() - product.getProductPrice());
+            OrderItem orderItem = orderItemDAO.findSingleItem(itemId);
+            List<OrderItem> orderItemList = o.getOrderContent();
+            orderItemList.remove(orderItem);
+            o.setOrderContent(orderItemList);
+            o.setOrderPrice(o.getOrderPrice() - orderItem.getItemPrice());
             em.persist(o);
             return o;
         }catch (NoResultException e){
-            throw new ProductNotFoundException(productId);
+            throw new ItemNotFoundException(itemId);
         }
     }
 

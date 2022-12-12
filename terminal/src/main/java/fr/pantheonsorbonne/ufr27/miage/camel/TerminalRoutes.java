@@ -20,7 +20,7 @@ public class TerminalRoutes extends RouteBuilder {
     CamelContext camelContext;
 
     @Inject
-    ProductGateway productGateway;
+    OrderItemGateway orderItemGateway;
 
     @Inject
     OrderGateway orderGateway;
@@ -36,7 +36,7 @@ public class TerminalRoutes extends RouteBuilder {
         from("jms:queue:" + jmsPrefix + "/register?exchangePattern=InOut")
                 .unmarshal().json()
                 .log("## ${in.body}")
-                .bean(productGateway, "getProducts")
+                .bean(orderItemGateway, "getItems")
 
                 .log("### ${in.body}")
                 .marshal().json();
@@ -49,7 +49,7 @@ public class TerminalRoutes extends RouteBuilder {
 
         from("jms:queue:" + jmsPrefix + "/addProductInOrder?exchangePattern=InOut")
                 .unmarshal().json()
-                .bean(orderGateway,"addProductOrder")
+                .bean(orderGateway,"addItemToOrder")
                 .marshal().json();
 
         from("jms:queue:" + jmsPrefix + "/totalPrice?exchangePattern=InOut")
@@ -58,7 +58,7 @@ public class TerminalRoutes extends RouteBuilder {
 
         from("jms:queue:" + jmsPrefix + "/deleteProductFromOrder?exchangePattern=InOut")
                 .unmarshal().json()
-                .bean(orderGateway,"deleteProductOrder")
+                .bean(orderGateway,"deleteItemOrder")
                 .marshal().json();
 
         from("jms:queue:" + jmsPrefix + "/deleteOrder?exchangePattern=InOut")

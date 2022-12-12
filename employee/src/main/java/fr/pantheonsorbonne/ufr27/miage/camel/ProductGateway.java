@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTOContainer;
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderItemDTOContainer;
 import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
 import fr.pantheonsorbonne.ufr27.miage.service.ProductService;
 import org.apache.camel.CamelContext;
@@ -35,7 +35,7 @@ public class ProductGateway {
         //envoyer dans une route le message au terminal pour lui dire qu'on veut la liste des products
     }
 
-    public void receiveAllProduct(ProductDTOContainer productDTOContainer){
+    public void receiveAllProduct(OrderItemDTOContainer productDTOContainer){
         productService.receiveAllProduct(productDTOContainer);
     }
 }

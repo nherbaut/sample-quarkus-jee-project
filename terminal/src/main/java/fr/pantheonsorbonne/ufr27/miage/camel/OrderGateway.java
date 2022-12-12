@@ -2,7 +2,7 @@ package fr.pantheonsorbonne.ufr27.miage.camel;
 
 import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
-import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.exception.ItemNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Handler;
@@ -24,26 +24,28 @@ public class OrderGateway {
     OrderService orderService;
 
     @Handler
-    public OrderDTO createOrder(Integer message) throws ProductNotFoundException {
+
+    public OrderDTO createOrder(Integer message) throws ItemNotFoundException {
         return  orderService.createOrder(message);
     }
 
     @Handler
-    public OrderDTO addProductOrder(List<Integer> messageBody) throws OrderNotFoundException, ProductNotFoundException {
-        return orderService.addProductOrder(messageBody.get(1),messageBody.get(0));
-    }
-    @Handler
-    public Float getTotalPrice(Integer message) throws OrderNotFoundException, ProductNotFoundException {
-        return orderService.getTotalPrice(message);
-    }
-
-    @Handler
-    public void deleteOrder(Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
+    public void deleteOrder(Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
         orderService.deleteOrder(orderId);
     }
 
     @Handler
-    public OrderDTO deleteProductOrder(List<Integer> messageBody) throws OrderNotFoundException, ProductNotFoundException {
-        return orderService.deleteProductOrder(messageBody.get(1),messageBody.get(0));
+    public Integer addItemToOrder(List<Integer> messageBody) throws OrderNotFoundException, ItemNotFoundException {
+        return orderService.addItemToOrder(messageBody.get(1),messageBody.get(0));
+    }
+
+    @Handler
+    public Integer deleteItemOrder(List<Integer> messageBody) throws OrderNotFoundException, ItemNotFoundException {
+        return orderService.deleteItemOrder(messageBody.get(1),messageBody.get(0));
+    }
+
+    @Handler
+    public Float getTotalPrice(Integer message) throws OrderNotFoundException, ItemNotFoundException {
+        return orderService.getTotalPrice(message);
     }
 }

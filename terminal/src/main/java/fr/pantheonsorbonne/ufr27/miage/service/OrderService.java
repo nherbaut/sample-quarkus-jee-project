@@ -2,18 +2,18 @@ package fr.pantheonsorbonne.ufr27.miage.service;
 
 import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
-import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.exception.ItemNotFoundException;
 
 public interface OrderService {
 
-    OrderDTO createOrder(Integer productId) throws ProductNotFoundException;
+    Integer createOrder(Integer itemId) throws ItemNotFoundException;
 
-    OrderDTO addProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
+    void deleteOrder(Integer orderId) throws OrderNotFoundException, ItemNotFoundException;
 
-    Float getTotalPrice(Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
-    
-    void deleteOrder(Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
+    Integer addItemToOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException;
 
-    OrderDTO deleteProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
+    Integer deleteItemOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException;
+
+    Float getTotalPrice(Integer orderId) throws OrderNotFoundException, ItemNotFoundException;
 
 }

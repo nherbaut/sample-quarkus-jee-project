@@ -1,20 +1,19 @@
 package fr.pantheonsorbonne.ufr27.miage.dao;
-
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
-import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.exception.ItemNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.model.Order;
 
 public interface OrderDAO {
 
-    Order createOrder(Integer productId) throws ProductNotFoundException;
+    Integer createOrder(Integer itemId) throws ItemNotFoundException;
 
-    Order addProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
+    void deleteOrder(Integer orderId) throws OrderNotFoundException, ItemNotFoundException;
 
-    Order findSingleOrder(Integer orderId) throws OrderNotFoundException;
+    Integer addItemOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException;
 
-    Float getTotalPrice(Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
+    Order findSingleOrder(Integer orderId) throws OrderNotFoundException, ItemNotFoundException;
 
-    void deleteOrder(Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
+    Float getTotalPrice(Integer orderId) throws OrderNotFoundException, ItemNotFoundException;
 
-    Order deleteProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException;
+    Integer deleteItemOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException;
 }

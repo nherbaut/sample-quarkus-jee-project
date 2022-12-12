@@ -1,13 +1,11 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
 import fr.pantheonsorbonne.ufr27.miage.dao.OrderDAO;
-import fr.pantheonsorbonne.ufr27.miage.dao.ProductDAO;
-import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTO;
+import fr.pantheonsorbonne.ufr27.miage.dao.OrderItemDAO;
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
-import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
-import fr.pantheonsorbonne.ufr27.miage.model.Order;
-import fr.pantheonsorbonne.ufr27.miage.model.Product;
+import fr.pantheonsorbonne.ufr27.miage.exception.ItemNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.model.OrderItem;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -17,48 +15,37 @@ import java.util.Collection;
 public class OrderServiceImpl implements OrderService {
 
     @Inject
-    ProductDAO productDAO;
+    OrderItemDAO orderItemDAO;
 
     @Inject
     OrderDAO orderDAO;
 
-    private OrderDTO convertOrderToOrderDTO(Order o){
-        Collection<ProductDTO> pp = new ArrayList<>();
-        for (Product p : o.getProducts()){
-            pp.add(new ProductDTO(p.getProductPrice(), p.getId(), p.getProductType()));
-        }
-        // TODO mettre une condition pour vérifier si le client s'est connecté pour mettre son clientId dans l'orderDTO
-        return  new OrderDTO(o.getId(), o.getOrderDate(), o.getOrderPrice(), o.getEmployee().getId(), null, o.getOrderPrice(), pp);
-    }
-
-    public Collection<Product> getProductList() {
-        Collection<Product> products = productDAO.findAllProduct();
-        return products;
+    public Collection<OrderItem> getOrderItemList() { //Ici c'est les articles du DTO
+        Collection<OrderItem> orderItems = orderItemDAO.findAllItems();
+        System.out.println("Liste Des Articles : "+ orderItems);
+        return orderItems;
     }
 
     @Override
-    public OrderDTO createOrder(Integer productId) throws ProductNotFoundException {
-        Order o = orderDAO.createOrder(productId);
-        return convertOrderToOrderDTO(o);
+    public Integer createOrder(Integer itemId) throws ItemNotFoundException {
+        return  orderDAO.createOrder(itemId);
     }
 
     @Override
-    public OrderDTO addProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
-        Order o = orderDAO.addProductOrder(productId, orderId);
-        return convertOrderToOrderDTO(o);
+    public Integer addItemToOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
+        return orderDAO.addItemOrder(itemId,orderId);
     }
 
     @Override
-    public OrderDTO deleteProductOrder(Integer productId, Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
-        Order o = orderDAO.deleteProductOrder(productId,orderId);
-        return convertOrderToOrderDTO(o);
+    public Integer deleteItemOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
+        return orderDAO.deleteItemOrder(itemId,orderId);
     }
     @Override
-    public Float getTotalPrice(Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
+    public Float getTotalPrice(Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
         return orderDAO.getTotalPrice(orderId);
     }
 
-    public void deleteOrder(Integer orderId) throws OrderNotFoundException, ProductNotFoundException {
+    public void deleteOrder(Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
         orderDAO.deleteOrder(orderId);
     }
 }

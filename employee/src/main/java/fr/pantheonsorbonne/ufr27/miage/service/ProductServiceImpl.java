@@ -1,8 +1,8 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
 import fr.pantheonsorbonne.ufr27.miage.camel.ProductGateway;
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTO;
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTOContainer;
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderItemDTO;
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderItemDTOContainer;
 import org.apache.camel.Handler;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -15,7 +15,8 @@ public class ProductServiceImpl implements ProductService {
     @Inject
     ProductGateway productGateway;
 
-    private Collection<ProductDTO> productDTOS;
+    private Collection<OrderItemDTO> res;
+
 
     public void askAllProduct() {
         //On va dire au ProductGateway que l'on souhaite récupérer la liste de tous les produits
@@ -26,12 +27,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Handler
-    public void receiveAllProduct(ProductDTOContainer productDTOContainer) {
-        this.productDTOS =productDTOContainer.getContainer();
+    public void receiveAllProduct(OrderItemDTOContainer productDTOContainer) {
+        this.res=productDTOContainer.getContainer();
     }
 
     @Override
-    public Collection<ProductDTO> getAllProduct() {
+    public Collection<OrderItemDTO> getAllProduct() {
         this.askAllProduct();
         while(this.productDTOS ==null){
             try {
