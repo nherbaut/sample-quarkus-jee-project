@@ -15,18 +15,12 @@ public class Order {
 
     @ManyToMany
     @JoinTable(
-            name="productOrder",
+            name="orderContent",
             joinColumns=@JoinColumn(name= "Order_ID", referencedColumnName="order_id"),
-            inverseJoinColumns=@JoinColumn(name= "Product_ID", referencedColumnName="product_id"))
-    private List<Product> orderContent = new ArrayList<>();
+            inverseJoinColumns=@JoinColumn(name= "Item_ID", referencedColumnName="item_id"))
+    private List<OrderItem> orderContent = new ArrayList<>();
 
 
-    @ManyToMany
-    @JoinTable(
-            name="menuOrder",
-            joinColumns=@JoinColumn(name= "Order_ID", referencedColumnName="order_id"),
-            inverseJoinColumns=@JoinColumn(name= "Menu_ID", referencedColumnName="menu_id"))
-    private List<Menu> orderMenus = new ArrayList<>();
     @NotNull
     @Column(name = "order_date", nullable = false)
     private LocalDate orderDate;
@@ -46,14 +40,6 @@ public class Order {
 
     public Order() {
 
-    }
-
-    public List<Menu> getOrderMenus() {
-        return orderMenus;
-    }
-
-    public void setOrderMenus(List<Menu> orderMenus) {
-        this.orderMenus = orderMenus;
     }
 
     public Integer getId() {
@@ -96,15 +82,15 @@ public class Order {
         this.employee = employee;
     }
 
-    public List<Product> getProducts() {
+    public List<OrderItem> getOrderContent() {
         return orderContent;
     }
 
-    public void setProducts(List<Product> products) {
-        this.orderContent = products;
+    public void setOrderContent(List<OrderItem> OrderItems) {
+        this.orderContent = OrderItems;
     }
 
-    public Order(Integer id, List<Product> orderContent, LocalDate orderDate, Float orderPrice, Client client, Employee employee) {
+    public Order(Integer id, List<OrderItem> orderContent, LocalDate orderDate, Float orderPrice, Client client, Employee employee) {
         this.id = id;
         this.orderContent = orderContent;
         this.orderDate = orderDate;

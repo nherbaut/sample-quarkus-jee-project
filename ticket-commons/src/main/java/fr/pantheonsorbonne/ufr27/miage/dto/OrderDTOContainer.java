@@ -7,7 +7,7 @@ public class OrderDTOContainer {
 
     String orderId;
 
-    Collection<ProductDTO> productDTO;
+    Collection<OrderItemDTO> orderItemDTO;
 
     Float TotalPrice;
 
@@ -23,12 +23,12 @@ public class OrderDTOContainer {
         this.orderId = orderId;
     }
 
-    public Collection<ProductDTO> getProductDTO() {
-        return productDTO;
+    public Collection<OrderItemDTO> getOrderItemDTO() {
+        return orderItemDTO;
     }
 
-    public void setProductDTO(Collection<ProductDTO> productDTO) {
-        this.productDTO = productDTO;
+    public void setOrderItemDTO(Collection<OrderItemDTO> orderItemDTO) {
+        this.orderItemDTO = orderItemDTO;
     }
 
     public double getTotalPrice() {
@@ -55,7 +55,7 @@ public class OrderDTOContainer {
     public String toString() {
         return "OrderDTOContainer{" +
                 "orderId='" + orderId + '\'' +
-                ", productDTO=" + productDTO +
+                ", orderItemDTO=" + orderItemDTO +
                 ", TotalPrice=" + TotalPrice +
                 ", localDate=" + localDate +
                 ", totalPrice=" + totalPrice +

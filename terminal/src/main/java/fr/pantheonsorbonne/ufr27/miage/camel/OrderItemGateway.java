@@ -1,8 +1,8 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTO;
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTOContainer;
-import fr.pantheonsorbonne.ufr27.miage.service.ProductService;
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderItemDTO;
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderItemDTOContainer;
+import fr.pantheonsorbonne.ufr27.miage.service.OrderItemService;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Handler;
 import org.modelmapper.ModelMapper;
@@ -12,7 +12,7 @@ import javax.jms.ConnectionFactory;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-public class ProductGateway {
+public class OrderItemGateway {
 
     @Inject
     CamelContext context;
@@ -21,14 +21,14 @@ public class ProductGateway {
     ConnectionFactory connectionFactory;
 
     @Inject
-    ProductService productService;
+    OrderItemService orderItemService;
 
     @Handler
-    ProductDTOContainer getProducts(String msg){
+    OrderItemDTOContainer getItems(String msg){
 
         ModelMapper modelMapper = new ModelMapper();
 
-        return new ProductDTOContainer(productService.getProductList().stream().map(p->new ProductDTO(p.getProductPrice(),""+p.getId(),p.getProductName())).collect(Collectors.toList()));
+        return new OrderItemDTOContainer(orderItemService.getOrderItemList().stream().map(p->new OrderItemDTO(p.getItemPrice(),""+p.getId(),p.getItemName())).collect(Collectors.toList()));
 
 
     }

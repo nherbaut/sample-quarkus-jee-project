@@ -24,7 +24,7 @@ public class OrderDTO {
         this.totalPrice = totalPrice;
     }
 
-    Collection<ProductDTO> productDTO;
+    Collection<OrderItemDTO> productDTO;
 
     public LocalDate getLocalDate() {
         return localDate;
@@ -68,11 +68,11 @@ public class OrderDTO {
         this.orderId = orderId;
     }
 
-    public Collection<ProductDTO> getProductDTO() {
+    public Collection<OrderItemDTO> getProductDTO() {
         return productDTO;
     }
 
-    public void setProductDTO(Collection<ProductDTO> productDTO) {
+    public void setProductDTO(Collection<OrderItemDTO> productDTO) {
         this.productDTO = productDTO;
     }
 

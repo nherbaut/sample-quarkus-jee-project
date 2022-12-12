@@ -1,8 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTO;
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTOContainer;
-import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderItemDTOContainer;
 import fr.pantheonsorbonne.ufr27.miage.service.ProductService;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
@@ -38,7 +36,7 @@ public class EmployeeRoutes extends RouteBuilder {
                 .marshal().json()
                 .log("${in.body}")
                 .to("jms:queue:" + jmsPrefix + "/register?exchangePattern=InOut")
-                .unmarshal().json(ProductDTOContainer.class)
+                .unmarshal().json(OrderItemDTOContainer.class)
                 .bean(productGateway, "receiveAllProduct");
 
 

@@ -1,5 +1,7 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
+import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.exception.ItemNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Handler;
@@ -22,27 +24,28 @@ public class OrderGateway {
 
 
     @Handler
-    public Integer createOrder(Integer message){
+    public Integer createOrder(Integer message) throws ItemNotFoundException {
         return  orderService.createOrder(message);
     }
 
     @Handler
-    public Integer addProductOrder(List<Integer> messageBody){
-        return orderService.addProductOrder(messageBody.get(1),messageBody.get(0));
-    }
-    @Handler
-    public Float getTotalPrice(Integer message){
-        return orderService.getTotalPrice(message);
-    }
-
-    @Handler
-    public void deleteOrder(Integer orderId){
+    public void deleteOrder(Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
         orderService.deleteOrder(orderId);
     }
 
     @Handler
-    public Integer deleteProductOrder(List<Integer> messageBody) {
-        return orderService.deleteProductOrder(messageBody.get(1),messageBody.get(0));
+    public Integer addItemToOrder(List<Integer> messageBody) throws OrderNotFoundException, ItemNotFoundException {
+        return orderService.addItemToOrder(messageBody.get(1),messageBody.get(0));
+    }
+
+    @Handler
+    public Integer deleteItemOrder(List<Integer> messageBody) throws OrderNotFoundException, ItemNotFoundException {
+        return orderService.deleteItemOrder(messageBody.get(1),messageBody.get(0));
+    }
+
+    @Handler
+    public Float getTotalPrice(Integer message) throws OrderNotFoundException, ItemNotFoundException {
+        return orderService.getTotalPrice(message);
     }
 
 
