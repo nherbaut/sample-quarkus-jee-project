@@ -9,7 +9,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 @ApplicationScoped
-public class CamelRoutes extends RouteBuilder {
+public class BankRoutes extends RouteBuilder {
 
 
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.jmsPrefix")
@@ -26,9 +26,8 @@ public class CamelRoutes extends RouteBuilder {
 
         camelContext.setTracing(true);
 
-        from("jms:queue:" + jmsPrefix + "/cardPayment?exchangePattern=InOut")
-                .unmarshal().json()
-                .bean(paymentGateway, "redirectURL")
-                .marshal().json();
+        from("jms:queue:" + jmsPrefix + "/readyToPay?exchangePattern=InOut")
+                //.unmarshal().json()
+                .bean(paymentGateway, "redirectURL");
     }
 }

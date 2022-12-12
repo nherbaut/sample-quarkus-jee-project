@@ -75,10 +75,10 @@ public class OrderResource {
     }
 
     @Path("{orderId}/payment/card")
-    @Produces(MediaType.APPLICATION_JSON)
+    //@Produces(MediaType.APPLICATION_JSON)
     @POST
-    public Response payment(@PathParam("orderId") Integer orderId, String url) throws OrderNotFoundException{
-        return Response.temporaryRedirect(URI.create(paymentService.getURL(url, orderId))).build();
+    public Response payment(@PathParam("orderId") Integer orderId) throws OrderNotFoundException{
+        return Response.temporaryRedirect(URI.create(paymentService.payByCard(orderId))).build();
     }
 
 }

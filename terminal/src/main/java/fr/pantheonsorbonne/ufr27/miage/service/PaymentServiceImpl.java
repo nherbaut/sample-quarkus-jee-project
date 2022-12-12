@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.ufr27.miage.service;
 import fr.pantheonsorbonne.ufr27.miage.camel.PaymentGateway;
 import fr.pantheonsorbonne.ufr27.miage.dao.OrderDAO;
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.model.Order;
 import org.apache.camel.Handler;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -19,19 +20,28 @@ public class PaymentServiceImpl implements PaymentService{
     String url;
 
     @Override
-    public void askPayByCard(Float totalPrice) throws OrderNotFoundException {
-        paymentGateway.askPayByCard(totalPrice);
+    public String isAbleForPayment(Integer orderId) throws OrderNotFoundException {
+        Order o = orderDao.findSingleOrder(orderId);
+        if (o.getOrderPrice() > 0){
+            return readyToPay(o.getOrderPrice());
+            //init payment
+            //send msg to bank to tell her we want to pay
+        } else {
+            //throw exception total <= 0
+            throw new OrderNotFoundException(orderId);
+        }
     }
 
     @Override
-    public Float cardPayment(Integer orderId) throws OrderNotFoundException {
-        this.askPayByCard(orderDao.findSingleOrder(orderId).getOrderPrice());
-        return orderDao.findSingleOrder(orderId).getOrderPrice();
+    public String readyToPay(Float totalPrice) throws OrderNotFoundException {
+        this.url = null;
+        return "ok "+totalPrice;
     }
 
     @Override
     @Handler
-    public void receiveURL(String url) {
+    public String receiveURL(String url) {
         this.url = url;
+        return this.url;
     }
 }

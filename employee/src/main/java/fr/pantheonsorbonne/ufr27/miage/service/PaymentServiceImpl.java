@@ -16,9 +16,17 @@ public class PaymentServiceImpl implements PaymentService{
     String url;
 
     @Override
-    public boolean payByCard(Integer orderId) {
+    public String payByCard(Integer orderId) {
         this.askPayByCard(orderId);
-        return true;
+        while (this.url == null) {
+            try {
+                Thread.sleep(100);
+            } catch (NoResultException | InterruptedException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+        return url;
     }
 
     @Override
@@ -30,25 +38,6 @@ public class PaymentServiceImpl implements PaymentService{
     @Handler
     public void receiveURL(String url) {
         this.url = url;
-    }
-
-
-    @Override
-    public String getURL(String url, Integer orderId) {
-        try {
-            this.payByCard(orderId);
-            while (this.url == null) {
-                try {
-                    Thread.sleep(100);
-                } catch (NoResultException e) {
-                    e.printStackTrace();
-                    System.exit(-1);
-                }
-            }
-            return url;
-        }catch (NoResultException | InterruptedException e){
-            throw new NoResultException();
-        }
     }
 
 }

@@ -7,10 +7,10 @@ import javax.enterprise.context.ApplicationScoped;
 
 public interface PaymentService {
 
-    void askPayByCard(Float totalPrice) throws OrderNotFoundException, ProductNotFoundException;
+    String isAbleForPayment(Integer orderId) throws OrderNotFoundException;
 
-    Float cardPayment(Integer orderId) throws OrderNotFoundException;
+    String readyToPay(Float totalPrice) throws OrderNotFoundException, ProductNotFoundException;
 
-    void receiveURL(String url);
+    String receiveURL(String url);
 
 }

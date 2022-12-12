@@ -20,8 +20,8 @@ public class PaymentGateway {
     @Inject
     CamelContext context;
 
-    public String redirectURL(String url) {
-        return paymentService.redirectPage(url);
+    public String redirectURL() {
+        return paymentService.redirectPage();
     }
 
 
