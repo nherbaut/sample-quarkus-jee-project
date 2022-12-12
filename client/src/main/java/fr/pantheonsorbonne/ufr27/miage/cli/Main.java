@@ -28,16 +28,31 @@ public class Main implements Runnable {
 
         client.displayProducts();
         //Ajout du premier produit pour création de la commande
-        client.askForProductToAddFirst();
+        client.askForProductID();
         clientRes = client.getCustomerResponse();
-        System.out.println(clientRes);
         client.createOrder(clientRes);
 
         do {
             client.displayProducts();
             //askForAction -- add, delete, end
+            client.askForAction();
             clientRes = client.getCustomerResponse();
+            if (clientRes.equals("add")) {
+                client.askForProductID();
+                clientRes = client.getCustomerResponse();
+                client.addProduct(clientRes);
+            } else if (clientRes.equals("delete")) {
+                client.askForProductID();
+                clientRes = client.getCustomerResponse();
+                client.deleteProduct(clientRes);
+            } else if (clientRes.equals("abandon")) {
+                client.deleteOrder();
+            } else {
+                //don't understand the res
+            }
         } while (!clientRes.equals("end"));
+
+        //Initier le paiement
 
     }
 
