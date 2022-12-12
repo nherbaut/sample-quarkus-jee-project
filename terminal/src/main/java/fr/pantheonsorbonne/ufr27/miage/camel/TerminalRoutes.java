@@ -43,6 +43,7 @@ public class TerminalRoutes extends RouteBuilder {
 
 
         from("jms:queue:" + jmsPrefix + "/newOrder?exchangePattern=InOut")
+                .log("first log")
                 .bean(orderGateway, "createOrder")
                 .marshal().json();
 
@@ -66,7 +67,19 @@ public class TerminalRoutes extends RouteBuilder {
 
         from("jms:queue:" + jmsPrefix + "/payByCard?exchangePattern=InOut")
                 .unmarshal().json()
-                .bean(paymentGateway,"askPayByCard").marshal().json();
+                .bean(paymentGateway, "receivePrice")
+                .marshal().json();
+
+
+        from("direct:sendPrice")
+                .setHeader("sendPrice", constant("sendPrice"))
+                .marshal().json()
+                .log("### ${in.body}")
+                .to("jms:queue:" + jmsPrefix + "/cardPayment?exchangePattern=InOut")
+                .bean(paymentGateway, "receiveURL");
+
+
+
 
 
 

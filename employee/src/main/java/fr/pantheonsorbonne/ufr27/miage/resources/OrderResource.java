@@ -4,6 +4,9 @@ package fr.pantheonsorbonne.ufr27.miage.resources;
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.ProductNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
+import fr.pantheonsorbonne.ufr27.miage.service.PaymentService;
+import org.hibernate.criterion.Order;
+
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -15,6 +18,9 @@ public class OrderResource {
     
     @Inject
     OrderService orderService;
+
+    @Inject
+    PaymentService paymentService;
 
     @Path("{productId}")
     @POST
@@ -67,4 +73,12 @@ public class OrderResource {
         //renvoyer le prix
         return Response.ok(orderService.getTotalPrice(orderId)).build();
     }
+
+    @Path("{orderId}/payment/card")
+    @Produces(MediaType.APPLICATION_JSON)
+    @POST
+    public Response payment(@PathParam("orderId") Integer orderId, String url) throws OrderNotFoundException{
+        return Response.temporaryRedirect(URI.create(paymentService.getURL(url, orderId))).build();
+    }
+
 }

@@ -1,8 +1,8 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTO;
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTOContainer;
-import fr.pantheonsorbonne.ufr27.miage.service.ProductService;
+
+import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.service.PaymentService;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Handler;
 import org.apache.camel.ProducerTemplate;
@@ -18,21 +18,32 @@ import java.util.stream.Collectors;
 public class PaymentGateway {
 
     @Inject
+    PaymentService paymentService;
+
+    @Inject
     CamelContext context;
 
     @Inject
     ConnectionFactory connectionFactory;
 
-    @Inject
-    ProductService productService;
-
-    public void askPayByCard(Float totalPrice){
-        try (ProducerTemplate producer = context.createProducerTemplate()){
-            producer.sendBody("direct:askByCard", "client is paying by card");
-        } catch (IOException e){
+    public void askPayByCard(Float totalPrice) {
+        try (ProducerTemplate producer = context.createProducerTemplate()) {
+            producer.sendBody("direct:sendPrice", totalPrice.toString());
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public void receivePrice(Integer orderId) throws OrderNotFoundException {
+        paymentService.cardPayment(orderId);
+    }
+
+    public void receiveURL(String url) {
+        paymentService.receiveURL(url);
+    }
+
+
+
 
 
 

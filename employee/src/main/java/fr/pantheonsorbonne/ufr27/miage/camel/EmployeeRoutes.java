@@ -22,6 +22,9 @@ public class EmployeeRoutes extends RouteBuilder {
     OrderGateway orderGateway;
 
     @Inject
+    PaymentGateway paymentGateway;
+
+    @Inject
     CamelContext camelContext;
 
     @Override
@@ -68,10 +71,12 @@ public class EmployeeRoutes extends RouteBuilder {
                 .marshal().json()
                 .to("jms:queue:" + jmsPrefix + "/deleteOrder?exchangePattern=InOut");
 
-        from("direct:askByCard")
-                .setHeader("askByCard", constant("askByCard"))
+        from("direct:payByCard")
+                .setHeader("payByCard", constant("payByCard"))
                 .marshal().json()
-                .to("jms:queue:" + jmsPrefix + "/askByCard?exchangePattern=InOut");
+                .to("jms:queue:" + jmsPrefix + "/payByCard?exchangePattern=InOut")
+                .log(" ### ${in.body}")
+                .bean(paymentGateway, "receiveURL");
 
 
     }
