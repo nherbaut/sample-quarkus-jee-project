@@ -26,6 +26,7 @@ public class OrderDAOImpl implements OrderDAO{
     ProductDAO productDAO;
 
     @Override
+    @Transactional
     public Order findSingleOrder(Integer orderId) throws OrderNotFoundException {
         try {
             return (Order) em.createQuery("Select o from Order o where o.id = :orderId ").setParameter("orderId", orderId).getSingleResult();

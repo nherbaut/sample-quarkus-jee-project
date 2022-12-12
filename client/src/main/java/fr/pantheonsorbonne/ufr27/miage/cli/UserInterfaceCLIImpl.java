@@ -1,17 +1,14 @@
 package fr.pantheonsorbonne.ufr27.miage.cli;
 
 
-import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
 import fr.pantheonsorbonne.ufr27.miage.resource.OrderResource;
 import fr.pantheonsorbonne.ufr27.miage.resource.ProductResource;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.List;
+import javax.ws.rs.core.Response;
 
 
 @ApplicationScoped
@@ -28,13 +25,14 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
     TextTerminal<?> terminal;
     TextIO textIO;
 
-    Integer orderId = 1;
+    Integer orderId;
 
     @Override
     public void askForLoggin() {
         terminal.println("Do you want to connect ? ");
     }
 
+    @Override
     public void displayProducts(){
         terminal.println("\n\nProducts = " + productResource.getAllProduct() + "\n");
     }
@@ -51,10 +49,9 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
 
     @Override
     public void createOrder(String productId) {
-       orderResource.createOrder(Integer.parseInt(productId));
-       terminal.println("success");
-       // TODO trouver un moyen pour récupérer le header et notamment l'id de l'order
-        // this.orderId = ...
+       Response res = orderResource.createOrder(Integer.parseInt(productId));
+       String orderId = res.getHeaderString("location").substring(res.getHeaderString("location").length()-1);
+       this.orderId = Integer.parseInt(orderId);
     }
 
     @Override
@@ -70,6 +67,7 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
     @Override
     public void deleteOrder() {
         orderResource.deleterOrder(String.valueOf(this.orderId));
+        this.orderId = null;
         terminal.println("Your order is deleted !");
     }
 
