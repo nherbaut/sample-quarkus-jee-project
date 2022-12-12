@@ -1,7 +1,7 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTO;
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTOContainer;
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderItemDTOContainer;
 import fr.pantheonsorbonne.ufr27.miage.service.ProductService;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
@@ -17,7 +17,13 @@ public class EmployeeRoutes extends RouteBuilder {
     String jmsPrefix;
 
     @Inject
-    ProductService productService;
+    ProductGateway productGateway;
+
+    @Inject
+    OrderGateway orderGateway;
+
+    @Inject
+    PaymentGateway paymentGateway;
 
     @Inject
     CamelContext camelContext;
@@ -31,9 +37,50 @@ public class EmployeeRoutes extends RouteBuilder {
                 .marshal().json()
                 .log("${in.body}")
                 .to("jms:queue:" + jmsPrefix + "/register?exchangePattern=InOut")
-                .unmarshal().json(ProductDTOContainer.class)
+                .unmarshal().json(OrderItemDTOContainer.class)
+                .bean(productGateway, "receiveAllProduct");
+
+        from("direct:newOrder")
+                .setHeader("newOrder", constant("newOrder"))
+                .to("jms:queue:" + jmsPrefix + "/newOrder?exchangePattern=InOut")
                 .log("${in.body}")
-                .bean(productService, "receiveAllProduct");
+                .unmarshal().json(OrderDTO.class)
+                .log("${in.body}")
+                .bean(orderGateway, "receiveOrder");
+
+        from(  "direct:addProductInOrder")
+                .setHeader("addProductOrder", constant("addProductOrder"))
+                .marshal().json()
+               .to("jms:queue:" + jmsPrefix + "/addProductInOrder?exchangePattern=InOut")
+                .unmarshal().json(OrderDTO.class)
+                .bean(orderGateway, "receiveOrder");
+
+        from("direct:getTotalPrice")
+                .setHeader("getTotalPrice",constant("totalPrice"))
+                .marshal().json()
+                .to("jms:queue:" + jmsPrefix + "/totalPrice?exchangePattern=InOut")
+                .unmarshal().json()
+                .bean(orderGateway,"recieveTotalPrice");
+
+        from(  "direct:deleteProductFromOrder")
+                .setHeader("deleteProductOrder", constant("deleteProductOrder"))
+                .marshal().json()
+                .to("jms:queue:" + jmsPrefix + "/deleteProductFromOrder?exchangePattern=InOut")
+                .unmarshal().json(OrderDTO.class)
+                .bean(orderGateway, "receiveOrder");
+
+        from("direct:deleteOrder")
+                .setHeader("deleteOrder", constant("deleteOrder"))
+                .marshal().json()
+                .to("jms:queue:" + jmsPrefix + "/deleteOrder?exchangePattern=InOut");
+
+        from("direct:payByCard")
+                .setHeader("payByCard", constant("payByCard"))
+                .marshal().json()
+                .to("jms:queue:" + jmsPrefix + "/payByCard?exchangePattern=InOut")
+                .log(" ### ${in.body}")
+                .bean(paymentGateway, "receiveURL");
+
     }
 
 }
