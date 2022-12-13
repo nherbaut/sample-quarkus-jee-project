@@ -1,26 +1,39 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
+import fr.pantheonsorbonne.ufr27.miage.dao.AccountDAO;
+import fr.pantheonsorbonne.ufr27.miage.exception.MaximumBonusPointsReachedException;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.security.auth.login.AccountNotFoundException;
+
+@ApplicationScoped
 public class AccountServiceImpl implements AccountService{
 
 
+    @Inject
+    AccountDAO accountDAO;
+
     @Override
-    public Integer getTotalPoints(Integer client_id) {
-        //retourne le nombre de points que le client possède sur son compte client
-        return null;
+    public Integer getTotalPoints(Integer client_id) throws AccountNotFoundException {
+        //trouve d'abord le compte client
+        //ensuite retourne le nombre de points que le client possède sur son compte client
+        return accountDAO.getTotalPoints(client_id);
     }
 
     @Override
-    public Integer addPointsToAccount(Integer account_id, Integer client_id) {
-        //rajoute des point après que le client ai effectué un achat
+    public void addPointsToAccount(Integer client_id) throws AccountNotFoundException {
+        //rajoute des points après que le client ai effectué un achat
         //il faut récuperer le total price et convertir chaque euro en 10 points
-        return null;
+        accountDAO.addPointsToAccount(client_id);
     }
 
     @Override
-    public Integer useBonusPoints(Integer account_id, Integer client_id) {
-        //dans le cas ou le client veut utiliser ses points lors de l'achat on doit décrémenter
-        //le nombre de points utilisés de son compte
-        return null;
+    public void useBonusPoints(Integer client_id) throws AccountNotFoundException {
+        //si le compte du client a atteint un total de 300 il doit avoir une réduction de 10% sur le prix
+        //et on initialise le nombre de points à 0
+        //sinon message d'erreur maximum de points non atteint pour être utiliser
+        accountDAO.useBonusPoints(client_id);
     }
 
 }

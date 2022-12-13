@@ -17,9 +17,26 @@ public class FidelityRoutes extends RouteBuilder {
     @Inject
     CamelContext camelContext;
 
+    @Inject
+    FidelityGateway fidelityGateway;
+
     @Override
     public void configure() throws Exception {
 
         camelContext.setTracing(true);
+
+        from("jms:queue:" + jmsPrefix + "/fidelityPointsFeat?exchangePattern=InOut")
+                .unmarshal().json()
+                .bean(fidelityGateway, "getTotalPoints")
+                .marshal().json();
+
+        from("jms:queue:" + jmsPrefix + "/addFidelityPointsFeat?exchangePattern=InOut")
+                .bean(fidelityGateway, "addPointsToAccount")
+                .marshal().json();
+
     }
+
+
+
+
 }

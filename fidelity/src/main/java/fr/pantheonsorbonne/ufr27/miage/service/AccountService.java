@@ -1,12 +1,16 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
+import fr.pantheonsorbonne.ufr27.miage.exception.AccountNotFoundException;
+
+
+
 public interface AccountService {
 
-    Integer getTotalPoints (Integer client_id);
+    Integer getTotalPoints (Integer client_id) throws AccountNotFoundException, javax.security.auth.login.AccountNotFoundException;
 
-    Integer addPointsToAccount (Integer account_id, Integer client_id);
+    void addPointsToAccount (Integer client_id) throws AccountNotFoundException, javax.security.auth.login.AccountNotFoundException;
 
-    Integer useBonusPoints (Integer account_id, Integer client_id);
+    void useBonusPoints (Integer client_id) throws AccountNotFoundException, javax.security.auth.login.AccountNotFoundException;
 
 
 }

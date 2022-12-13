@@ -67,6 +67,7 @@ public class TerminalRoutes extends RouteBuilder {
                 //.unmarshal().json()
                 .bean(paymentGateway, "receiveURL");
 
+
     }
 
 }
