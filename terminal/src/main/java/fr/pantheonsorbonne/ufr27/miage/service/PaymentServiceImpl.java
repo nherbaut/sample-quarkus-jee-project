@@ -32,7 +32,7 @@ public class PaymentServiceImpl implements PaymentService{
     }
 
     @Override
-    public String readyToPay(Float totalPrice) throws OrderNotFoundException {
+    public String readyToPay(Float totalPrice) {
         this.url = null;
         return "ok "+totalPrice;
     }
