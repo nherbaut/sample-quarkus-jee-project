@@ -31,6 +31,7 @@ public class PaymentServiceImpl implements PaymentService{
 
     @Override
     public void askPayByCard(Integer orderId) {
+        this.url = null;
         paymentGateway.askPayByCard(orderId);
     }
 

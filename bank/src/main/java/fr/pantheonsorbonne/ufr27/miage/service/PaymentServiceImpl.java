@@ -8,7 +8,7 @@ public class PaymentServiceImpl implements PaymentService{
     String url = "http://localhost:8082/payment";
 
     @Override
-    public String redirectPage() {
+    public String sendRedirectURL() {
         return this.url;
     }
 

@@ -64,9 +64,9 @@ public class TerminalRoutes extends RouteBuilder {
         from("jms:queue:" + jmsPrefix + "/payByCard?exchangePattern=InOut")
                 .unmarshal().json()
                 .bean(paymentGateway, "isAbleForPayment")
-                .marshal().json()
+                .marshal().json() // "ok {totalPrice}"
                 .to("jms:queue:" + jmsPrefix + "/readyToPay?exchangePattern=InOut")
-                .unmarshal().json()
+                //.unmarshal().json()
                 .bean(paymentGateway, "receiveURL");
 
     }
