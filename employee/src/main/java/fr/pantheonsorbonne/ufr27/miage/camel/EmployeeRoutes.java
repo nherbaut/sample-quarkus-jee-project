@@ -1,9 +1,7 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTO;
-import fr.pantheonsorbonne.ufr27.miage.dto.ProductDTOContainer;
-import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
-import fr.pantheonsorbonne.ufr27.miage.service.ProductService;
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
+import fr.pantheonsorbonne.ufr27.miage.dto.OrderItemDTOContainer;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -18,13 +16,13 @@ public class EmployeeRoutes extends RouteBuilder {
     String jmsPrefix;
 
     @Inject
-    ProductService productService;
-
-    @Inject
     ProductGateway productGateway;
 
     @Inject
     OrderGateway orderGateway;
+
+    @Inject
+    PaymentGateway paymentGateway;
 
     @Inject
     CamelContext camelContext;
@@ -34,41 +32,52 @@ public class EmployeeRoutes extends RouteBuilder {
         camelContext.setTracing(true);
         //from direct queue to JMS où on va envoyer la demande au terminal venant du Gateway .unmarshallJson() .bean()
         from("direct:newClient")
-                .setHeader("newClient", constant("newClient"))
+                .setHeader("Action", constant("displayItems"))
                 .marshal().json()
                 .log("${in.body}")
-                .to("jms:queue:" + jmsPrefix + "/register?exchangePattern=InOut")
-                .unmarshal().json(ProductDTOContainer.class)
+                .to("jms:queue:" + jmsPrefix + "/orderItemFeat?exchangePattern=InOut")
+                .unmarshal().json(OrderItemDTOContainer.class)
                 .bean(productGateway, "receiveAllProduct");
 
-
         from("direct:newOrder")
-                .setHeader("newOrder", constant("newOrder"))
-                .to("jms:queue:" + jmsPrefix + "/newOrder?exchangePattern=InOut");
+                .setHeader("Action", constant("createOrderAndAddProduct"))
+                .marshal().json()
+                .to("jms:queue:" + jmsPrefix + "/orderFeat?exchangePattern=InOut")
+                .unmarshal().json(OrderDTO.class)
+                .bean(orderGateway, "receiveOrder");
 
         from(  "direct:addProductInOrder")
-                .setHeader("addProductOrder", constant("addProductOrder"))
+                .setHeader("Action", constant("addProduct"))
                 .marshal().json()
-               .to("jms:queue:" + jmsPrefix + "/addProductInOrder?exchangePattern=InOut");
+                .to("jms:queue:" + jmsPrefix + "/orderFeat?exchangePattern=InOut")
+                .unmarshal().json(OrderDTO.class)
+                .bean(orderGateway, "receiveOrder");
 
         from("direct:getTotalPrice")
-                .setHeader("getTotalPrice",constant("totalPrice"))
+                .setHeader("Action",constant("getTotalPrice"))
                 .marshal().json()
-                .to("jms:queue:" + jmsPrefix + "/totalPrice?exchangePattern=InOut")
+                .to("jms:queue:" + jmsPrefix + "/orderFeat?exchangePattern=InOut")
                 .unmarshal().json()
                 .bean(orderGateway,"recieveTotalPrice");
 
-
         from(  "direct:deleteProductFromOrder")
-                .setHeader("deleteProductOrder", constant("deleteProductOrder"))
+                .setHeader("Action", constant("deleteProductOrder"))
                 .marshal().json()
-                .to("jms:queue:" + jmsPrefix + "/deleteProductFromOrder?exchangePattern=InOut");
-
+                .to("jms:queue:" + jmsPrefix + "/orderFeat?exchangePattern=InOut")
+                .unmarshal().json(OrderDTO.class)
+                .bean(orderGateway, "receiveOrder");
 
         from("direct:deleteOrder")
-                .setHeader("deleteOrder", constant("deleteOrder"))
+                .setHeader("Action", constant("deleteOrder"))
                 .marshal().json()
-                .to("jms:queue:" + jmsPrefix + "/deleteOrder?exchangePattern=InOut");
+                .to("jms:queue:" + jmsPrefix + "/orderFeat?exchangePattern=InOut");
+
+        from("direct:payByCard")
+                .setHeader("Action", constant("payByCard"))
+                .marshal().json()
+                .to("jms:queue:" + jmsPrefix + "/paymentFeat?exchangePattern=InOut")
+                .bean(paymentGateway, "receiveURL");
+
     }
 
 }

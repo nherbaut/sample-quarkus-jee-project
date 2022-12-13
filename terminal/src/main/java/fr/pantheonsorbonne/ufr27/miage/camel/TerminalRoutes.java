@@ -20,49 +20,52 @@ public class TerminalRoutes extends RouteBuilder {
     CamelContext camelContext;
 
     @Inject
-    ProductGateway productGateway;
+    OrderItemGateway orderItemGateway;
 
     @Inject
     OrderGateway orderGateway;
 
     @Inject
-    OrderService orderService;
+    PaymentGateway paymentGateway;
 
     @Override
     public void configure() throws Exception {
 
         camelContext.setTracing(true);
 
-        from("jms:queue:" + jmsPrefix + "/register?exchangePattern=InOut")
+        from("jms:queue:" + jmsPrefix + "/orderItemFeat?exchangePattern=InOut")
                 .unmarshal().json()
-                .log("## ${in.body}")
-                .bean(productGateway, "getProducts")
-
-                .log("### ${in.body}")
+                .bean(orderItemGateway, "getItems")
                 .marshal().json();
 
 
-        from("jms:queue:" + jmsPrefix + "/newOrder?exchangePattern=InOut")
-                .bean(orderGateway, "createOrder")
-                .marshal().json();
-
-        from("jms:queue:" + jmsPrefix + "/addProductInOrder?exchangePattern=InOut")
+        from("jms:queue:" + jmsPrefix + "/orderFeat?exchangePattern=InOut")
                 .unmarshal().json()
-                .bean(orderGateway,"addProductOrder")
-                .marshal().json();
+                .choice()
+                    .when(header("Action").isEqualTo("createOrderAndAddProduct"))
+                        .bean(orderGateway, "createOrder")
+                        .marshal().json().stop()
+                    .when(header("Action").isEqualTo("addProduct"))
+                        .bean(orderGateway,"addItemToOrder")
+                        .marshal().json().stop()
+                    .when(header("Action").isEqualTo("deleteProductOrder"))
+                        .bean(orderGateway,"deleteItemOrder")
+                        .marshal().json().stop()
+                    .when(header("Action").isEqualTo("getTotalPrice"))
+                        .bean(orderGateway,"getTotalPrice")
+                        .marshal().json().stop()
+                    .when(header("Action").isEqualTo("deleteOrder"))
+                        .bean(orderGateway, "deleteOrder")
+                        .marshal().json();
 
-        from("jms:queue:" + jmsPrefix + "/totalPrice?exchangePattern=InOut")
-                .unmarshal().json()
-                .bean(orderGateway,"getTotalPrice").marshal().json();
 
-        from("jms:queue:" + jmsPrefix + "/deleteProductFromOrder?exchangePattern=InOut")
+        from("jms:queue:" + jmsPrefix + "/paymentFeat?exchangePattern=InOut")
                 .unmarshal().json()
-                .bean(orderGateway,"deleteProductOrder")
-                .marshal().json();
-
-        from("jms:queue:" + jmsPrefix + "/deleteOrder?exchangePattern=InOut")
-                .unmarshal().json()
-                .bean(orderGateway, "deleteOrder").marshal().json();
+                .bean(paymentGateway, "isAbleForPayment")
+                .marshal().json() // "ok {totalPrice}"
+                .to("jms:queue:" + jmsPrefix + "/readyToPay?exchangePattern=InOut")
+                //.unmarshal().json()
+                .bean(paymentGateway, "receiveURL");
 
     }
 

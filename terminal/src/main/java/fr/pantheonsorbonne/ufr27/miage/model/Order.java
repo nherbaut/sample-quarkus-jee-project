@@ -2,8 +2,8 @@ package fr.pantheonsorbonne.ufr27.miage.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -11,25 +11,20 @@ import java.util.List;
 public class Order {
     @Id
     @Column(name = "order_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToMany
     @JoinTable(
-            name="productOrder",
+            name="orderContent",
             joinColumns=@JoinColumn(name= "Order_ID", referencedColumnName="order_id"),
-            inverseJoinColumns=@JoinColumn(name= "Product_ID", referencedColumnName="product_id"))
-    private List<Product> orderContent = new ArrayList<>();
+            inverseJoinColumns=@JoinColumn(name= "Item_ID", referencedColumnName="item_id"))
+    private List<OrderItem> orderContent = new ArrayList<>();
 
 
-    @ManyToMany
-    @JoinTable(
-            name="menuOrder",
-            joinColumns=@JoinColumn(name= "Order_ID", referencedColumnName="order_id"),
-            inverseJoinColumns=@JoinColumn(name= "Menu_ID", referencedColumnName="menu_id"))
-    private List<Menu> orderMenus = new ArrayList<>();
     @NotNull
     @Column(name = "order_date", nullable = false)
-    private LocalDate orderDate;
+    private Date orderDate;
 
     @NotNull
     @Column(name = "order_price", nullable = false)
@@ -48,14 +43,6 @@ public class Order {
 
     }
 
-    public List<Menu> getOrderMenus() {
-        return orderMenus;
-    }
-
-    public void setOrderMenus(List<Menu> orderMenus) {
-        this.orderMenus = orderMenus;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -64,11 +51,11 @@ public class Order {
         this.id = id;
     }
 
-    public LocalDate getOrderDate() {
+    public Date getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDate orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -96,16 +83,15 @@ public class Order {
         this.employee = employee;
     }
 
-    public List<Product> getProducts() {
+    public List<OrderItem> getOrderContent() {
         return orderContent;
     }
 
-    public void setProducts(List<Product> products) {
-        this.orderContent = products;
+    public void setOrderContent(List<OrderItem> OrderItems) {
+        this.orderContent = OrderItems;
     }
 
-    public Order(Integer id, List<Product> orderContent, LocalDate orderDate, Float orderPrice, Client client, Employee employee) {
-        this.id = id;
+    public Order(List<OrderItem> orderContent, Date orderDate, Float orderPrice, Client client, Employee employee) {
         this.orderContent = orderContent;
         this.orderDate = orderDate;
         this.orderPrice = orderPrice;
