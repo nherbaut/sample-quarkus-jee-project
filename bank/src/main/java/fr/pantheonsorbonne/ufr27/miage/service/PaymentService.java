@@ -4,4 +4,5 @@ public interface PaymentService {
 
     String sendRedirectURL();
 
+    Integer getCardPassword(Integer clientId);
 }

@@ -12,4 +12,9 @@ public class PaymentServiceImpl implements PaymentService{
         return this.url;
     }
 
+    @Override
+    public Integer getCardPassword(Integer clientId) {
+        return null;
+    }
+
 }

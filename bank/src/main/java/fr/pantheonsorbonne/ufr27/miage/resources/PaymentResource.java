@@ -21,4 +21,11 @@ public class PaymentResource {
         return null;
     }
 
+    @Path("")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPassword(Integer clientId){
+        return Response.ok(paymentService.getCardPassword(clientId)).build();
+    }
+
 }
