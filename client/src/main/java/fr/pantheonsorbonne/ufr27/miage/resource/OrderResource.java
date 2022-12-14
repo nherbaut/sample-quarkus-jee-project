@@ -33,4 +33,8 @@ public interface OrderResource {
     @GET
     public Response getOrderPrice(@PathParam("orderId") Integer orderId);
 
+    @Path("{orderId}/payment/card")
+    @GET
+    public Response payment(@PathParam("orderId") Integer orderId);
+
 }

@@ -54,6 +54,8 @@ public class Main implements Runnable {
 
         //Initier le paiement
 
+        client.initPayment();
+
     }
 
 }

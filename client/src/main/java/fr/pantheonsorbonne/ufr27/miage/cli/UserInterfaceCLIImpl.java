@@ -14,6 +14,8 @@ import javax.ws.rs.core.Response;
 @ApplicationScoped
 public class UserInterfaceCLIImpl implements UserInterfaceCLI {
 
+    // TODO getTotalPrice
+
     @Inject
     @RestClient
     OrderResource orderResource;
@@ -69,6 +71,13 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
         orderResource.deleterOrder(String.valueOf(this.orderId));
         this.orderId = null;
         terminal.println("Your order is deleted !");
+    }
+
+    @Override
+    public void initPayment() {
+        Response res = orderResource.payment(this.orderId);
+        terminal.println("See the following link to pay : " + res.toString());
+        // TODO display the link properly
     }
 
     @Override

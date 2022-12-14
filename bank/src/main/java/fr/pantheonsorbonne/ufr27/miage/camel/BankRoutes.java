@@ -28,6 +28,7 @@ public class BankRoutes extends RouteBuilder {
 
         from("jms:queue:" + jmsPrefix + "/readyToPay?exchangePattern=InOut")
                 //.unmarshal().json()
+                .log("${in.body}")
                 .bean(paymentGateway, "sendURL");
     }
 }
