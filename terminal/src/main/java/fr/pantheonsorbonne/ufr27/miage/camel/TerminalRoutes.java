@@ -76,7 +76,8 @@ public class TerminalRoutes extends RouteBuilder {
 
 
         from("jms:queue:" + jmsPrefix + "/sendPaidPrice?exchangePattern=InOut")
-                .unmarshal().json();
+                .log("Here is the payment success ${in.body}")
+                .toD("jms:queue:" + jmsPrefix + "/paymentDone?exchangePattern=InOut");
 
     }
 

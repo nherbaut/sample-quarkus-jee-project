@@ -32,7 +32,7 @@ public class BankRoutes extends RouteBuilder {
 
         from("direct:sendPaidPrice")
                 .marshal().json()
-                .toD("jms:queue:" + jmsPrefix + "/readyToPay?exchangePattern=InOut");
+                .to("jms:queue:" + jmsPrefix + "/sendPaidPrice?exchangePattern=InOut");
 
     }
 }

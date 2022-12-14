@@ -78,6 +78,10 @@ public class EmployeeRoutes extends RouteBuilder {
                 .to("jms:queue:" + jmsPrefix + "/paymentFeat?exchangePattern=InOut")
                 .bean(paymentGateway, "receiveURL");
 
+        from("jms:queue:" + jmsPrefix + "/paymentDone?exchangePattern=InOut")
+                .unmarshal().json()
+                .log("Here is the payment success ${in.body}");
+
     }
 
 }
