@@ -6,6 +6,11 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "Secret_Password")
 public class SecretPassword {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "account_Id", nullable = false)
@@ -14,6 +19,14 @@ public class SecretPassword {
     @NotNull
     @Column(name = "secret_password", nullable = false)
     private Integer secretPassword;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Account getAccount() {
         return account;

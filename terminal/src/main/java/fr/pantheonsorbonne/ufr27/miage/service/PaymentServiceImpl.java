@@ -19,10 +19,10 @@ public class PaymentServiceImpl implements PaymentService{
     String url;
 
     @Override
-    public String isAbleForPayment(Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
+    public Float isAbleForPayment(Integer orderId) throws OrderNotFoundException{
         Order o = orderDao.findSingleOrder(orderId);
         if (o.getOrderPrice() > 0){
-            return readyToPay(o.getOrderPrice());
+            return o.getOrderPrice();
             //init payment
             //send msg to bank to tell her we want to pay
         } else {

@@ -32,8 +32,8 @@ public class PaymentGateway {
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.jmsPrefix")
     String jmsPrefix;
 
-    public void isAbleForPayment(Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
-        paymentService.isAbleForPayment(orderId);
+    public Float isAbleForPayment(Integer orderId) throws OrderNotFoundException {
+        return paymentService.isAbleForPayment(orderId);
     }
 
     public void receiveURL(String url){
