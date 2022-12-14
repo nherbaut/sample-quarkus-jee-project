@@ -1,4 +1,4 @@
-REPLACE INTO `OrderItem` (`ITEM_TYPE`, `item_id`, `item_name`, `item_price`) VALUES ('Sandwich', 0, 'TOASTÉ GRILLED CHEESE', 5.0), ('Sandwich', 1, 'TOASTÉ POULET RACLETTE', 5.0), ('Sandwich', 2, 'CUISINÉ SAUMON AVOCAT', 6.0), ('Sandwich', 3, 'AUTHENTIQUE THON CRUDITÉS', 5.0), ('Dessert', 4, 'FUSETTE AUX FRAMBOISES', 5.0), ('Dessert', 5, 'FUSETTE CHOCOLAT BANANE', 5.50), ('Drink' , 6, 'PEPSI 50cl', 1.50);
+REPLACE INTO `OrderItem` (`item_type`, `item_id`, `item_name`, `item_price`,`type`) VALUES ('Sandwich', 0, 'TOASTÉ GRILLED CHEESE', 5.0,'Sandwich'), ('Sandwich', 1, 'TOASTÉ POULET RACLETTE', 5.0,'Sandwich'), ('Sandwich', 2, 'CUISINÉ SAUMON AVOCAT', 6.0,'Sandwich'), ('Sandwich', 3, 'AUTHENTIQUE THON CRUDITÉS', 5.0,'Sandwich'), ('Dessert', 4, 'FUSETTE AUX FRAMBOISES', 5.0,'Dessert'), ('Dessert', 5, 'FUSETTE CHOCOLAT BANANE', 5.50,'Dessert'), ('Drink' , 6, 'PEPSI 50cl', 1.50,'Drink'), ('Menu', 7, 'MENU PATISSERIE', 5,'Menu'), ('Menu' , 8, 'MENU DEJEUNER', 9.50,'Menu');
 
 REPLACE INTO `Client` (`client_id`, `clientFirstName`, `clientLastName`) VALUES (0, 'Max', 'Verstappen'), (1, 'Nico', 'Roseberg'), (2, 'Lewis', 'Hamilton'), (3, 'Sebastien', 'Vettel');
 
