@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
+import fr.pantheonsorbonne.ufr27.miage.camel.PaymentGateway;
 import fr.pantheonsorbonne.ufr27.miage.dao.AccountDAO;
 import fr.pantheonsorbonne.ufr27.miage.dao.SecretPasswordDAO;
 import fr.pantheonsorbonne.ufr27.miage.dto.AccountDTO;
@@ -19,6 +20,9 @@ public class PaymentServiceImpl implements PaymentService{
 
     @Inject
     SecretPasswordDAO secretPasswordDAO;
+
+    @Inject
+    PaymentGateway paymentGateway;
 
     String url = "http://localhost:8082/payment";
     Float totalPrice;
@@ -49,8 +53,13 @@ public class PaymentServiceImpl implements PaymentService{
             throw new SoldUnsifficientException();
         }
         accountDAO.updateClientAccountSold(clientId,updatedSold);
-
+        this.sendPaidPrice(this.totalPrice);
         return true;
+    }
+
+    @Override
+    public void sendPaidPrice(Float sendPrice) {
+        this.paymentGateway.sendPaidPrice(sendPrice);
     }
 
 }
