@@ -27,7 +27,7 @@ public class BankRoutes extends RouteBuilder {
         camelContext.setTracing(true);
 
         from("jms:queue:" + jmsPrefix + "/readyToPay?exchangePattern=InOut")
-                //.unmarshal().json()
+                .unmarshal().json()
                 .bean(paymentGateway, "sendURL");
     }
 }

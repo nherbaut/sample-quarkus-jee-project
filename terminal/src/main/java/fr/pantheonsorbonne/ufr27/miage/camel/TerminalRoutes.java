@@ -1,13 +1,20 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
 
+import fr.pantheonsorbonne.ufr27.miage.dao.OrderDAO;
+import fr.pantheonsorbonne.ufr27.miage.exception.ItemNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
+import fr.pantheonsorbonne.ufr27.miage.service.PaymentService;
 import org.apache.camel.CamelContext;
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 
 @ApplicationScoped
 public class TerminalRoutes extends RouteBuilder {
@@ -66,7 +73,8 @@ public class TerminalRoutes extends RouteBuilder {
                 .to("jms:queue:" + jmsPrefix + "/readyToPay?exchangePattern=InOut")
                 //.unmarshal().json()
                 .bean(paymentGateway, "receiveURL");
-
     }
+
+
 
 }
