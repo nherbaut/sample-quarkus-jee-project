@@ -75,7 +75,6 @@ public class OrderResource {
     }
 
     @Path("{orderId}/payment/card")
-    @Produces()
     @GET
     public Response payment(@PathParam("orderId") Integer orderId) throws OrderNotFoundException{
         return Response.temporaryRedirect(URI.create(paymentService.payByCard(orderId))).build();

@@ -5,7 +5,7 @@ import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
 
 public interface PaymentService {
 
-    String isAbleForPayment(Integer orderId) throws OrderNotFoundException, ItemNotFoundException;
+    Float isAbleForPayment(Integer orderId) throws OrderNotFoundException;
 
     String readyToPay(Float totalPrice) throws OrderNotFoundException;
 
