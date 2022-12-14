@@ -26,4 +26,6 @@ public interface UserInterfaceCLI extends BiConsumer<TextIO, RunnerData>, UserIn
     void askForClientId();
 
     void connectClient(String clientId);
+    
+    void initPayment();
 }

@@ -15,6 +15,8 @@ import javax.ws.rs.core.Response;
 @ApplicationScoped
 public class UserInterfaceCLIImpl implements UserInterfaceCLI {
 
+    // TODO getTotalPrice
+
     @Inject
     @RestClient
     OrderResource orderResource;
@@ -84,6 +86,12 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
     @Override
     public void connectClient(String clientId) {
         fidelityResource.connect(Integer.parseInt(clientId));
+    }
+    
+    public void initPayment() {
+        Response res = orderResource.payment(this.orderId);
+        terminal.println("See the following link to pay : " + res.toString());
+        // TODO display the link properly
     }
 
     @Override
