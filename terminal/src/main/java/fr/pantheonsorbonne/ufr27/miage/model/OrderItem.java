@@ -11,6 +11,12 @@ import javax.validation.constraints.Size;
 @DiscriminatorColumn(name = "ITEM_TYPE")
 public abstract class OrderItem {
 
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "type", nullable = false, length = 50)
+    private String type;
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id", nullable = false)
@@ -25,6 +31,14 @@ public abstract class OrderItem {
     @Column(name = "item_price", nullable = false)
     private Float itemPrice;
 
+    public String getItem_type() {
+        return type;
+    }
+
+    public void setItem_type(String type) {
+        this.type = type;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -32,6 +46,7 @@ public abstract class OrderItem {
     public void setId(Integer id) {
         this.id = id;
     }
+
 
     public String getItemName() {
         return itemName;
@@ -48,8 +63,6 @@ public abstract class OrderItem {
     public void setItemPrice(Float itemPrice) {
         this.itemPrice = itemPrice;
     }
-
-
 
 
 
