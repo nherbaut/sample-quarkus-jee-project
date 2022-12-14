@@ -16,6 +16,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
     @PersistenceContext(name = "mysql")
     EntityManager em;
 
+    @Transactional
     @Override
     public OrderItem findSingleItem(Integer itemId) {
         return (OrderItem) em.createQuery("Select item from OrderItem item where item.id=:itemId").setParameter("itemId", itemId).getSingleResult();

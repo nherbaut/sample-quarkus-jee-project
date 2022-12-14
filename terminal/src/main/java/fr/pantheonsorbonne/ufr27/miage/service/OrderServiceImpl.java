@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
+import com.arjuna.ats.internal.jdbc.drivers.modifiers.list;
 import fr.pantheonsorbonne.ufr27.miage.dao.OrderDAO;
 import fr.pantheonsorbonne.ufr27.miage.dao.OrderItemDAO;
 import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
@@ -13,6 +14,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @ApplicationScoped
 public class OrderServiceImpl implements OrderService {
@@ -45,10 +47,27 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO addItemToOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
-        Order o = orderDAO.addItemOrder(itemId,orderId);
-        return convertOrderToOrderDTO(o);
-
-    }
+        Order o = orderDAO.addItemOrder(itemId, orderId);
+        OrderItem drink = null;
+        OrderItem dessert = null;
+        OrderItem sandwich = null;
+        for(int i =0 ; i<o.getOrderContent().size(); i++){
+            if(o.getOrderContent().get(i).getItem_type().equals("Drink")) {drink = orderItemDAO.findSingleItem(o.getOrderContent().get(i).getId());}
+            if (o.getOrderContent().get(i).getItem_type().equals("Dessert")){dessert = orderItemDAO.findSingleItem(o.getOrderContent().get(i).getId());}
+            if (o.getOrderContent().get(i).getItem_type().equals("Sandwich")){sandwich = orderItemDAO.findSingleItem(o.getOrderContent().get(i).getId());}
+        }
+        if (drink != null && dessert != null && sandwich != null){
+            orderDAO.deleteItemOrder(drink.getId(), orderId);
+            orderDAO.deleteItemOrder(dessert.getId(), orderId);
+            orderDAO.deleteItemOrder(sandwich.getId(), orderId);
+            orderDAO.addItemOrder(8, orderId);
+        }
+        else if (drink != null && dessert != null && sandwich == null){
+            orderDAO.deleteItemOrder(drink.getId(), orderId);
+            orderDAO.deleteItemOrder(dessert.getId(), orderId);
+            orderDAO.addItemOrder(7, orderId);
+        }
+        return convertOrderToOrderDTO(o);}
 
     @Override
     public OrderDTO deleteItemOrder(Integer itemId, Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
