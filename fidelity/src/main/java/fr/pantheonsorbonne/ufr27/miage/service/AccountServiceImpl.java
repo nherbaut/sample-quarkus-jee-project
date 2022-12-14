@@ -1,8 +1,8 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
 import fr.pantheonsorbonne.ufr27.miage.dao.AccountDAO;
-import fr.pantheonsorbonne.ufr27.miage.exception.MaximumBonusPointsReachedException;
-
+import fr.pantheonsorbonne.ufr27.miage.dto.ClientDTO;
+import fr.pantheonsorbonne.ufr27.miage.model.Account;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.security.auth.login.AccountNotFoundException;
@@ -13,6 +13,10 @@ public class AccountServiceImpl implements AccountService{
 
     @Inject
     AccountDAO accountDAO;
+
+    private ClientDTO convertAccountToClientDTO(Account account){
+        return new ClientDTO(account.getId());
+    }
 
     @Override
     public Integer getTotalPoints(Integer client_id) throws AccountNotFoundException {
@@ -34,6 +38,16 @@ public class AccountServiceImpl implements AccountService{
         //et on initialise le nombre de points à 0
         //sinon message d'erreur maximum de points non atteint pour être utiliser
         accountDAO.useBonusPoints(client_id);
+    }
+
+    @Override
+    public ClientDTO verifyClientAccount(Integer clientId) {
+        try {
+            Account c = accountDAO.findClientAccount(clientId);
+            return convertAccountToClientDTO(c);
+        } catch (AccountNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

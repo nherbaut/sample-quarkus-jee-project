@@ -20,4 +20,10 @@ public class ClientDAOImpl implements ClientDAO{
         em.persist(client);
         return client;
     }
+
+    @Override
+    @Transactional
+    public Client findClient(Integer clientId){
+        return (Client) em.createQuery("Select c from Client c where c.id = :clientId ").setParameter("clientId", clientId).getSingleResult();
+    }
 }

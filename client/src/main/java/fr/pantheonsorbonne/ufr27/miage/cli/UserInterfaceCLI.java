@@ -22,4 +22,8 @@ public interface UserInterfaceCLI extends BiConsumer<TextIO, RunnerData>, UserIn
     void deleteProduct(String productId);
 
     void deleteOrder();
+
+    void askForClientId();
+
+    void connectClient(String clientId);
 }

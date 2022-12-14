@@ -1,12 +1,14 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
 import com.arjuna.ats.internal.jdbc.drivers.modifiers.list;
+import fr.pantheonsorbonne.ufr27.miage.dao.ClientDAO;
 import fr.pantheonsorbonne.ufr27.miage.dao.OrderDAO;
 import fr.pantheonsorbonne.ufr27.miage.dao.OrderItemDAO;
 import fr.pantheonsorbonne.ufr27.miage.dto.OrderDTO;
 import fr.pantheonsorbonne.ufr27.miage.dto.OrderItemDTO;
 import fr.pantheonsorbonne.ufr27.miage.exception.OrderNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.ItemNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.model.Client;
 import fr.pantheonsorbonne.ufr27.miage.model.Order;
 import fr.pantheonsorbonne.ufr27.miage.model.OrderItem;
 
@@ -25,13 +27,18 @@ public class OrderServiceImpl implements OrderService {
     @Inject
     OrderDAO orderDAO;
 
+    @Inject
+    ClientDAO clientDAO;
+
+    Client client = null;
+
     private OrderDTO convertOrderToOrderDTO(Order o){
         Collection<OrderItemDTO> pp = new ArrayList<>();
         for (OrderItem p : o.getOrderContent()){
             pp.add(new OrderItemDTO(p.getItemPrice(), p.getId(), p.getItemName()));
         }
         // TODO mettre une condition pour vérifier si le client s'est connecté pour mettre son clientId dans l'orderDTO
-        return  new OrderDTO(o.getId(), o.getOrderDate(), o.getOrderPrice(), o.getEmployee().getId(), null, o.getOrderPrice(), pp);
+        return  new OrderDTO(o.getId(), o.getOrderDate(), o.getOrderPrice(), o.getEmployee().getId(), this.client.getId(), o.getOrderPrice(), pp);
     }
     public Collection<OrderItem> getOrderItemList() { //Ici c'est les articles du DTO
         Collection<OrderItem> orderItems = orderItemDAO.findAllItems();
@@ -81,5 +88,11 @@ public class OrderServiceImpl implements OrderService {
 
     public void deleteOrder(Integer orderId) throws OrderNotFoundException, ItemNotFoundException {
         orderDAO.deleteOrder(orderId);
+    }
+
+    @Override
+    public void setClient(Integer clientId) {
+        this.client = clientDAO.findClient(clientId);
+        System.out.println(this.client);
     }
 }

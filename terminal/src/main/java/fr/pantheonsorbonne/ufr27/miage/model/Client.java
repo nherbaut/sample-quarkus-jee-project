@@ -9,7 +9,7 @@ import java.util.Set;
 @Entity
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "client_id", nullable = false)
     private Integer id;
 
@@ -36,8 +36,10 @@ public class Client {
     public Client(String clientFirstName, String clientLastName) {
     }
 
-    public Client() {
+    public Client() {}
 
+    public Client(Integer client_id){
+        this.id = client_id;
     }
 
     public Integer getId() {

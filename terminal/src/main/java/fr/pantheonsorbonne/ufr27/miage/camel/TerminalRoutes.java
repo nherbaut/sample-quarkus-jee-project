@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
 
+import fr.pantheonsorbonne.ufr27.miage.dto.ClientDTO;
 import fr.pantheonsorbonne.ufr27.miage.service.OrderService;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
@@ -27,6 +28,9 @@ public class TerminalRoutes extends RouteBuilder {
 
     @Inject
     PaymentGateway paymentGateway;
+
+    @Inject
+    FidelityGateway fidelityGateway;
 
     @Override
     public void configure() throws Exception {
@@ -66,6 +70,12 @@ public class TerminalRoutes extends RouteBuilder {
                 .to("jms:queue:" + jmsPrefix + "/readyToPay?exchangePattern=InOut")
                 //.unmarshal().json()
                 .bean(paymentGateway, "receiveURL");
+
+        // TODO set the clientId
+        from("jms:queue:" + jmsPrefix + "clientConnected")
+                .unmarshal().json(ClientDTO.class)
+                .log("${in.body}")
+                .bean(fidelityGateway, "setClientId");
 
 
     }

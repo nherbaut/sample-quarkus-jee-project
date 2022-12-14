@@ -1,4 +1,6 @@
+REPLACE INTO `Account` (`account_id`, `total_points`) VALUES (1, 200), (2, 0), (3, 300);
 
+/*
 REPLACE INTO `Artist` (`idArtist`, `name`) VALUES (1,'Radiohead'),(2,'Billie Eillish'),(3,'French Cowboy');
 
 
@@ -28,3 +30,4 @@ REPLACE INTO `VenueQuota` (`seatingQuota`, `standingQuota`, `vendor_idVendor`, `
 
 
 REPLACE INTO `Ticket` (`idTicket`, `seatReference`, `ticketKey`, `validUntil`, `idCustomer`, `idVendor`, `idVenue`) VALUES (1,NULL,'dummyKey',NULL,1,1,1),(2,'ABC-01','dummyKey',NULL,1,2,1);
+*/

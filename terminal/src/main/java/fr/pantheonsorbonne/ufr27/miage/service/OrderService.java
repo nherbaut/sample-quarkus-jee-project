@@ -16,5 +16,5 @@ public interface OrderService {
 
     Float getTotalPrice(Integer orderId) throws OrderNotFoundException, ItemNotFoundException;
 
-
+    public void setClient(Integer clientId);
 }

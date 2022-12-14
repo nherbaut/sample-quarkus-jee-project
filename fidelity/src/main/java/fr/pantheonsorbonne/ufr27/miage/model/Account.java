@@ -13,10 +13,13 @@ public class Account {
     @Column(name = "total_points")
     private Integer totalPoints;
 
+    /*
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "client_id", nullable = false)
-    private fr.pantheonsorbonne.ufr27.miage.model.Client client;
+    private Client client;
+
+     */
 
     public Integer getId() {
         return id;
@@ -34,12 +37,15 @@ public class Account {
         this.totalPoints = totalPoints;
     }
 
-    public fr.pantheonsorbonne.ufr27.miage.model.Client getClient() {
+    /*
+    public Client getClient() {
         return client;
     }
 
-    public void setClient(fr.pantheonsorbonne.ufr27.miage.model.Client client) {
+    public void setClient(Client client) {
         this.client = client;
     }
+
+     */
 
 }

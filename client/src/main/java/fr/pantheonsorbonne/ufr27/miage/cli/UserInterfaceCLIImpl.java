@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.ufr27.miage.cli;
 
 
+import fr.pantheonsorbonne.ufr27.miage.resource.FidelityResource;
 import fr.pantheonsorbonne.ufr27.miage.resource.OrderResource;
 import fr.pantheonsorbonne.ufr27.miage.resource.ProductResource;
 import org.beryx.textio.TextIO;
@@ -21,6 +22,10 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
     @Inject
     @RestClient
     ProductResource productResource;
+
+    @Inject
+    @RestClient
+    FidelityResource fidelityResource;
 
     TextTerminal<?> terminal;
     TextIO textIO;
@@ -69,6 +74,16 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
         orderResource.deleterOrder(String.valueOf(this.orderId));
         this.orderId = null;
         terminal.println("Your order is deleted !");
+    }
+
+    @Override
+    public void askForClientId() {
+        terminal.println("What is your client id ? ");
+    }
+
+    @Override
+    public void connectClient(String clientId) {
+        fidelityResource.connect(Integer.parseInt(clientId));
     }
 
     @Override
