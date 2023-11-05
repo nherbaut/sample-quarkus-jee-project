@@ -5,8 +5,8 @@ import fr.pantheonsorbonne.ufr27.miage.exception.UnsuficientQuotaForVenueExcepti
 import fr.pantheonsorbonne.ufr27.miage.service.BookingService;
 
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class BookingGateway {

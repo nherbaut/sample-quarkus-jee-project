@@ -1,13 +1,14 @@
 package top.nextnet.cli;
 
 import fr.pantheonsorbonne.ufr27.miage.dto.Booking;
+import jakarta.inject.Inject;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import picocli.CommandLine.Command;
 import top.nextnet.service.BookingGateway;
 
 
-import javax.inject.Inject;
+
 
 @Command(name = "greeting", mixinStandardHelpOptions = true)
 public class Main implements Runnable {

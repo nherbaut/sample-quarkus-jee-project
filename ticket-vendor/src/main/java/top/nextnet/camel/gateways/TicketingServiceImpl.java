@@ -1,10 +1,11 @@
 package top.nextnet.camel.gateways;
 
 import fr.pantheonsorbonne.ufr27.miage.dto.ETicket;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import top.nextnet.cli.UserInterface;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+
 import java.util.Collection;
 
 @ApplicationScoped

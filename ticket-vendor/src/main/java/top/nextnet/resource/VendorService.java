@@ -3,10 +3,11 @@ package top.nextnet.resource;
 
 import fr.pantheonsorbonne.ufr27.miage.dto.Gig;
 import fr.pantheonsorbonne.ufr27.miage.dto.RemainingQuota;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+
 
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 

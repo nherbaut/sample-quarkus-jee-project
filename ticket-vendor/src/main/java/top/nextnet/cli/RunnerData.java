@@ -1,7 +1,7 @@
 package top.nextnet.cli;
 
 
-import javax.enterprise.context.ApplicationScoped;
+
 import java.util.Collections;
 import java.util.Map;
 

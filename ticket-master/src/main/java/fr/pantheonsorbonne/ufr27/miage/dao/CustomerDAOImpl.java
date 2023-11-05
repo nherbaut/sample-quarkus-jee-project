@@ -3,11 +3,11 @@ package fr.pantheonsorbonne.ufr27.miage.dao;
 import fr.pantheonsorbonne.ufr27.miage.exception.CustomerNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.model.Customer;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class CustomerDAOImpl implements CustomerDAO {

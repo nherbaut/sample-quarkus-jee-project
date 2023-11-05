@@ -4,6 +4,8 @@ package top.nextnet.cli;
 import fr.pantheonsorbonne.ufr27.miage.dto.Booking;
 import fr.pantheonsorbonne.ufr27.miage.dto.Gig;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -11,8 +13,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import top.nextnet.resource.VendorService;
 
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;

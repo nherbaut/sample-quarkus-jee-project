@@ -3,6 +3,8 @@ package top.nextnet.camel;
 import fr.pantheonsorbonne.ufr27.miage.dto.Booking;
 import fr.pantheonsorbonne.ufr27.miage.dto.CancelationNotice;
 import fr.pantheonsorbonne.ufr27.miage.dto.ETicket;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -13,8 +15,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import top.nextnet.cli.UserInterface;
 import top.nextnet.service.TicketingService;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+
 import java.util.HashMap;
 
 @ApplicationScoped

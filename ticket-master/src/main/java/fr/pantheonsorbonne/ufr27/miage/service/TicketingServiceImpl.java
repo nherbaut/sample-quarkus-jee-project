@@ -12,9 +12,9 @@ import fr.pantheonsorbonne.ufr27.miage.dao.TicketDAO;
 import fr.pantheonsorbonne.ufr27.miage.model.Customer;
 import fr.pantheonsorbonne.ufr27.miage.model.Ticket;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 

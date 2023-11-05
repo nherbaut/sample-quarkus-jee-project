@@ -8,12 +8,12 @@ import fr.pantheonsorbonne.ufr27.miage.model.Vendor;
 import fr.pantheonsorbonne.ufr27.miage.model.Venue;
 import fr.pantheonsorbonne.ufr27.miage.model.VenueQuota;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 

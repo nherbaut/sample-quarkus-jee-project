@@ -9,11 +9,11 @@ import fr.pantheonsorbonne.ufr27.miage.model.Venue;
 import fr.pantheonsorbonne.ufr27.miage.model.VenueLineUp;
 import fr.pantheonsorbonne.ufr27.miage.model.VenueQuota;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;

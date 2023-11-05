@@ -1,6 +1,8 @@
 package fr.pantheonsorbonne.ufr27.miage.model;
 
-import javax.persistence.*;
+
+import jakarta.persistence.*;
+
 import java.time.Instant;
 
 @Table(name = "Ticket", indexes = {
