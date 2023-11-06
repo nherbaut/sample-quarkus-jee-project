@@ -9,11 +9,6 @@ REPLACE INTO `Customer` (`idCustomer`, `email`, `fname`, `lname`) VALUES (1,'nic
 REPLACE INTO `Location` (`idLocation`, `name`, `standingGauge`) VALUES (1,'Bordeaux Akea Arena',2000),(2,'Le Moulin (Marseille)',800),(3,'Espace 3000 (Hyères)',200);
 
 
-REPLACE INTO `Seat` (`idVenue`, `seatReference`, `sold`) VALUES (1,'ABC-01',_binary '\0'),(1,'ABC-02',_binary '\0'),(1,'ABC-03',_binary '\0'),(1,'ABC-04',_binary '\0'),(1,'ABC-05',_binary '\0'),(1,'ABC-06',_binary '\0'),(1,'ABC-07',_binary '\0'),(1,'ABC-08',_binary '\0'),(1,'ABC-09',_binary '\0'),(1,'ABC-10',_binary '\0'),(1,'ABC-11',_binary '\0'),(1,'ABC-12',_binary '\0'),(1,'ABC-13',_binary '\0'),(1,'ABC-14',_binary '\0'),(1,'ABC-15',_binary '\0'),(2,'ABC-01',_binary '\0'),(2,'ABC-02',_binary '\0'),(2,'ABC-03',_binary '\0'),(2,'ABC-04',_binary '\0'),(2,'ABC-05',_binary '\0'),(2,'ABC-06',_binary '\0'),(2,'ABC-07',_binary '\0'),(2,'ABC-08',_binary '\0'),(2,'ABC-09',_binary '\0'),(2,'ABC-10',_binary '\0'),(2,'ABC-11',_binary '\0'),(2,'ABC-12',_binary '\0'),(2,'ABC-13',_binary '\0'),(2,'ABC-14',_binary '\0'),(2,'ABC-15',_binary '\0');
-
-
-
-
 
 REPLACE INTO `Vendor` (`idVendor`, `name`) VALUES (1,'fnac'),(2,'ticket master');
 

@@ -17,6 +17,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.Objects;
 
 @ApplicationScoped
 public class TicketingServiceImpl implements TicketingService {
@@ -52,7 +53,7 @@ public class TicketingServiceImpl implements TicketingService {
         }
         ticket = ticketDAO.emitTicketForCustomer(eticket.getTransitionalTicketId(), customer);
         ticket.setTicketKey(this.getKeyForTicket(ticket));
-        if (eticket.getType().equals(TicketType.SEATING)) {
+        if (Objects.equals(eticket.getType(),TicketType.SEATING)) {
             ticket.setSeatReference(seatPlacementService.bookSeat(ticket.getIdVenue().getId()));
         }
         return ticket.getTicketKey();

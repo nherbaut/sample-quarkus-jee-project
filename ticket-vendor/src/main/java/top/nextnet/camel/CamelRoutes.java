@@ -38,6 +38,8 @@ public class CamelRoutes extends RouteBuilder {
 
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.smtp.port")
     String smtpPort;
+    @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.smtp.from")
+    String smtpFrom;
 
     @Inject
     top.nextnet.camel.handler.BookingResponseHandler BookingResponseHandler;
@@ -59,7 +61,7 @@ public class CamelRoutes extends RouteBuilder {
 
         from("direct:cli")//
                 .marshal().json()//, "onBookedResponseReceived"
-                .to("jms:" + jmsPrefix + "booking?exchangePattern=InOut")//
+                .to("sjms2:" + jmsPrefix + "booking?exchangePattern=InOut")//
                 .choice()
                 .when(header("success").isEqualTo(false))
                 .setBody(simple("not enough quota for this vendor"))
@@ -71,7 +73,7 @@ public class CamelRoutes extends RouteBuilder {
                 .bean(ticketingService, "fillTicketsWithCustomerInformations")
                 .split(body())
                 .marshal().json(ETicket.class)
-                .to("jms:" + jmsPrefix + "ticket?exchangePattern=InOut")
+                .to("sjms2:" + jmsPrefix + "ticket?exchangePattern=InOut")
                 .choice()
                 .when(header("success").isEqualTo(false))
                 .bean(eCommerce, "showErrorMessage").stop()
@@ -79,7 +81,7 @@ public class CamelRoutes extends RouteBuilder {
                 .bean(ticketingService, "notifyCreatedTicket");
 
 
-        from("jms:topic:" + jmsPrefix + "cancellation")
+        from("sjms2:topic:" + jmsPrefix + "cancellation")
                 .log("cancellation notice ${body} ${headers}")
                 .filter(header("vendorId").isEqualTo(vendorId))
 
@@ -91,10 +93,10 @@ public class CamelRoutes extends RouteBuilder {
                         CancelationNotice notice = exchange.getMessage().getMandatoryBody(CancelationNotice.class);
                         exchange.getMessage().setHeaders(new HashMap<>());
                         exchange.getMessage().setHeader("to", notice.getEmail());
-                        exchange.getMessage().setHeader("from", "vendor@miage.dev");
+                        exchange.getMessage().setHeader("from", smtpFrom);
                         exchange.getMessage().setHeader("contentType", "text/html");
                         exchange.getMessage().setHeader("subject", "cancellation notice for venue");
-                        exchange.getMessage().setBody("Venue for your ticket " + notice.getTicketId() + " has been cancelled. Contact vendor for refund");
+                        exchange.getMessage().setBody("Dear Customer,\n\n Venue for your ticket " + notice.getTicketId() + " has been cancelled.\n\n Contact vendor for refund");
                     }
                 })
                 .log("cancellation notice ${body} ${headers}")

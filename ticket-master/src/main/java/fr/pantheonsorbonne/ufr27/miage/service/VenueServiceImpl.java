@@ -14,6 +14,7 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -56,11 +57,39 @@ public class VenueServiceImpl implements VenueService {
         return gigs;
     }
 
-    @Override
+    private void removeArtistFromVenue(int artistId, int venueId) {
+
+    }
+
     @Transactional
+    @Override
     public void cancelVenueForArtist(int artistId, int venueId) {
 
+
         Venue venue = em.find(Venue.class, venueId);
+
+        Collection<VenueLineUp> venueLineupToRemove = removeVenuesLineup(artistId, venue);
+
+        cancelTicketsWithEmptyLineups(venueId, venueLineupToRemove);
+
+
+    }
+
+
+    protected void cancelTicketsWithEmptyLineups(int venueId, Collection<VenueLineUp> venueLineupToRemove) {
+        if (!venueLineupToRemove.isEmpty()) {
+            List<Ticket> ticketsToCancel = em.createQuery("SELECT  t from Ticket t where t.idVenue.id=:venueId").setParameter("venueId", venueId).getResultList();
+            for (Ticket t : ticketsToCancel) {
+                ticketGateway.cancelTicket(t);
+                em.remove(t);
+            }
+
+
+        }
+    }
+
+
+    protected Collection<VenueLineUp> removeVenuesLineup(int artistId, Venue venue) {
         Collection<VenueLineUp> venueLineupToRemove = new ArrayList<>();
         for (VenueLineUp lineup : venue.getLineUp()) {
             if (lineup.getId().getArtist().getIdArtist().equals(artistId)) {
@@ -69,19 +98,9 @@ public class VenueServiceImpl implements VenueService {
         }
 
         for (VenueLineUp lu : venueLineupToRemove) {
-            venue.getLineUp().remove(lu);
+            em.remove(lu);
         }
 
-        if (!venueLineupToRemove.isEmpty()) {
-            List<Ticket> ticketsToCancel = em.createQuery("SELECT  t from Ticket t where t.idVenue.id=:venueId").setParameter("venueId", venueId).getResultList();
-            for (Ticket t : ticketsToCancel) {
-                ticketGateway.cancelTicket(t);
-                em.remove(t);
-            }
-
-            em.remove(venue);
-        }
-
-
+        return venueLineupToRemove;
     }
 }

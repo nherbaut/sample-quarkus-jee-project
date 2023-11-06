@@ -63,21 +63,21 @@ public class CamelRoutes extends RouteBuilder {
                 .setBody(simple("No seat is available"));
 
 
-        from("jms:" + jmsPrefix + "booking?exchangePattern=InOut")//
+        from("sjms2:" + jmsPrefix + "booking?exchangePattern=InOut")//
                 .log("ticker received: ${in.headers}")//
                 .unmarshal().json(Booking.class)//
                 .bean(bookingHandler, "book").marshal().json()
         ;
 
 
-        from("jms:" + jmsPrefix + "ticket?exchangePattern=InOut")
+        from("sjms2:" + jmsPrefix + "ticket?exchangePattern=InOut")
                 .unmarshal().json(ETicket.class)
                 .bean(ticketingService, "emitTicket").marshal().json();
 
 
         from("direct:ticketCancel")
                 .marshal().json()
-                .to("jms:topic:" + jmsPrefix + "cancellation");
+                .to("sjms2:topic:" + jmsPrefix + "cancellation");
 
     }
 

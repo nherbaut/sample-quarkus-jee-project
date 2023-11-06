@@ -32,8 +32,8 @@ public class Venue {
         this.lineUp = lineUp;
     }
 
-    @OneToMany(mappedBy = "id.idVenue")
-
+    @OneToMany
+    @JoinColumn(name = "idVenue")
     private Collection<VenueLineUp> lineUp;
 
     @ManyToOne
