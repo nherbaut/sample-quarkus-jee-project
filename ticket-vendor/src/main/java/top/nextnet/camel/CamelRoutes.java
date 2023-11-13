@@ -3,6 +3,7 @@ package top.nextnet.camel;
 import fr.pantheonsorbonne.ufr27.miage.dto.Booking;
 import fr.pantheonsorbonne.ufr27.miage.dto.CancelationNotice;
 import fr.pantheonsorbonne.ufr27.miage.dto.ETicket;
+import fr.pantheonsorbonne.ufr27.miage.dto.TicketEmissionData;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.CamelContext;
@@ -78,6 +79,7 @@ public class CamelRoutes extends RouteBuilder {
                 .when(header("success").isEqualTo(false))
                 .bean(eCommerce, "showErrorMessage").stop()
                 .otherwise()
+                .unmarshal().json(TicketEmissionData.class)
                 .bean(ticketingService, "notifyCreatedTicket");
 
 

@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Table(name = "Venue")
@@ -14,6 +15,16 @@ public class Venue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idVenue", nullable = false)
     private Integer id;
+
+    public Venue(Integer id, Collection<VenueLineUp> lineUp, Location location, LocalDate venueDate) {
+        this.id = id;
+        this.lineUp = lineUp;
+        this.location = location;
+        this.venueDate = venueDate;
+    }
+
+    public Venue() {
+    }
 
     public Integer getId() {
         return id;
@@ -34,7 +45,7 @@ public class Venue {
 
     @OneToMany
     @JoinColumn(name = "idVenue")
-    private Collection<VenueLineUp> lineUp;
+    private Collection<VenueLineUp> lineUp=new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "idLocation")

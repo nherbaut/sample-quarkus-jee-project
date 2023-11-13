@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.ufr27.miage.service;
 
 import com.google.common.hash.Hashing;
 import fr.pantheonsorbonne.ufr27.miage.dto.ETicket;
+import fr.pantheonsorbonne.ufr27.miage.dto.TicketEmissionData;
 import fr.pantheonsorbonne.ufr27.miage.dto.TicketType;
 import fr.pantheonsorbonne.ufr27.miage.exception.CustomerNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.ExpiredTransitionalTicketException;
@@ -15,13 +16,16 @@ import fr.pantheonsorbonne.ufr27.miage.model.Ticket;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Random;
 
 @ApplicationScoped
 public class TicketingServiceImpl implements TicketingService {
 
+    private final Random random = new Random();
 
     @Inject
     CustomerDAO customerDAO;
@@ -32,13 +36,13 @@ public class TicketingServiceImpl implements TicketingService {
     @Inject
     SeatPlacementService seatPlacementService;
 
-    public String getKeyForTicket(Ticket ticket) {
-        return Hashing.sha256().hashString(ticket.getId() + "" + ticket.getIdVenue().getId() + "" + ticket.getIdVendor().getId() + "MySuperSecret75013!", StandardCharsets.UTF_8).toString();
+    public String getKeyForTicket(Integer ticketId, Integer idVenue, Integer idVendor, Long salt) {
+        return Hashing.sha256().hashString(ticketId + "" + idVenue + "" + idVendor + "" + salt + "MySuperSecret75013!", StandardCharsets.UTF_8).toString();
     }
 
     @Override
     @Transactional
-    public String emitTicket(ETicket eticket) throws ExpiredTransitionalTicketException, NoSuchTicketException, CustomerNotFoundException.NoSeatAvailableException {
+    public TicketEmissionData emitTicket(ETicket eticket) throws ExpiredTransitionalTicketException, NoSuchTicketException, CustomerNotFoundException.NoSeatAvailableException {
 
         Customer customer = null;
         try {
@@ -51,12 +55,14 @@ public class TicketingServiceImpl implements TicketingService {
         if (ticket.getValidUntil().isBefore(Instant.now())) {
             throw new ExpiredTransitionalTicketException(eticket.getTransitionalTicketId());
         }
+        Long salt = random.nextLong();
         ticket = ticketDAO.emitTicketForCustomer(eticket.getTransitionalTicketId(), customer);
-        ticket.setTicketKey(this.getKeyForTicket(ticket));
-        if (Objects.equals(eticket.getType(),TicketType.SEATING)) {
+        ticket.setTicketKey(this.getKeyForTicket(ticket.getId(), ticket.getIdVenue().getId(), ticket.getIdVendor().getId(), salt));
+        if (Objects.equals(eticket.getType(), TicketType.SEATING)) {
             ticket.setSeatReference(seatPlacementService.bookSeat(ticket.getIdVenue().getId()));
         }
-        return ticket.getTicketKey();
+
+        return new TicketEmissionData(ticket.getTicketKey(),salt);
 
 
     }
@@ -68,7 +74,7 @@ public class TicketingServiceImpl implements TicketingService {
     }
 
     @Override
-    public boolean validateTicket(Ticket t) {
-        return this.getKeyForTicket(t).equals(t.getTicketKey());
+    public boolean validateTicket(int idTicket, int idVenue, int idVendor, long salt, String key) {
+        return this.getKeyForTicket(idTicket, idVenue, idVendor, salt).equals(key);
     }
 }

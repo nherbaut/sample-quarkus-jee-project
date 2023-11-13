@@ -5,11 +5,9 @@ import fr.pantheonsorbonne.ufr27.miage.dto.RemainingQuota;
 import fr.pantheonsorbonne.ufr27.miage.service.VenueService;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+
 import java.util.Collection;
 
 @Path("/vendor")
@@ -29,6 +27,11 @@ public class VendorResources {
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Collection<Gig> getGigs(@PathParam("idVendor") int idVendor) {
-        return service.getAvailableGigs(idVendor);
+        Collection<Gig> gig = service.getAvailableGigs(idVendor);
+        if (gig.isEmpty()) {
+            throw new WebApplicationException(404);
+        } else {
+            return gig;
+        }
     }
 }

@@ -11,6 +11,15 @@ public class Booking {
     Collection<Integer> standingTransitionalTicker = new ArrayList<>();
     Collection<Integer> seatingTransitionalTicker = new ArrayList<>();
 
+    public Booking(int vendorId, int venueId, int standingTicketsNumber, int seatingTicketsNumber, Collection<Integer> standingTransitionalTicker, Collection<Integer> seatingTransitionalTicker) {
+        this.vendorId = vendorId;
+        this.venueId = venueId;
+        this.standingTicketsNumber = standingTicketsNumber;
+        this.seatingTicketsNumber = seatingTicketsNumber;
+        this.standingTransitionalTicker = standingTransitionalTicker;
+        this.seatingTransitionalTicker = seatingTransitionalTicker;
+    }
+
     public Collection<Integer> getStandingTransitionalTicket() {
         return standingTransitionalTicker;
     }

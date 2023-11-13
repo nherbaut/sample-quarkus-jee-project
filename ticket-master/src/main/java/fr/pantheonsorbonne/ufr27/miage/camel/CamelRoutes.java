@@ -21,6 +21,8 @@ import jakarta.inject.Inject;
 @ApplicationScoped
 public class CamelRoutes extends RouteBuilder {
 
+    @ConfigProperty(name = "camel.routes.enabled", defaultValue = "true")
+    boolean isRouteEnabled;
 
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.jmsPrefix")
     String jmsPrefix;
@@ -64,6 +66,7 @@ public class CamelRoutes extends RouteBuilder {
 
 
         from("sjms2:" + jmsPrefix + "booking?exchangePattern=InOut")//
+                .autoStartup(isRouteEnabled)
                 .log("ticker received: ${in.headers}")//
                 .unmarshal().json(Booking.class)//
                 .bean(bookingHandler, "book").marshal().json()
@@ -71,11 +74,13 @@ public class CamelRoutes extends RouteBuilder {
 
 
         from("sjms2:" + jmsPrefix + "ticket?exchangePattern=InOut")
+                .autoStartup(isRouteEnabled)
                 .unmarshal().json(ETicket.class)
                 .bean(ticketingService, "emitTicket").marshal().json();
 
 
         from("direct:ticketCancel")
+                .autoStartup(isRouteEnabled)
                 .marshal().json()
                 .to("sjms2:topic:" + jmsPrefix + "cancellation");
 

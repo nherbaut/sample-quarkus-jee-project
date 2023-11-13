@@ -20,6 +20,15 @@ public class VenueQuota {
     @Column(name = "standingQuota", nullable = false)
     private Integer standingQuota;
 
+    public VenueQuota(VenueQuotaId id, Integer seatingQuota, Integer standingQuota) {
+        this.id = id;
+        this.seatingQuota = seatingQuota;
+        this.standingQuota = standingQuota;
+    }
+
+    public VenueQuota() {
+    }
+
     public Integer getStandingQuota() {
         return standingQuota;
     }
