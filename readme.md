@@ -1,61 +1,45 @@
 ## Objectifs du système à modéliser
 
-On propose de modéliser un système de réservation (master) de tickets pouvant supporter plusieurs vendeurs (vendor). Le système master gère les salles, les concerts, les différents artistes se produisant dans les concerts et la réservation des tickets alors que les vendeurs assurent la vente de billets. Chaque vendeur a un quota pour un concert donné, qui peut évoluer avec le temps.
-En cas d'annulation de concert, le système de réservation informe les vendors qui doivent contacter les clients (customers). Le master propose des services de validation de l'authenticité des tickets à l'entrée des concerts.
+On propose de modéliser un système de réservation d'hotellerie (Booking.com) pouvant supporter plusieurs hotels. Le système Booking gère les hotels, réservations et les utilisateurs (une réservation concerne un utilisateur et un hotel). Chaque hotel (bdd de l'hotel) à une adresse, chambres, options specials, réservations, utilisateurs.
+Chaque chambre a une capacité maximale et prix (possiblité d'ajouté un sys de paiment/ simuler un paiment).
+### Cas Normal 
+Une fois arrivée sur la plateform, l'utilisateurs fait une recheche d'hotels soit en précisant la ville et les dates et nombres de personnes(champs obj).
+L'application renvoit une liste de chambres d'hotels qui sont disponible pour la période choisie. L'utilisateur choisi la chambre qui lui convient le plus avec ou sans option special, et fais sa réservation.
+Une fois la réservation est confirmée un email de confirmation lui sera envoyé.
 
-Lors de la réservation de ticket, on a 2 phases:
-- le booking (réservation des places)
-- le ticketing (émission de billets sécurisés avec clé.)
+Lors de la réservation d'une chambre, on a 2 phases:
+- le booking (réservation des chambres)
+- la confirmation (émission d'email avec recap).
+- 
+### Annulation de réservation 
+En cas d'annulation de réservation, L'utilisateur fais une demande d'annulation de sa resérvation (sous contrainte quelle existe) sur Booking. le système de réservation informe l'hotel concerné que la réservation vient d'etre annulée (requete rest)
+    (2 cas possible : 1 annulation avant 48H de la date de début => rembourssement complet et un email de confirmation que la réservation a été annulée.
+                    : 2 annulation après 48H de la date de début => rembourssement de 75% et un email de confirmation que la réservation a été annulée.)
+                    
+---(possiblité de changement de date)---
 
-Le vendor va demander au master via une API rest les concerts pour lesquels il possède un quota. Seuls ces concerts seront proposés à la vente au client.
-Le client spécifie ensuite le nombre de places assises et le nombre de places debout qu'il souhaite acheter. Le vendor interroge le master sur la disponibilité. Celui-ci va lui renvoyer des tickets transitionnels valables 10 minutes en cas de disponibilité de places.
-Le vendeur va ensuite renseigner les informations du client et les transmettre au master pour l'émission finale des tickets avec clé sécurisée qui sera transmise au client pour qu'il puisse entrer dans la salle.
-En cas d'annulation du concert, le master prévient les vendors (avec les informations des tickets à annuler et les emails des clients) le vendeur doit envoyer un email au client pour chaque ticket annulé.
+
 
 ## Interfaces
 
-```
-artist->master: POST venue
-vendor->master: GET Gigs
-master->vendor: Collection<Gigs>
-
-Customer->vendor: cli:gig selection
-
-vendor->master: jms:booking
-alt booking successfull
-    master->vendor: transitional tickets
-    vendor->Customer: ticket purshase ok
-    Customer->vendor: cli:customer informations
-    
-    vendor->master: jms:ticketing
-    master->vendor: tickets
-
-else booking unsuccessfull
-    master->vendor: no quota for gigs
-end
-
-opt venue cancellation
-    artist->master: DELETE venue
-    master->vendor: jms:topic:cancellation
-    vendor->Customer: smtp:cancellation email
-end
-```
-![](seqDiagram.png)
+![](Sequence.png)
 
 ## Schéma relationnel
 
-![](EER.png)
+![](relational_diagram.png)
 
 ## Exigences fonctionnelles
 
-* le vendor NE DOIT proposer que les concerts pour lesquels il a un quota disponible, transmis par le master.
-* le vendor DOIT pouvoir effectuer les opérations de booking et ticketing
-* le master DOIT permettre à l'artiste d'annuler son concert.
-* le master DOIT informer le vendor en cas d'annulation de concert
-* le vendor DOIT informer les clients de l'annulation du concert par mail
-* le master DOIT proposer un service de validation de la clé du ticket, pour les contrôles aux entées.
+* le systeme (Booking) NE DOIT proposer que les chambres d'hotel disponible et qui satisfait les criteres de recherche de l'utilisateur.
+* le systeme DOIT pouvoir effectuer des opérations de reservation.
+* le systeme DOIT pouvoir informé l'utilisateur de la confirmation de sa réservation par mail
+* le systeme DOIT permettre à l'utilisateur d'annuler sa réservation.
+* le systeme DOIT informer l'hotel en cas d'annulation de réservation.
+* le systeme DOIT informer l'utilisateur de l'annulation de la reservation par mail
+* enrichir le prix envoyer par lhotel (benef)
+* une fois qu'un utilisateur a choisie une un hotel (les chambres de ce derniers seront indisponible pour une durée aux autres utilisateurs)
 
 ## Exigences non fonctionnelles
 
-* le booking et le ticketing, bien qu'étant des opérations synchrones, DOIVENT être fiables et donc utiliser le messaging
-* Lors de l'annulation de tickets, le master DOIT informer tous les vendors de l'annulation, de façon fiable.
+* le reservation, bien qu'étant une opération synchrones, DOIT être fiable et donc utiliser le messaging
+* Lors de l'annulation de reservation, le systeme DOIT informer l'hotel de l'annulation de réservation, de façon fiable.
