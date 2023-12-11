@@ -32,7 +32,8 @@ Il y a des regroupements de banques (BPCE...). Les regroupements de banques peuv
 * Bankin DOIT informer le client (customer) en cas de transaction suspecte par mail
 * Bankin DOIT permettre à l’utilisateur d’effectuer des transactions sans passer par celle de sa banque
 * Bankin DOIT proposer à l’utilisateur de souscrire à d’autres offres pour réduire ses dépenses
-* Les banques d’un même groupe DOIVENT avoir le même format de données (exigence ?)
-
 
 ## Exigences non fonctionnelles
+
+* Les banques d’un même groupe DOIVENT avoir le même format de données 
+* Bankin DOIT informer le client (customer) en cas de transaction suspecte par mail
