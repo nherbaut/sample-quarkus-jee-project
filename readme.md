@@ -21,19 +21,33 @@ Il y a des regroupements de banques (BPCE...). Les regroupements de banques peuv
 
 ## Interfaces
 
-![](SeqBankinDiag.png)
+Diagramme de séquence : Ajouter un compte dans l'application Bankin.
+
+![](sdAddAccount.png)
+
+
+Diagramme de séquence : Réaliser une transaction via Bankin
+
+![](sdTransaction.png)
 
 
 
 ## Exigences fonctionnelles
 
-* Bankin DOIT avoir l’autorisation de la banque (bank) pour pouvoir agréger le compte du client
-* L’utilisateur DOIT confirmer à sa banque que bankin peut accéder à ses comptes
-* Bankin DOIT informer le client (customer) en cas de transaction suspecte par mail
-* Bankin DOIT permettre à l’utilisateur d’effectuer des transactions sans passer par celle de sa banque
-* Bankin DOIT proposer à l’utilisateur de souscrire à d’autres offres pour réduire ses dépenses
+* Bankin DOIT avoir l’autorisation de la banque (bank) pour pouvoir agréger le compte du client.
+* L’utilisateur DOIT confirmer à sa banque que bankin peut accéder à ses comptes.
+* L’utilisateur DOIT pouvoir synchroniser ses comptes sur Bankin.
+* Bankin DOIT permettre au customer (l’utilisateur) d’effectuer des transactions sans passer par celle de sa banque.
+* Bankin DOIT proposer au customer de souscrire, s’il y en a, à d’autres offres pour réduire ses dépenses.
+* Bankin DOIT informer le customer en cas de transaction suspecte par mail. 
 
 ## Exigences non fonctionnelles
 
-* Les banques d’un même groupe DOIVENT avoir le même format de données 
-* Bankin DOIT informer le client (customer) en cas de transaction suspecte par mail
+* Les transactions DOIVENT être sécurisées. 
+* Les banques d’un même groupe DOIVENT avoir le même format de données.
+
+
+
+
+
+
