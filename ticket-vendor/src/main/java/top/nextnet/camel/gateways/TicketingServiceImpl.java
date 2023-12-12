@@ -1,6 +1,7 @@
 package top.nextnet.camel.gateways;
 
 import fr.pantheonsorbonne.ufr27.miage.dto.ETicket;
+import fr.pantheonsorbonne.ufr27.miage.dto.TicketEmissionData;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import top.nextnet.cli.UserInterface;
@@ -32,7 +33,7 @@ public class TicketingServiceImpl implements top.nextnet.service.TicketingServic
     }
 
     @Override
-    public void notifyCreatedTicket(String ticketKey) {
-        ihm.showSuccessMessage("Ticket emited with key" + ticketKey);
+    public void notifyCreatedTicket(TicketEmissionData ticketEmissionData) {
+        ihm.showSuccessMessage("Ticket emited with key" + ticketEmissionData.verifCode() + " and salt="+ticketEmissionData.salt());
     }
 }

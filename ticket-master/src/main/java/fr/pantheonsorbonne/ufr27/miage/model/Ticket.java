@@ -29,6 +29,13 @@ public class Ticket {
     @JoinColumn(name = "idCustomer", nullable = true)
     private Customer idCustomer;
 
+    public Ticket(Integer id) {
+        this.id = id;
+    }
+
+    public Ticket() {
+    }
+
     public String getSeatReference() {
         return seatReference;
     }

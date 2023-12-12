@@ -12,4 +12,6 @@ public interface VenueQuotaDAO {
     VenueQuota getQuotaForVendorForVenue(int idVendor, int idVenue);
 
     Collection<Venue> getQuotaForVendor(int idVendor);
+
+    VenueQuota getMatchingQuota(int vendorId, int venueId, int standing, int seating);
 }
