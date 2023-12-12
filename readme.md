@@ -31,6 +31,13 @@ Diagramme de séquence : Réaliser une transaction via Bankin
 ![](sdTransaction.png)
 
 
+## Schémas relationnels 
+
+Schéma d'une banque
+![](schémaRelationnelBank.png)
+
+Schéma Bankin
+![](schémaRelationnelBankin.png)
 
 ## Exigences fonctionnelles
 
