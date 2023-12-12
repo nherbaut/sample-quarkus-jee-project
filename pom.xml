@@ -8,9 +8,12 @@
   <packaging>pom</packaging>
   <name>project-m1</name>
   <modules>
-    <module>ticket-master</module>
-    <module>ticket-vendor</module>
-    <module>ticket-commons</module>
+   <module>amex-af</module>
+    <module>amex-amex</module>
+    <module>amex-arrexpay</module>
+    <module>amex-cashback</module>
+    <module>amex-commons</module>
+    <module>amex-mkt</module>
   </modules>
   <dependencyManagement>
     <dependencies>
