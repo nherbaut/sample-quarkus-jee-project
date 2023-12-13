@@ -38,4 +38,4 @@ nb-configuration.xml
 .jbang
 .sdkmanrc
 .envrc
-
+**/application.properties
