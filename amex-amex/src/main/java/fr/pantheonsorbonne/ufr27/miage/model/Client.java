@@ -10,11 +10,36 @@ public class Client {
 
     private Integer num_carte;
 
-    private enum genre {HOMME,FEMME,NONBINAIRE,AUTRE};
+    private String genre;
 
     private Integer age;
 
     private String profession;
 
+    public Client(Integer numCarte, String genre, Integer age, String profession) {
+        this.num_carte = numCarte;
+        this.genre = genre;
+        this.age=age;
+        this.profession=profession;
+    }
 
+    public Integer getNum_carte(){return num_carte;}
+
+    public void setNum_carte(Integer num_carte){this.num_carte = num_carte;}
+
+    public Integer getIdClient(){return idClient;}
+
+    public void setIdClient(Integer idClient){this.idClient=idClient;}
+
+    public String getGenre(){return genre;}
+
+    public  void setGenre(String genre){this.genre=genre;}
+
+    public Integer getAge(){return age;}
+
+    public void setAge(Integer age){this.age=age;}
+
+    public String getProfession(){return profession;}
+
+    public void setProfession(String profession) {this.profession = profession;}
 }
