@@ -11,6 +11,7 @@
   <module>sncf-bank</module>
     <module>sncf-commons</module>
     <module>sncf-connect</module>
+    <module>sncf-fidelity</module>
     <module>sncf-g30</module>
     <module>sncf-reseau</module>
   </modules>

@@ -2,7 +2,7 @@ package fr.pantheonsorbonne.ufr27.miage.exception;
 
 public class ExpiredTransitionalTicketException extends Throwable {
 
-    private int expiredTicketId;
+    private final int expiredTicketId;
 
     public ExpiredTransitionalTicketException(int expiredTicketId) {
         this.expiredTicketId = expiredTicketId;

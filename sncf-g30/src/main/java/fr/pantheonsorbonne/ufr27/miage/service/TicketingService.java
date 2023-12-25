@@ -13,5 +13,5 @@ public interface TicketingService {
 
     void cleanUpTransitionalTicket(int transitionalTicketId);
 
-    public boolean validateTicket(int idTicket, int idVenue, int idVendor, long salt, String key);
+    boolean validateTicket(int idTicket, int idVenue, int idVendor, long salt, String key);
 }

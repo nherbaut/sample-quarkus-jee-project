@@ -37,7 +37,7 @@ public class TicketingServiceImpl implements TicketingService {
     SeatPlacementService seatPlacementService;
 
     public String getKeyForTicket(Integer ticketId, Integer idVenue, Integer idVendor, Long salt) {
-        return Hashing.sha256().hashString(ticketId + "" + idVenue + "" + idVendor + "" + salt + "MySuperSecret75013!", StandardCharsets.UTF_8).toString();
+        return Hashing.sha256().hashString(ticketId + String.valueOf(idVenue) + idVendor + salt + "MySuperSecret75013!", StandardCharsets.UTF_8).toString();
     }
 
     @Override
