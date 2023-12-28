@@ -37,8 +37,6 @@ public class VenueServiceImpl implements VenueService {
     public RemainingQuota getRemainingQuotaForVendor(int idVendor, int idVenue) {
         VenueQuota quota = venueQuotaDAO.getQuotaForVendorForVenue(idVendor, idVenue);
         return new RemainingQuota(quota.getStandingQuota(), quota.getSeatingQuota());
-
-
     }
 
     @Override

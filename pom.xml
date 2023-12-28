@@ -11,6 +11,10 @@
     <module>ticket-master</module>
     <module>ticket-vendor</module>
     <module>ticket-commons</module>
+      <module>Fond</module>
+      <module>Entreprise</module>
+    <module>Tasvee</module>
+      <module>Common</module>
   </modules>
   <dependencyManagement>
     <dependencies>
