@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.ufr27.miage.dto;
+package fr.pantheonsorbonne.ufr27.miage.dto.PrestataireFinancier;
 
 public record ExpertiseFinanciere(
         double bfrExpert,

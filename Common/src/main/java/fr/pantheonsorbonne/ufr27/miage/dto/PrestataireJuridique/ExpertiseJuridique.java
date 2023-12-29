@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.ufr27.miage.dto;
+package fr.pantheonsorbonne.ufr27.miage.dto.PrestataireJuridique;
 
 public record ExpertiseJuridique(
                 int nombrePartExpertise,
