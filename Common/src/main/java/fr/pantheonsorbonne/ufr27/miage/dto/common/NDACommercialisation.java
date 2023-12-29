@@ -1,8 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.dto.common;
 
 
-import fr.pantheonsorbonne.ufr27.miage.dto.Proposition;
-
 public class NDACommercialisation extends NDA<Proposition> {
     private boolean signatureFonds;
     private boolean signatureEntreprise;
