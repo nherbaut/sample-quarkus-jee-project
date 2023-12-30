@@ -1,9 +1,9 @@
 package fr.pantheonsorbonne.ufr27.miage.dto;
 
-import fr.pantheonsorbonne.ufr27.miage.dto.Fond.Proposition;
+import fr.pantheonsorbonne.ufr27.miage.dto.Proposition;
 import fr.pantheonsorbonne.ufr27.miage.dto.common.NDA;
 
-public class NDANegociation extends NDA<Fond.Proposition> {
+public class NDANegociation extends NDA<Proposition> {
     private boolean signatureFonds;
 
     public NDANegociation(Proposition proposition, boolean signatureTasvee, boolean signatureFonds) {

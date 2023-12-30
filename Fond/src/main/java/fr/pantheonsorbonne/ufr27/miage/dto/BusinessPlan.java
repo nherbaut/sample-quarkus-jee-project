@@ -3,7 +3,7 @@ package fr.pantheonsorbonne.ufr27.miage.dto;
 public record BusinessPlan(
         ExpertiseJuridique expertiseJuridique,
         ExpertiseFinanciere expertiseFinancière,
-        Siret siretEntreprise,
+        String siretEntreprise,
         Organigramme organigramme,
-        SiteWeb siteWeb) {
+        String siteWeb) {
 }
