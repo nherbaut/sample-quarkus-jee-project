@@ -8,10 +8,7 @@ import fr.pantheonsorbonne.ufr27.miage.exception.CustomerNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.ExpiredTransitionalTicketException;
 import fr.pantheonsorbonne.ufr27.miage.exception.UnsuficientQuotaForVenueException;
 import fr.pantheonsorbonne.ufr27.miage.service.TicketingService;
-import org.apache.camel.CamelContext;
-import org.apache.camel.CamelExecutionException;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
+import org.apache.camel.*;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -20,6 +17,36 @@ import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class CamelRoutes extends RouteBuilder {
+
+    @ConfigProperty(name = "camel.routes.enabled", defaultValue = "true")
+    boolean isRouteEnabled;
+
+    @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.jmsPrefix")
+    String jmsPrefix;
+
+    @ConfigProperty(name = "quarkus.artemis.username")
+    String userName;
+
+    @Inject
+    CamelContext camelContext;
+
+    @Override
+    public void configure() throws Exception {
+        camelContext.setTracing(true);
+
+        from("direct:validatePayment")
+                .autoStartup(isRouteEnabled)
+                .setExchangePattern(ExchangePattern.InOut)
+                .marshal().json()
+                .to("sjms2:queue:payment" + userName + "?replyTo=paymentReply" + userName);
+
+        from("direct:sendToAmex")
+                .autoStartup(isRouteEnabled)
+                .marshal().json()
+                .to("sjms2:queue:Amex" + userName );
+    }
+
+    /*
 
     @ConfigProperty(name = "camel.routes.enabled", defaultValue = "true")
     boolean isRouteEnabled;
@@ -96,4 +123,6 @@ public class CamelRoutes extends RouteBuilder {
             exchange.getMessage().setBody(((ExpiredTransitionalTicketException) caused.getCause()).getExpiredTicketId());
         }
     }
+
+     */
 }
