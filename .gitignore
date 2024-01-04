@@ -39,3 +39,6 @@ nb-configuration.xml
 .sdkmanrc
 .envrc
 .properties
+
+/banking-banking/src/main/resources/application.properties
+/banking-bank/src/main/resources/application.properties
