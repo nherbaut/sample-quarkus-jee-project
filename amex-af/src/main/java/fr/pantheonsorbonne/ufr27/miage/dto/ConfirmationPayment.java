@@ -5,6 +5,8 @@ public class ConfirmationPayment {
     int idTransaction;
     boolean transactionStatus;
 
+    String errorMessage;
+
     public int getIdTransaction() {
         return idTransaction;
     }
@@ -19,5 +21,13 @@ public class ConfirmationPayment {
 
     public void setTransactionStatus(boolean transactionStatus) {
         this.transactionStatus = transactionStatus;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
     }
 }

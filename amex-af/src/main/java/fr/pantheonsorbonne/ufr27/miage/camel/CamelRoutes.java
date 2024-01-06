@@ -1,19 +1,17 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
 
-import fr.pantheonsorbonne.ufr27.miage.dao.NoSuchTicketException;
-import fr.pantheonsorbonne.ufr27.miage.dto.Booking;
-import fr.pantheonsorbonne.ufr27.miage.dto.ETicket;
-import fr.pantheonsorbonne.ufr27.miage.exception.CustomerNotFoundException;
-import fr.pantheonsorbonne.ufr27.miage.exception.ExpiredTransitionalTicketException;
-import fr.pantheonsorbonne.ufr27.miage.exception.UnsuficientQuotaForVenueException;
-import fr.pantheonsorbonne.ufr27.miage.service.TicketingService;
-import org.apache.camel.*;
-import org.apache.camel.builder.RouteBuilder;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
+import fr.pantheonsorbonne.ufr27.miage.dto.ConfirmationPayment;
+import fr.pantheonsorbonne.ufr27.miage.dto.InformationPayment;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.apache.camel.CamelContext;
+import org.apache.camel.ExchangePattern;
+import org.apache.camel.Message;
+import org.apache.camel.Processor;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.sjms.SjmsMessage;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class CamelRoutes extends RouteBuilder {
@@ -38,12 +36,38 @@ public class CamelRoutes extends RouteBuilder {
                 .autoStartup(isRouteEnabled)
                 .setExchangePattern(ExchangePattern.InOut)
                 .marshal().json()
-                .to("sjms2:queue:payment" + userName + "?replyTo=paymentReply" + userName);
+                .to("sjms2:queue:payment" + userName + "?replyTo=paymentReply" + userName)
+                .unmarshal().json(ConfirmationPayment.class);
 
         from("direct:sendToAmex")
                 .autoStartup(isRouteEnabled)
                 .marshal().json()
-                .to("sjms2:queue:Amex" + userName );
+                .to("sjms2:queue:Amex" + userName);
+
+        from("sjms2:queue:payment" + userName)
+                .autoStartup(isRouteEnabled)
+                .unmarshal().json(InformationPayment.class)
+                .process(returnOk())
+                .marshal().json();
+    }
+    private Processor returnOk() {
+       return exchange -> {
+           InformationPayment informationPayment = exchange.getMessage().getBody(InformationPayment.class);
+           ConfirmationPayment payment = new ConfirmationPayment();
+           payment.setIdTransaction(12345);
+           if (informationPayment.getPrice() < 5000) {
+               payment.setTransactionStatus(true);
+           } else {
+               payment.setTransactionStatus(false);
+               payment.setErrorMessage("Amount too high");
+           }
+           Message in = exchange.getIn();
+           SjmsMessage response = ((SjmsMessage) in).newInstance();
+           response.setHeader("JMSCorrelationID", in.getHeader("JMSCorrelationID"));
+           response.setHeader("Content-Type", "application/json");
+           response.setBody(payment);
+           exchange.setOut(response);
+       };
     }
 
     /*
