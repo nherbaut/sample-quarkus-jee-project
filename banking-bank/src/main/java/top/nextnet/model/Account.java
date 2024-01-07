@@ -3,6 +3,7 @@ package top.nextnet.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 public class Account {
@@ -50,5 +51,18 @@ public class Account {
 
     public void setSolde(BigDecimal solde) {
         this.solde = solde;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return idAccount == account.idAccount && idCustomer == account.idCustomer && idTransaction == account.idTransaction && Objects.equals(solde, account.solde);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idAccount, idCustomer, idTransaction, solde);
     }
 }

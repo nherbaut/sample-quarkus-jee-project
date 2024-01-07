@@ -3,6 +3,7 @@ package top.nextnet.model;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.Objects;
 
 @Entity
 public class Transaction {
@@ -72,5 +73,18 @@ public class Transaction {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return idTransaction == that.idTransaction && Double.compare(that.montant, montant) == 0 && etat == that.etat && Objects.equals(date, that.date) && Objects.equals(destinataire, that.destinataire) && Objects.equals(type, that.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idTransaction, date, montant, destinataire, etat, type);
     }
 }
