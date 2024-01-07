@@ -31,7 +31,7 @@ public class PaymentServiceImpl implements PaymentService{
             Exchange in = new DefaultExchange(camelContext);
             in.getIn().setBody(informationPayment);
             Exchange reply = producerTemplate.send("direct:validatePayment", in);
-            if (reply.getMessage() == null) {
+            if (reply.getOut().getBody() == null) {
                 String cause;
                 if (reply.getException()!= null) {
                     cause = reply.getException().getMessage();
@@ -43,7 +43,7 @@ public class PaymentServiceImpl implements PaymentService{
                 confirmationPayment.setErrorMessage("No reply received from AmexPay");
                 log.error("No reply received from AmexPay: {}", cause);
             } else {
-                confirmationPayment = reply.getMessage().getBody(ConfirmationPayment.class);
+                confirmationPayment = reply.getOut().getBody(ConfirmationPayment.class);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
