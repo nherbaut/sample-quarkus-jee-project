@@ -1,8 +1,7 @@
-package fr.pantheonsorbonne.ufr27.miage.model;
-
-import jakarta.persistence.*;
-
-import java.util.Objects;
+package top.nextnet.model;
+        import jakarta.persistence.*;
+        import java.math.BigDecimal;
+        import java.util.Objects;
 
 @Entity
 public class Account {

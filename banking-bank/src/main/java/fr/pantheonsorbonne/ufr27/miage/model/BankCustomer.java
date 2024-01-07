@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class User {
+public class BankCustomer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id_user", nullable = false)
-    private int idUser;
+    @Column(name = "id_customer", nullable = false)
+    private int idCustomer;
     @Basic
     @Column(name = "firstName", nullable = false, length = 30)
     private String firstName;
@@ -17,18 +17,18 @@ public class User {
     @Column(name = "lastName", nullable = false, length = 30)
     private String lastName;
     @Basic
-    @Column(name = "email", nullable = false, length = 50)
+    @Column(name = "email", nullable = false, length = 30)
     private String email;
     @Basic
     @Column(name = "adress", nullable = false, length = 50)
     private String adress;
 
-    public int getIdUser() {
-        return idUser;
+    public int getIdCustomer() {
+        return idCustomer;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setIdCustomer(int idCustomer) {
+        this.idCustomer = idCustomer;
     }
 
     public String getFirstName() {
@@ -67,12 +67,13 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return idUser == user.idUser && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(adress, user.adress);
+        BankCustomer customer = (BankCustomer) o;
+        return idCustomer == customer.idCustomer && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(email, customer.email) && Objects.equals(adress, customer.adress);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUser, firstName, lastName, email, adress);
+        return Objects.hash(idCustomer, firstName, lastName, email, adress);
     }
 }
+

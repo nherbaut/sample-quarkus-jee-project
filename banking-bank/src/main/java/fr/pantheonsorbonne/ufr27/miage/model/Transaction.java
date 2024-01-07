@@ -1,4 +1,4 @@
-package top.nextnet.model;
+package fr.pantheonsorbonne.ufr27.miage.model;
 
 import jakarta.persistence.*;
 
