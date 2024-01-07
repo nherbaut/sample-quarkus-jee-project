@@ -1,0 +1,89 @@
+package top.nextnet.model;
+
+import javax.persistence.*;
+import java.sql.Date;
+import java.util.Objects;
+
+@Entity
+public class Transaction {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id_transaction")
+    private int idTransaction;
+    @Basic
+    @Column(name = "date")
+    private Date date;
+    @Basic
+    @Column(name = "montant")
+    private double montant;
+    @Basic
+    @Column(name = "destinataire")
+    private String destinataire;
+    @Basic
+    @Column(name = "etat")
+    private byte etat;
+    @Basic
+    @Column(name = "type")
+    private String type;
+
+    public int getIdTransaction() {
+        return idTransaction;
+    }
+
+    public void setIdTransaction(int idTransaction) {
+        this.idTransaction = idTransaction;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public double getMontant() {
+        return montant;
+    }
+
+    public void setMontant(double montant) {
+        this.montant = montant;
+    }
+
+    public String getDestinataire() {
+        return destinataire;
+    }
+
+    public void setDestinataire(String destinataire) {
+        this.destinataire = destinataire;
+    }
+
+    public byte getEtat() {
+        return etat;
+    }
+
+    public void setEtat(byte etat) {
+        this.etat = etat;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return idTransaction == that.idTransaction && Double.compare(that.montant, montant) == 0 && etat == that.etat && Objects.equals(date, that.date) && Objects.equals(destinataire, that.destinataire) && Objects.equals(type, that.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idTransaction, date, montant, destinataire, etat, type);
+    }
+}
