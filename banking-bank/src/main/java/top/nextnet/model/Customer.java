@@ -2,7 +2,7 @@ package top.nextnet.model;
 
 import java.util.Objects;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 public class Customer {
