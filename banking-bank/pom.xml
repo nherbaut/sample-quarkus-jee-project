@@ -59,6 +59,10 @@
       <artifactId>camel-quarkus-direct</artifactId>
     </dependency>
     <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-validator</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.apache.camel.quarkus</groupId>
       <artifactId>camel-quarkus-jackson</artifactId>
     </dependency>
@@ -83,6 +87,10 @@
       <artifactId>quarkus-hibernate-orm</artifactId>
     </dependency>
     <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-mysql</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.apache.camel.quarkus</groupId>
       <artifactId>camel-quarkus-sjms2</artifactId>
     </dependency>
@@ -90,6 +98,10 @@
       <groupId>io.quarkiverse.artemis</groupId>
       <artifactId>quarkus-artemis-jms</artifactId>
       <version>3.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-h2</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

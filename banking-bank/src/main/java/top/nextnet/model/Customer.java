@@ -1,26 +1,24 @@
 package top.nextnet.model;
 
-import java.util.Objects;
-
 import jakarta.persistence.*;
 
 @Entity
 public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id_customer")
+    @Column(name = "id_customer", nullable = false)
     private int idCustomer;
     @Basic
-    @Column(name = "firstName")
+    @Column(name = "firstName", nullable = false, length = 30)
     private String firstName;
     @Basic
-    @Column(name = "lastName")
+    @Column(name = "lastName", nullable = false, length = 30)
     private String lastName;
     @Basic
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, length = 30)
     private String email;
     @Basic
-    @Column(name = "adress")
+    @Column(name = "adress", nullable = false, length = 50)
     private String adress;
 
     public int getIdCustomer() {
@@ -61,18 +59,5 @@ public class Customer {
 
     public void setAdress(String adress) {
         this.adress = adress;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return idCustomer == customer.idCustomer && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(email, customer.email) && Objects.equals(adress, customer.adress);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idCustomer, firstName, lastName, email, adress);
     }
 }
