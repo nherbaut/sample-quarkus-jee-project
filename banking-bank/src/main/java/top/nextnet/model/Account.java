@@ -1,25 +1,23 @@
 package top.nextnet.model;
 
-import java.math.BigDecimal;
-import java.util.Objects;
-
-
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 
 @Entity
 public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id_account")
+    @Column(name = "id_account", nullable = false)
     private int idAccount;
     @Basic
-    @Column(name = "id_customer")
+    @Column(name = "id_customer", nullable = false)
     private int idCustomer;
     @Basic
-    @Column(name = "id_transaction")
+    @Column(name = "id_transaction", nullable = false)
     private int idTransaction;
     @Basic
-    @Column(name = "solde")
+    @Column(name = "solde", nullable = true, precision = 2)
     private BigDecimal solde;
 
     public int getIdAccount() {
@@ -52,18 +50,5 @@ public class Account {
 
     public void setSolde(BigDecimal solde) {
         this.solde = solde;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Account account = (Account) o;
-        return idAccount == account.idAccount && idCustomer == account.idCustomer && idTransaction == account.idTransaction && Objects.equals(solde, account.solde);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idAccount, idCustomer, idTransaction, solde);
     }
 }
