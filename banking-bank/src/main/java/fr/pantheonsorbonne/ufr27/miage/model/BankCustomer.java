@@ -17,7 +17,7 @@ public class BankCustomer {
     @Column(name = "lastName", nullable = false, length = 30)
     private String lastName;
     @Basic
-    @Column(name = "email", nullable = false, length = 30)
+    @Column(name = "email", nullable = false, length = 50)
     private String email;
     @Basic
     @Column(name = "adress", nullable = false, length = 50)
