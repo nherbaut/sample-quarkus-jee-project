@@ -2,6 +2,10 @@ package fr.pantheonsorbonne.ufr27.miage.dao;
 
 import fr.pantheonsorbonne.ufr27.miage.model.Account;
 
+import java.util.List;
+
 public interface AccountDAO {
-    Account findMatchingAccount(int idCustomer) ;
+
+    List<Account> findAccountsByCustomerId(int customerId);
+
 }
