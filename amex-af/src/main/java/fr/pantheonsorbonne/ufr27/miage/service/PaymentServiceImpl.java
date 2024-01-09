@@ -51,7 +51,7 @@ public class PaymentServiceImpl implements PaymentService{
 
        //if payment is ok, call AmexService to send clientId and ticket price
        if (isPaymentOk(confirmationPayment)) {
-           amexService.sendInformationPayment(informationPayment.getIdClient(), informationPayment.getPrice());
+           amexService.sendInformationPayment(informationPayment.getClient(), informationPayment.getPrice());
         }
 
         return confirmationPayment;

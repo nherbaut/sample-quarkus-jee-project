@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
+import fr.pantheonsorbonne.ufr27.miage.dto.Client;
 import fr.pantheonsorbonne.ufr27.miage.dto.ConfirmationPayment;
 import fr.pantheonsorbonne.ufr27.miage.dto.InformationPayment;
 import org.apache.camel.CamelContext;
@@ -17,8 +18,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.ArgumentMatchers.anyFloat;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static fr.pantheonsorbonne.ufr27.miage.dto.Genre.HOMME;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -34,12 +35,14 @@ public class PaymentServiceImplTest {
     @Mock
     AmexService amexService;
 
+    Client client = new Client(123, HOMME, 26, "Ingénieur");
+
     @Test
     void should_return_ConfirmationPayment_with_status_OK() {
         Mockito.when(camelContext.createProducerTemplate()).thenReturn(new FakeProducerTemplate(camelContext));
 
         InformationPayment informationPayment = new InformationPayment();
-        informationPayment.setIdClient(12345);
+        informationPayment.setClient(client);
         informationPayment.setPrice(450);
         informationPayment.setCardNumber("AA123GTH33");
         informationPayment.setIdTicket(567);
@@ -47,7 +50,7 @@ public class PaymentServiceImplTest {
 
         Assertions.assertTrue(confirmationPayment.isTransactionStatus());
         Assertions.assertNull(confirmationPayment.getErrorMessage());
-        verify(amexService, Mockito.times(1)).sendInformationPayment(anyInt(), anyFloat());
+        verify(amexService, Mockito.times(1)).sendInformationPayment(any(Client.class), anyFloat());
     }
 
     @Test
@@ -55,7 +58,7 @@ public class PaymentServiceImplTest {
         Mockito.when(camelContext.createProducerTemplate()).thenReturn(new FakeProducerTemplate(camelContext));
 
         InformationPayment informationPayment = new InformationPayment();
-        informationPayment.setIdClient(12345);
+        informationPayment.setClient(client);
         informationPayment.setPrice(45000);
         informationPayment.setCardNumber("AA123GTH33");
         informationPayment.setIdTicket(567);
@@ -63,7 +66,7 @@ public class PaymentServiceImplTest {
 
         Assertions.assertFalse(confirmationPayment.isTransactionStatus());
         Assertions.assertEquals("Amount too high", confirmationPayment.getErrorMessage());
-        verify(amexService, never()).sendInformationPayment(anyInt(), anyFloat());
+        verify(amexService, never()).sendInformationPayment(any(Client.class), anyFloat());
     }
 
     @Test
@@ -74,7 +77,7 @@ public class PaymentServiceImplTest {
 
         Assertions.assertFalse(confirmationPayment.isTransactionStatus());
         Assertions.assertEquals("No reply received from AmexPay", confirmationPayment.getErrorMessage());
-        verify(amexService, never()).sendInformationPayment(anyInt(), anyFloat());
+        verify(amexService, never()).sendInformationPayment(any(Client.class), anyFloat());
     }
 
     public static class FakeProducerTemplate extends DefaultProducerTemplate {

@@ -1,17 +1,15 @@
 package fr.pantheonsorbonne.ufr27.miage.dto;
 
 public class InformationPayment {
-    int idClient;
+    Client client;
     float price;
     String cardNumber;
     int idTicket;
 
-    public int getIdClient() {
-        return idClient;
-    }
+    public Client getClient() { return client; }
 
-    public void setIdClient(int idClient) {
-        this.idClient = idClient;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public float getPrice() {
