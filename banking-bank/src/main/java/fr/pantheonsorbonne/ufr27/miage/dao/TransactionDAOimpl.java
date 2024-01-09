@@ -18,9 +18,12 @@ public class TransactionDAOimpl implements TransactionDAO{
 
 
     @Override
-    public List<Transaction> findTransactionsByAccountId(int id_transaction) {
-        TypedQuery<Transaction> query = em.createQuery(
-                "SELECT t FROM Transaction t WHERE t.idTransaction = :id_transaction", Transaction.class);
-        query.setParameter("id_transaction", id_transaction);
-        return query.getResultList();    }
+    public Transaction findTransactionsByAccountId(int id_transaction) {
+        try {
+            Transaction c = (Transaction) em.createQuery("Select c from Transaction c where c.idTransaction=:id_transaction").setParameter("id_transaction", id_transaction).getSingleResult();
+            return c;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

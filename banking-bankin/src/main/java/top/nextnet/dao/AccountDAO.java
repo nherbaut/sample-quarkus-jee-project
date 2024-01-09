@@ -1,11 +1,9 @@
-package fr.pantheonsorbonne.ufr27.miage.dao;
+package top.nextnet.dao;
 
-import fr.pantheonsorbonne.ufr27.miage.model.Account;
+import top.nextnet.model.Account;
 
 import java.util.List;
 
 public interface AccountDAO {
-
     List<Account> findAccountsByCustomerId(int customerId);
-
 }

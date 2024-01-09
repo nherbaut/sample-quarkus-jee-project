@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface TransactionDAO {
 
-    List<Transaction> findTransactionsByAccountId(int id_transaction);
+    Transaction findTransactionsByAccountId(int id_transaction);
 
 }

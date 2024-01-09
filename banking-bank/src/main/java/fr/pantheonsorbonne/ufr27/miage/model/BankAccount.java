@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
-public class Account {
+public class BankAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_account", nullable = false)
@@ -57,7 +57,7 @@ public class Account {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Account account = (Account) o;
+        BankAccount account = (BankAccount) o;
         return idAccount == account.idAccount && idCustomer == account.idCustomer && idTransaction == account.idTransaction && Objects.equals(solde, account.solde);
     }
 
