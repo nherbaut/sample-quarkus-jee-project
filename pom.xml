@@ -10,7 +10,7 @@
     <name>project-m1</name>
     <modules>
         <module>banking-bank</module>
-        <module>banking-banking</module>
+        <module>banking-bankin</module>
         <module>banking-commons</module>
     </modules>
     <dependencyManagement>
