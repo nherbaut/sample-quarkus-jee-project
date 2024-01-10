@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 @Entity
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idClient", nullable = false)
     private Integer idClient;
 
@@ -16,12 +15,15 @@ public class Client {
 
     private String profession;
 
-    public Client(Integer numCarte, String genre, Integer age, String profession) {
+    public Client(Integer idClient, Integer numCarte, String genre, Integer age, String profession) {
+        this.idClient = idClient;
         this.num_carte = numCarte;
         this.genre = genre;
         this.age=age;
         this.profession=profession;
     }
+
+    public Client() {}
 
     public Integer getNum_carte(){return num_carte;}
 

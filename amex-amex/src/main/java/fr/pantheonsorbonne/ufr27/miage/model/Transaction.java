@@ -20,6 +20,8 @@ public class Transaction {
         this.montantTransaction=montantTransaction;
     }
 
+    public Transaction(){}
+
     public Client getIdClient() {return idClient;}
 
     public void setIdClient(Client idClient) {this.idClient = idClient;}

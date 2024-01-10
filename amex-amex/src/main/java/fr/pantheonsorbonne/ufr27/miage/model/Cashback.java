@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 public class Cashback {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idCashback", nullable = false)
     private Integer idCashback;
 
@@ -24,6 +23,8 @@ public class Cashback {
         this.idTransaction=idTransaction;
         this.tauxCashback=tauxCashback;
     }
+
+    public Cashback() {}
 
     public Client getIdClient() {return idClient;}
 

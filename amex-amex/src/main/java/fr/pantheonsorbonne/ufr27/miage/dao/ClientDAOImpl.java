@@ -12,8 +12,8 @@ public class ClientDAOImpl implements ClientDAO{
     EntityManager em;
 
     @Override
-    public Client CreateNewClient(Integer num_carte, String genre, Integer age, String profession) {
-        Client c = new Client(num_carte,genre,age,profession);
+    public Client CreateNewClient(Integer idClient, Integer num_carte, String genre, Integer age, String profession) {
+        Client c = new Client(idClient,num_carte,genre,age,profession);
         em.persist(c);
         return c;
     }
