@@ -44,6 +44,7 @@ public class CamelRoutes extends RouteBuilder {
 
         //from("sjms2:queue:Amex") from aurelie
         from("file:data/testFolder")
+                .wireTap("direct:marketing")
                 .unmarshal().json(JsonLibrary.Jackson, LinkedHashMap.class)
                 .process(exchange -> {
                     LinkedHashMap<String, Object> jsonMap = exchange.getIn().getBody(LinkedHashMap.class);
@@ -54,28 +55,13 @@ public class CamelRoutes extends RouteBuilder {
                     client.setGenre((String) jsonMap.get("genre"));
                     double price = ((double) jsonMap.get("prix"));
                     clientGateway.client(client, price);
+                    exchange.setProperty("client", client);
                     exchange.setProperty("idClient", client.getIdClient());
                 })
                 .bean(transactionGateway, "transaction")
                 .setExchangePattern(ExchangePattern.InOut)
                 .marshal().json()
-                .to("file:data/folder2");//ENVOYER ET RECEVOIR DE LA PART DE SIMON
-                /*.unmarshal().json(Cashback.class)
-                .bean(cashbackGateway, "cashback")
-                .process(exchange -> {
-                    Cashback result = exchange.getIn().getBody(Cashback.class);
-                    Transaction t = transactionGateway.getMontantTransaction(result.getIdTransaction());
-                    Map<String, Object> jsonOutput = new HashMap<>();
-                    jsonOutput.put("montant", t.getMontantTransaction());
-                    jsonOutput.put("idClient", result.getIdClient());
-                    jsonOutput.put("taux", result.getTauxCashback());
-                    exchange.getIn().setBody(jsonOutput);
-                })
-                .marshal().json()
-                .to("file:data/folderToSlim"); //ENVOYER SUR LA QUEUE DE SELIM*/
-
-        //PREPARATION PARTIE SIMON ET SELIM
-        from("file:data/folderInfoSimon") //from simon
+                .to("file:data/folder2");/*//ENVOYER ET RECEVOIR DE LA PART DE SIMON
                 .unmarshal().json(Cashback.class)
                 .bean(cashbackGateway, "cashback")
                 .process(exchange -> {
@@ -88,11 +74,24 @@ public class CamelRoutes extends RouteBuilder {
                     exchange.getIn().setBody(jsonOutput);
                 })
                 .marshal().json()
-                .to("file:data/folderToSlim");
+                .to("file:data/folderToSlim");//ENVOYER SUR LA QUEUE DE SELIM*/
 
-        //from("direct:sendToMarketing")
-                //VOIR APRES
-                //.to("file:data/folderMarket");
-                //.to("sjms2:AmexMarketing") // to marketing
+        //PREPARATION PARTIE SIMON ET SELIM
+        from("file:data/folder") //from simon
+                .unmarshal().json(Cashback.class)
+                .bean(cashbackGateway, "cashback")
+                .process(exchange -> {
+                    Cashback result = exchange.getIn().getBody(Cashback.class);
+                    Transaction t = transactionGateway.getMontantTransaction(result.getIdTransaction());
+                    Map<String, Object> jsonOutput = new HashMap<>();
+                    jsonOutput.put("montant", t.getMontantTransaction());
+                    jsonOutput.put("idClient", result.getIdClient());
+                    jsonOutput.put("taux", result.getTauxCashback());
+                    exchange.getIn().setBody(jsonOutput);
+                })
+                .marshal().json()
+                .multicast()
+                .to("sjms2:M1.AMEX.toAMEXCashback","file:data/folderToSlim");
+        //.to("file:data/folderToSlim");
     }
 }
