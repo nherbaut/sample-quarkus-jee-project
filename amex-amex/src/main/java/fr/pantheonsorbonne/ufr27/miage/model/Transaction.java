@@ -9,28 +9,35 @@ public class Transaction {
     @Column(name = "idTransaction", nullable = false)
     private Integer idTransaction;
 
-    @ManyToOne
     @JoinColumn(name = "idClient")
-    private Client idClient;
+    private Integer idClient;
 
-    private float montantTransaction;
+    private double montantTransaction;
 
-    public Transaction(Client idClient, float montantTransaction){
+    private boolean transactionStatue;
+
+
+    public Transaction(Integer idClient, double montantTransaction){
         this.idClient=idClient;
         this.montantTransaction=montantTransaction;
+        this.transactionStatue=false;
     }
 
     public Transaction(){}
 
-    public Client getIdClient() {return idClient;}
+    public void setTransactionStatue(boolean transactionStatue) {this.transactionStatue = transactionStatue;}
 
-    public void setIdClient(Client idClient) {this.idClient = idClient;}
+    public boolean isTransactionStatue() {return transactionStatue;}
+
+    public Integer getIdClient() {return idClient;}
+
+    public void setIdClient(Integer idClient) {this.idClient = idClient;}
 
     public Integer getIdTransaction() {return idTransaction;}
 
     public void setIdTransaction(Integer idTransaction) {this.idTransaction = idTransaction;}
 
-    public float getMontantTransaction() {return montantTransaction;}
+    public double getMontantTransaction() {return montantTransaction;}
 
-    public void setMontantTransaction(float montantTransaction) {this.montantTransaction = montantTransaction;}
+    public void setMontantTransaction(double montantTransaction) {this.montantTransaction = montantTransaction;}
 }

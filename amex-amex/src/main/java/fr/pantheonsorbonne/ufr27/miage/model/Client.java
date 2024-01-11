@@ -7,6 +7,7 @@ public class Client {
     @Column(name = "idClient", nullable = false)
     private Integer idClient;
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer num_carte;
 
     private String genre;
@@ -15,9 +16,8 @@ public class Client {
 
     private String profession;
 
-    public Client(Integer idClient, Integer numCarte, String genre, Integer age, String profession) {
+    public Client(Integer idClient, String genre, Integer age, String profession) {
         this.idClient = idClient;
-        this.num_carte = numCarte;
         this.genre = genre;
         this.age=age;
         this.profession=profession;

@@ -14,7 +14,7 @@ public class CashbackDAOImpl implements CashbackDAO{
     EntityManager em;
 
     @Override
-    public Cashback CreateNewCashback(Client idClient, Transaction idTransaction, float tauxCashback) {
+    public Cashback CreateNewCashback(Integer idClient, Integer idTransaction, float tauxCashback) {
         Cashback c = new Cashback(idClient,idTransaction,tauxCashback);
         em.persist(c);
         return c;

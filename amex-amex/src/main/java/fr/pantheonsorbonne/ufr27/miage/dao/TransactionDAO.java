@@ -5,7 +5,7 @@ import fr.pantheonsorbonne.ufr27.miage.model.Transaction;
 
 public interface TransactionDAO {
 
-    Transaction CreateNewTransaction(Client idClient, float montantTransaction);
+    Transaction CreateNewTransaction(Integer idClient, double montantTransaction);
 
-    Transaction FindTransaction(Integer idTransaction);
+    Transaction FindTransaction(Integer idClient);
 }

@@ -6,19 +6,18 @@ public class Cashback {
 
     @Id
     @Column(name = "idCashback", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCashback;
 
-    @ManyToOne
     @JoinColumn(name = "idClient")
-    private Client idClient;
+    private Integer idClient;
 
-    @ManyToOne
     @JoinColumn(name = "idTransaction")
-    private Transaction idTransaction;
+    private Integer idTransaction;
 
     private float tauxCashback;
 
-    public Cashback(Client idClient, Transaction idTransaction, float tauxCashback){
+    public Cashback(Integer idClient, Integer idTransaction, float tauxCashback){
         this.idClient=idClient;
         this.idTransaction=idTransaction;
         this.tauxCashback=tauxCashback;
@@ -26,9 +25,9 @@ public class Cashback {
 
     public Cashback() {}
 
-    public Client getIdClient() {return idClient;}
+    public Integer getIdClient() {return idClient;}
 
-    public void setIdClient(Client idClient) {this.idClient = idClient;}
+    public void setIdClient(Integer idClient) {this.idClient = idClient;}
 
     public Integer getIdCashback() {return idCashback;}
 
@@ -38,7 +37,7 @@ public class Cashback {
 
     public void setTauxCashback(float tauxCashback) {this.tauxCashback = tauxCashback;}
 
-    public Transaction getIdTransaction() {return idTransaction;}
+    public Integer getIdTransaction() {return idTransaction;}
 
-    public void setIdTransaction(Transaction idTransaction) {this.idTransaction = idTransaction;}
+    public void setIdTransaction(Integer idTransaction) {this.idTransaction = idTransaction;}
 }

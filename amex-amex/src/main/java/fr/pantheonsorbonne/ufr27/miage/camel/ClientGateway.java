@@ -11,9 +11,9 @@ public class ClientGateway {
     @Inject
     ClientService clientService;
 
-    public Client client(Client clientRequest) {
+    public Client client(Client clientRequest, double price) {
 
-        return clientService.client(clientRequest);
+        return clientService.client(clientRequest, price);
     }
 
 
