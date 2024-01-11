@@ -2,16 +2,10 @@ package fr.pantheonsorbonne.ufr27.miage.camel;
 
 
 import fr.pantheonsorbonne.ufr27.miage.dao.NoSuchTicketException;
-import fr.pantheonsorbonne.ufr27.miage.dto.Booking;
-import fr.pantheonsorbonne.ufr27.miage.dto.ETicket;
 import fr.pantheonsorbonne.ufr27.miage.exception.CustomerNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.ExpiredTransitionalTicketException;
 import fr.pantheonsorbonne.ufr27.miage.exception.UnsuficientQuotaForVenueException;
-import fr.pantheonsorbonne.ufr27.miage.service.TicketingService;
 import org.apache.camel.CamelContext;
-import org.apache.camel.CamelExecutionException;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -28,12 +22,6 @@ public class CamelRoutes extends RouteBuilder {
     String jmsPrefix;
 
     @Inject
-    BookingGateway bookingHandler;
-
-    @Inject
-    TicketingService ticketingService;
-
-    @Inject
     CamelContext camelContext;
 
     @Override
@@ -41,14 +29,14 @@ public class CamelRoutes extends RouteBuilder {
 
         camelContext.setTracing(true);
 
-        onException(ExpiredTransitionalTicketException.class)
+        /*onException(ExpiredTransitionalTicketException.class)
                 .handled(true)
                 .process(new ExpiredTransitionalTicketProcessor())
                 .setHeader("success", simple("false"))
                 .log("Clearning expired transitional ticket ${body}")
-                .bean(ticketingService, "cleanUpTransitionalTicket");
+                .bean(ticketingService, "cleanUpTransitionalTicket");*/
 
-        onException(UnsuficientQuotaForVenueException.class)
+       /*onException(UnsuficientQuotaForVenueException.class)
                 .handled(true)
                 .setHeader("success", simple("false"))
                 .setBody(simple("Vendor has not enough quota for this venue"));
@@ -62,10 +50,10 @@ public class CamelRoutes extends RouteBuilder {
         onException(CustomerNotFoundException.NoSeatAvailableException.class)
                 .handled(true)
                 .setHeader("success", simple("false"))
-                .setBody(simple("No seat is available"));
+                .setBody(simple("No seat is available"));*/
 
 
-        from("sjms2:" + jmsPrefix + "booking?exchangePattern=InOut")//
+        /*from("sjms2:" + jmsPrefix + "booking?exchangePattern=InOut")//
                 .autoStartup(isRouteEnabled)
                 .log("ticker received: ${in.headers}")//
                 .unmarshal().json(Booking.class)//
@@ -82,18 +70,7 @@ public class CamelRoutes extends RouteBuilder {
         from("direct:ticketCancel")
                 .autoStartup(isRouteEnabled)
                 .marshal().json()
-                .to("sjms2:topic:" + jmsPrefix + "cancellation");
+                .to("sjms2:topic:" + jmsPrefix + "cancellation");*/
 
-    }
-
-    private static class ExpiredTransitionalTicketProcessor implements Processor {
-        @Override
-        public void process(Exchange exchange) throws Exception {
-            //https://camel.apache.org/manual/exception-clause.html
-            CamelExecutionException caused = (CamelExecutionException) exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Throwable.class);
-
-
-            exchange.getMessage().setBody(((ExpiredTransitionalTicketException) caused.getCause()).getExpiredTicketId());
-        }
     }
 }

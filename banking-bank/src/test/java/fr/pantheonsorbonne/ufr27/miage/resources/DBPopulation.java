@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import java.time.LocalDate;
 import java.util.List;
 
-@ApplicationScoped
+/*@ApplicationScoped
 public class DBPopulation {
     public EntityManager getEm() {
         return em;
@@ -89,4 +89,4 @@ public class DBPopulation {
     }
 
 
-}
+}*/
