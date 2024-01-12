@@ -11,6 +11,8 @@
     <module>ticket-master</module>
     <module>ticket-vendor</module>
     <module>ticket-commons</module>
+    <module>hotel_california</module>
+    <module>hotel_paradiso</module>
   </modules>
   <dependencyManagement>
     <dependencies>
