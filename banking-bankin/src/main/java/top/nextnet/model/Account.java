@@ -11,9 +11,6 @@ public class Account {
     @Column(name = "id_account", nullable = false)
     private int idAccount;
     @Basic
-    @Column(name = "password", nullable = false, length = 255)
-    private String password;
-    @Basic
     @Column(name = "id_bank", nullable = false)
     private int idBank;
     @Basic
@@ -26,14 +23,6 @@ public class Account {
 
     public void setIdAccount(int idAccount) {
         this.idAccount = idAccount;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public int getIdBank() {
@@ -57,11 +46,11 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return idAccount == account.idAccount && idBank == account.idBank && idUser == account.idUser && Objects.equals(password, account.password);
+        return idAccount == account.idAccount && idBank == account.idBank && idUser == account.idUser;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idAccount, password, idBank, idUser);
+        return Objects.hash(idAccount, idBank, idUser);
     }
 }

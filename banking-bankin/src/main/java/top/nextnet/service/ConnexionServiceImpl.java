@@ -4,10 +4,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import top.nextnet.dao.AccountDAO;
+import top.nextnet.dao.PasswordDAO;
 import top.nextnet.dao.UserDAO;
 import top.nextnet.exception.BankinAccountNotFoundException;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import top.nextnet.model.Account;
+import top.nextnet.model.Password;
 import top.nextnet.model.User;
 
 
@@ -21,13 +23,17 @@ public class ConnexionServiceImpl implements ConnexionService {
     @Inject
     UserDAO userDAO;
 
+    @Inject
+    PasswordDAO passwordDAO;
+
     @Override
     @Transactional
     public boolean login(String email, String pwd){
         try{
             User user = userDAO.findMatchingUser(email);
             Account account = accountDAO.findMatchingAccount(user.getIdUser());
-            if(this.checkPassword(account.getPassword(),pwd)){
+            Password password = passwordDAO.findMatchingPassword(account.getIdAccount());
+            if(this.checkPassword(password.getPassword(),pwd)){
                 return true;
             }
             return false;
