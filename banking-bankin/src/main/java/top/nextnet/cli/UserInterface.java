@@ -7,6 +7,9 @@ public interface UserInterface {
 
     void showSuccessMessage(String s);
 
+}
+
+ /*
     String getCustomerFirstName();
 
     String getCustomerLastName();
@@ -15,3 +18,4 @@ public interface UserInterface {
 
     Booking getBookingFromOperator();
 }
+ */

@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.dto;
 
-
+ /*
 import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 
@@ -53,3 +53,8 @@ public class Gig {
         this.location = location;
     }
 }
+
+
+
+
+  */

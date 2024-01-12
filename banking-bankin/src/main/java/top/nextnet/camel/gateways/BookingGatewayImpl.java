@@ -1,5 +1,5 @@
 package top.nextnet.camel.gateways;
-
+ /*
 import fr.pantheonsorbonne.ufr27.miage.dto.Booking;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -29,3 +29,5 @@ public class BookingGatewayImpl implements top.nextnet.service.BookingGateway {
     }
 
 }
+
+*/

@@ -14,7 +14,7 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import java.util.Collection;
 
-
+ /*
 @Path("/vendor")
 @RegisterRestClient(configKey = "vendor-api")
 public interface VendorService {
@@ -28,3 +28,4 @@ public interface VendorService {
     @GET
     Collection<Gig> getGigs(@PathParam int idVendor);
 }
+*/

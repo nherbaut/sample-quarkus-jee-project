@@ -1,6 +1,7 @@
 package top.nextnet.model;
+
 import jakarta.persistence.*;
-import java.math.BigDecimal;
+
 import java.util.Objects;
 
 @Entity

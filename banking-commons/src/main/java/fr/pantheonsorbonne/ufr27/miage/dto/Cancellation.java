@@ -1,5 +1,5 @@
 package fr.pantheonsorbonne.ufr27.miage.dto;
-
+ /*
 import java.util.Collection;
 
 public class Cancellation {
@@ -30,3 +30,6 @@ public class Cancellation {
         this.customerEmails = customerEmails;
     }
 }
+
+
+  */

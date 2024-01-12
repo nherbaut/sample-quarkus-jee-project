@@ -4,21 +4,58 @@ package top.nextnet.cli;
 import fr.pantheonsorbonne.ufr27.miage.dto.Booking;
 import fr.pantheonsorbonne.ufr27.miage.dto.Gig;
 
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import top.nextnet.resource.VendorService;
+//import top.nextnet.resource.VendorService;
 
+import fr.pantheonsorbonne.ufr27.miage.dto.User;
 
 
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
+public class UserInterfaceCLIImpl implements UserInterfaceCLI {
+    TextTerminal<?> terminal;
+    TextIO textIO;
 
+    public User getUserInfoToBankin(){
+        terminal.println("Welcome to bankin !");
+
+        String email = textIO.newStringInputReader().read("Your email ?");
+        String password = textIO.newStringInputReader().withInputMasking(true).read("Your password ?");
+
+        return new User(email,password);
+    }
+    @Override
+    public void accept(TextIO textIO, RunnerData runnerData) {
+        this.textIO = textIO;
+        terminal = textIO.getTextTerminal();
+    }
+
+    @Override
+    public void showErrorMessage(String errorMessage) {
+        terminal.getProperties().setPromptColor(Color.RED);
+        terminal.println(errorMessage);
+        terminal.getProperties().setPromptColor(Color.white);
+    }
+
+    @Override
+    public void showSuccessMessage(String s) {
+        terminal.getProperties().setPromptColor(Color.GREEN);
+        terminal.println(s);
+        terminal.getProperties().setPromptColor(Color.white);
+    }
+}
+
+
+ /*
 @ApplicationScoped
 public class UserInterfaceCLIImpl implements UserInterfaceCLI {
 
@@ -92,3 +129,5 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
 
 
 }
+
+  */

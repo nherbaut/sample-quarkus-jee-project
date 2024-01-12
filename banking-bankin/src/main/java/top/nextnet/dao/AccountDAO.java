@@ -1,9 +1,8 @@
 package top.nextnet.dao;
 
+import top.nextnet.exception.BankinAccountNotFoundException;
 import top.nextnet.model.Account;
 
-import java.util.List;
-
 public interface AccountDAO {
-    List<Account> findAccountsByCustomerId(int customerId);
+    Account findMatchingAccount(int idUser) throws BankinAccountNotFoundException;
 }
