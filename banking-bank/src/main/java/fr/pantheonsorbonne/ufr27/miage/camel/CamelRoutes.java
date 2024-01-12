@@ -1,10 +1,8 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
 
-import fr.pantheonsorbonne.ufr27.miage.dao.NoSuchTicketException;
-import fr.pantheonsorbonne.ufr27.miage.exception.CustomerNotFoundException;
-import fr.pantheonsorbonne.ufr27.miage.exception.ExpiredTransitionalTicketException;
-import fr.pantheonsorbonne.ufr27.miage.exception.UnsuficientQuotaForVenueException;
+import fr.pantheonsorbonne.ufr27.miage.exception.BankAccountNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.exception.BankCustomerNotFoundException;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -17,10 +15,12 @@ public class CamelRoutes extends RouteBuilder {
 
     @ConfigProperty(name = "camel.routes.enabled", defaultValue = "true")
     boolean isRouteEnabled;
-
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.jmsPrefix")
     String jmsPrefix;
-
+    @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.bankName")
+    String bankName;
+    @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.clientEmail")
+    String clientEmail;
     @Inject
     CamelContext camelContext;
 
@@ -29,48 +29,15 @@ public class CamelRoutes extends RouteBuilder {
 
         camelContext.setTracing(true);
 
-        /*onException(ExpiredTransitionalTicketException.class)
+        onException(BankAccountNotFoundException.class)
                 .handled(true)
-                .process(new ExpiredTransitionalTicketProcessor())
-                .setHeader("success", simple("false"))
-                .log("Clearning expired transitional ticket ${body}")
-                .bean(ticketingService, "cleanUpTransitionalTicket");*/
+                .setHeader("success",simple("false"))
+                .setBody(simple("Account not found"));
 
-       /*onException(UnsuficientQuotaForVenueException.class)
+        onException(BankCustomerNotFoundException.class)
                 .handled(true)
-                .setHeader("success", simple("false"))
-                .setBody(simple("Vendor has not enough quota for this venue"));
-
-
-        onException(NoSuchTicketException.class)
-                .handled(true)
-                .setHeader("success", simple("false"))
-                .setBody(simple("Ticket has expired"));
-
-        onException(CustomerNotFoundException.NoSeatAvailableException.class)
-                .handled(true)
-                .setHeader("success", simple("false"))
-                .setBody(simple("No seat is available"));*/
-
-
-        /*from("sjms2:" + jmsPrefix + "booking?exchangePattern=InOut")//
-                .autoStartup(isRouteEnabled)
-                .log("ticker received: ${in.headers}")//
-                .unmarshal().json(Booking.class)//
-                .bean(bookingHandler, "book").marshal().json()
-        ;
-
-
-        from("sjms2:" + jmsPrefix + "ticket?exchangePattern=InOut")
-                .autoStartup(isRouteEnabled)
-                .unmarshal().json(ETicket.class)
-                .bean(ticketingService, "emitTicket").marshal().json();
-
-
-        from("direct:ticketCancel")
-                .autoStartup(isRouteEnabled)
-                .marshal().json()
-                .to("sjms2:topic:" + jmsPrefix + "cancellation");*/
+                .setHeader("success",simple("false"))
+                .setBody(simple("Customer Not found"));
 
     }
 }
