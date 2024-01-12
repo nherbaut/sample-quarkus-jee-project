@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.dto;
 
-
+ /*
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -32,3 +32,6 @@ public class CancelationNotice {
         this.ticketId = ticketId;
     }
 }
+
+
+  */

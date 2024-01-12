@@ -1,5 +1,5 @@
 package fr.pantheonsorbonne.ufr27.miage.dto;
-
+ /*
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -78,3 +78,4 @@ public class Booking {
         this.seatingTicketsNumber = seatingTicketsNumber;
     }
 }
+*/
