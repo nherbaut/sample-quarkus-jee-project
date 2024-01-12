@@ -5,7 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import top.nextnet.model.Bank;
 import top.nextnet.model.User;
-
+ /*
 @ApplicationScoped
 
 public class BankDAOimpl {
@@ -21,3 +21,4 @@ public class BankDAOimpl {
         }
     }
 }
+    */

@@ -1,7 +1,4 @@
 package top.nextnet.cli;
-
-
-
 import java.util.Collections;
 import java.util.Map;
 

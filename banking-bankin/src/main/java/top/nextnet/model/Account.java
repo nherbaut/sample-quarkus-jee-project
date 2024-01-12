@@ -15,6 +15,18 @@ public class Account {
     @Basic
     @Column(name = "id_user", nullable = false)
     private int idUser;
+    @Basic
+    @Column(name = "password", nullable = false, length = 255)
+    private String password;
+    public Account(int idBank, int idUser, String password) {
+        this.idBank = idBank;
+        this.idUser = idUser;
+        this.password = password;
+    }
+
+    public Account() {
+
+    }
 
     public int getIdAccount() {
         return idAccount;
@@ -40,6 +52,8 @@ public class Account {
         this.idUser = idUser;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,5 +65,13 @@ public class Account {
     @Override
     public int hashCode() {
         return Objects.hash(idAccount, idBank, idUser);
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
