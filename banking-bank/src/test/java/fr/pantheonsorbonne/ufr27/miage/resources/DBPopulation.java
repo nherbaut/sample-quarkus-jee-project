@@ -1,6 +1,6 @@
-package fr.pantheonsorbonne.ufr27.miage.resources;
+//package fr.pantheonsorbonne.ufr27.miage.resources;
 
-import fr.pantheonsorbonne.ufr27.miage.model.*;
+/*import fr.pantheonsorbonne.ufr27.miage.model.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.List;*/
 
 /*@ApplicationScoped
 public class DBPopulation {

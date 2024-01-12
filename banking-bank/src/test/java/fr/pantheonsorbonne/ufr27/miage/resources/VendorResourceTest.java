@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.ufr27.miage.resources;
+/*package fr.pantheonsorbonne.ufr27.miage.resources;
 
 import fr.pantheonsorbonne.ufr27.miage.dto.Booking;
 import fr.pantheonsorbonne.ufr27.miage.dto.Gig;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.is;*/
 /*
 @QuarkusTest
 @QuarkusTestResource(H2DatabaseTestResource.class)

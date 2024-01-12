@@ -1,6 +1,6 @@
-package fr.pantheonsorbonne.ufr27.miage.resources;
+//package fr.pantheonsorbonne.ufr27.miage.resources;
 
-import static io.restassured.RestAssured.given;
+/*import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
 import fr.pantheonsorbonne.ufr27.miage.dao.NoSuchTicketException;
@@ -14,7 +14,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.*;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;*/
 /*
 @QuarkusTest
 @QuarkusTestResource(H2DatabaseTestResource.class)
