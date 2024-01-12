@@ -10,8 +10,6 @@ import picocli.CommandLine.Command;
 
 
 
-
-
 @Command(name = "greeting", mixinStandardHelpOptions = true)
 public class Main implements Runnable {
 
@@ -30,22 +28,21 @@ public class Main implements Runnable {
         var terminal = TextIoFactory.getTextTerminal();
 
         eCommerce.accept(textIO, new RunnerData(""));
-
-
-        while (true) {
-            try {
-                User user = eCommerce.getUserInfoToBank();
-                if(compteService.login(user.getEmail(), user.getpwd())){
-                    terminal.println("Success !");
-                }else{
-                    throw new Exception("Connexion échoué");
+            while(true){
+                try {
+                    User user = eCommerce.getUserInfoToBank();
+                    if(compteService.login(user.getEmail(), user.getpwd())){
+                        terminal.println("Success ! Bienvenue !");
+                        while(true){
+                            eCommerce.userFunctionalities(user);
+                        }
+                    }else{
+                        throw new Exception("Connexion échoué");
+                    }
+                } catch (Exception e) {
+                    eCommerce.showErrorMessage(e.getMessage());
                 }
-            } catch (Exception e) {
-                eCommerce.showErrorMessage(e.getMessage());
             }
-        }
-
-
     }
 
 }

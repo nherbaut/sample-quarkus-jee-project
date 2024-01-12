@@ -1,11 +1,10 @@
 package fr.pantheonsorbonne.ufr27.miage.service;
 
-import com.google.common.hash.Hashing;
 import fr.pantheonsorbonne.ufr27.miage.dao.AccountDAO;
 import fr.pantheonsorbonne.ufr27.miage.dao.CustomerDAO;
+import fr.pantheonsorbonne.ufr27.miage.dto.DemandeAuthorisation;
 import fr.pantheonsorbonne.ufr27.miage.exception.BankAccountNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.BankCustomerNotFoundException;
-import fr.pantheonsorbonne.ufr27.miage.exception.CustomerNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.model.Account;
 import fr.pantheonsorbonne.ufr27.miage.model.Customer;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -46,8 +45,30 @@ public class CompteServiceImpl implements CompteService{
             return false;
         }
     }
-    public boolean checkPassword(String passwordHash, String password){
+    @Override
+    public void login(DemandeAuthorisation demandeAuthorisation) throws BankCustomerNotFoundException, BankAccountNotFoundException {
+        try{
+            Customer customer = customerDAO.findMatchingCustomer(demandeAuthorisation.getUser().getEmail());
+            Account account = accountDAO.findMatchingAccount(customer.getIdCustomer());
+
+            return;
+        } catch (BankCustomerNotFoundException e ) {
+            throw new BankCustomerNotFoundException();
+        } catch (BankAccountNotFoundException e) {
+            throw new BankAccountNotFoundException();
+        }
+    }
+    private boolean checkPassword(String passwordHash, String password){
         return BcryptUtil.matches(password,passwordHash);
+    }
+    @Override
+    public Account findAccount(int idCustomer){
+        try{
+            Account a = accountDAO.findMatchingAccount(idCustomer);
+            return a;
+        }catch(BankAccountNotFoundException e){
+            return null;
+        }
     }
 
 }
