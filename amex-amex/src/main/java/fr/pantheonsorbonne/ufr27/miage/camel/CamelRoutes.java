@@ -44,7 +44,7 @@ public class CamelRoutes extends RouteBuilder {
 
         //from("sjms2:queue:Amex") from aurelie
         from("file:data/testFolder")
-                .wireTap("direct:marketing")
+                .wireTap("sjms2:M1.AMEX.clientsmkt")
                 .unmarshal().json(JsonLibrary.Jackson, LinkedHashMap.class)
                 .process(exchange -> {
                     LinkedHashMap<String, Object> jsonMap = exchange.getIn().getBody(LinkedHashMap.class);
