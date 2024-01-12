@@ -1,2 +1,4 @@
-package top.nextnet.camel;public class TokenReceiverRoute {
+package top.nextnet.camel;
+
+public class TokenReceiverRoute {
 }

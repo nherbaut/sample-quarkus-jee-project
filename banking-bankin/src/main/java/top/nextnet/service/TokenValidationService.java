@@ -1,2 +1,4 @@
-package top.nextnet.service;public interface TokenValidationService {
+package top.nextnet.service;
+
+public interface TokenValidationService {
 }

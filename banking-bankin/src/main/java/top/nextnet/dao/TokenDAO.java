@@ -1,2 +1,4 @@
-package top.nextnet.dao;public interface TokenDAO {
+package top.nextnet.dao;
+
+public interface TokenDAO {
 }

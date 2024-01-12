@@ -1,2 +1,4 @@
-package fr.pantheonsorbonne.ufr27.miage.service;public interface TokenService {
+package fr.pantheonsorbonne.ufr27.miage.service;
+
+public interface TokenService {
 }

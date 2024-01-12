@@ -1,2 +1,4 @@
-package top.nextnet.dao;public class TokenDAOimpl {
+package top.nextnet.dao;
+
+public class TokenDAOimpl {
 }

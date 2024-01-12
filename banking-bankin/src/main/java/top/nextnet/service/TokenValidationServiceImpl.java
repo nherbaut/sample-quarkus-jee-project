@@ -1,2 +1,4 @@
-package top.nextnet.service;public class TokenValidationServiceImpl {
+package top.nextnet.service;
+
+public class TokenValidationServiceImpl {
 }

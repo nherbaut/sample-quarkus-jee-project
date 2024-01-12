@@ -1,2 +1,4 @@
-package top.nextnet.exception;public class TokenValidationException {
+package top.nextnet.exception;
+
+public class TokenValidationException {
 }

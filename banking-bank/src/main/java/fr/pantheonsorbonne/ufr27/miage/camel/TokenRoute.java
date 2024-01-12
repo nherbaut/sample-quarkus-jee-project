@@ -1,2 +1,4 @@
-package fr.pantheonsorbonne.ufr27.miage.camel;public class TokenRoute {
+package fr.pantheonsorbonne.ufr27.miage.camel;
+
+public class TokenRoute {
 }
