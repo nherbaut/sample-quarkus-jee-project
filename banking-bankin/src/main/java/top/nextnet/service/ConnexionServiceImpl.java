@@ -9,7 +9,6 @@ import top.nextnet.exception.BankinAccountNotFoundException;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import top.nextnet.model.Account;
 import top.nextnet.model.User;
-import top.nextnet.service.ConnexionService;
 
 
 @ApplicationScoped
