@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.ufr27.miage;
+package fr.pantheonsorbonne.ufr27.miage.model;
 
 import jakarta.persistence.*;
 
@@ -12,8 +12,8 @@ public class Notification {
     @Column(name = "id_notification", nullable = false)
     private int idNotification;
     @Basic
-    @Column(name = "id_typeNotification", nullable = false)
-    private int idTypeNotification;
+    @Column(name = "texte", nullable = false, length = 255)
+    private String texte;
     @Basic
     @Column(name = "etat", nullable = false)
     private byte etat;
@@ -21,9 +21,20 @@ public class Notification {
     @Column(name = "id_account", nullable = false)
     private int idAccount;
     @Basic
-    @Column(name = "date", nullable = true)
+    @Column(name = "date", nullable = false)
     private Date date;
-
+    @Basic
+    @Column(name = "type", nullable = false, length = 50)
+    private String type;
+    public Notification(String texte, byte etat, int idAccount, Date date, String type){
+        this.texte = texte;
+        this.etat = etat;
+        this.idAccount = idAccount;
+        this.date = date;
+        this.type = type;
+    }
+    public Notification(){
+    }
     public int getIdNotification() {
         return idNotification;
     }
@@ -32,12 +43,12 @@ public class Notification {
         this.idNotification = idNotification;
     }
 
-    public int getIdTypeNotification() {
-        return idTypeNotification;
+    public String getTexte() {
+        return texte;
     }
 
-    public void setIdTypeNotification(int idTypeNotification) {
-        this.idTypeNotification = idTypeNotification;
+    public void setTexte(String texte) {
+        this.texte = texte;
     }
 
     public byte getEtat() {
@@ -64,16 +75,24 @@ public class Notification {
         this.date = date;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Notification that = (Notification) o;
-        return idNotification == that.idNotification && idTypeNotification == that.idTypeNotification && etat == that.etat && idAccount == that.idAccount && Objects.equals(date, that.date);
+        return idNotification == that.idNotification && etat == that.etat && idAccount == that.idAccount && Objects.equals(texte, that.texte) && Objects.equals(date, that.date) && Objects.equals(type, that.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idNotification, idTypeNotification, etat, idAccount, date);
+        return Objects.hash(idNotification, texte, etat, idAccount, date, type);
     }
 }
