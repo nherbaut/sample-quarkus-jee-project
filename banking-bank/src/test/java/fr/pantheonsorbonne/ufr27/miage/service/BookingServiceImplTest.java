@@ -1,6 +1,6 @@
-package fr.pantheonsorbonne.ufr27.miage.service;
+//package fr.pantheonsorbonne.ufr27.miage.service;
 
-import fr.pantheonsorbonne.ufr27.miage.dao.*;
+/*import fr.pantheonsorbonne.ufr27.miage.dao.*;
 import fr.pantheonsorbonne.ufr27.miage.dto.Booking;
 import fr.pantheonsorbonne.ufr27.miage.exception.UnsuficientQuotaForVenueException;
 import jakarta.persistence.NoResultException;
@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.*;*/
 /*
 @ExtendWith(MockitoExtension.class)
 class BookingServiceImplTest {
