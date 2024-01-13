@@ -8,14 +8,3 @@ public interface UserInterface {
     void showSuccessMessage(String s);
 
 }
-
- /*
-    String getCustomerFirstName();
-
-    String getCustomerLastName();
-
-    String getCustomerEmail();
-
-    Booking getBookingFromOperator();
-}
- */

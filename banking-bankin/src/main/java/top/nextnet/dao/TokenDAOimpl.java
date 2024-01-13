@@ -15,17 +15,7 @@ public class TokenDAOimpl implements TokenDAO{
 
 
     @Override
-    @Transactional
-    public Token createNewToken (int idbank, int idaccount, String token) {
-        Token t = new Token(idbank, idaccount, token);
-        em.persist(t);
-        return t;
-    }
-
-    @Override
-    public Token findTokenByUser(String email) {
+    public Token createNewToken(int idbank, int idaccount, String token) {
         return null;
     }
-
-
 }
