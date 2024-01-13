@@ -1,22 +1,21 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
-
-import fr.pantheonsorbonne.ufr27.miage.dao.NoSuchTicketException;
-import fr.pantheonsorbonne.ufr27.miage.dto.Booking;
-import fr.pantheonsorbonne.ufr27.miage.dto.ETicket;
-import fr.pantheonsorbonne.ufr27.miage.exception.CustomerNotFoundException;
-import fr.pantheonsorbonne.ufr27.miage.exception.ExpiredTransitionalTicketException;
-import fr.pantheonsorbonne.ufr27.miage.exception.UnsuficientQuotaForVenueException;
-import fr.pantheonsorbonne.ufr27.miage.service.TicketingService;
-import org.apache.camel.CamelContext;
-import org.apache.camel.CamelExecutionException;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
-import org.apache.camel.builder.RouteBuilder;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
+import fr.pantheonsorbonne.ufr27.miage.model.Cashback;
+import fr.pantheonsorbonne.ufr27.miage.model.Client;
+import fr.pantheonsorbonne.ufr27.miage.camel.ClientGateway;
+import fr.pantheonsorbonne.ufr27.miage.model.Transaction;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.apache.camel.CamelContext;
+import org.apache.camel.ExchangePattern;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.dataformat.JsonLibrary;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import javax.print.attribute.IntegerSyntax;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @ApplicationScoped
 public class CamelRoutes extends RouteBuilder {
@@ -26,74 +25,73 @@ public class CamelRoutes extends RouteBuilder {
 
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.jmsPrefix")
     String jmsPrefix;
-
-    @Inject
-    BookingGateway bookingHandler;
-
-    @Inject
-    TicketingService ticketingService;
-
     @Inject
     CamelContext camelContext;
+
+    @Inject
+    ClientGateway clientGateway;
+
+    @Inject
+    TransactionGateway transactionGateway;
+
+    @Inject
+    CashbackGateway cashbackGateway;
 
     @Override
     public void configure() throws Exception {
 
         camelContext.setTracing(true);
 
-        onException(ExpiredTransitionalTicketException.class)
-                .handled(true)
-                .process(new ExpiredTransitionalTicketProcessor())
-                .setHeader("success", simple("false"))
-                .log("Clearning expired transitional ticket ${body}")
-                .bean(ticketingService, "cleanUpTransitionalTicket");
-
-        onException(UnsuficientQuotaForVenueException.class)
-                .handled(true)
-                .setHeader("success", simple("false"))
-                .setBody(simple("Vendor has not enough quota for this venue"));
-
-
-        onException(NoSuchTicketException.class)
-                .handled(true)
-                .setHeader("success", simple("false"))
-                .setBody(simple("Ticket has expired"));
-
-        onException(CustomerNotFoundException.NoSeatAvailableException.class)
-                .handled(true)
-                .setHeader("success", simple("false"))
-                .setBody(simple("No seat is available"));
-
-
-        from("sjms2:" + jmsPrefix + "booking?exchangePattern=InOut")//
-                .autoStartup(isRouteEnabled)
-                .log("ticker received: ${in.headers}")//
-                .unmarshal().json(Booking.class)//
-                .bean(bookingHandler, "book").marshal().json()
-        ;
-
-
-        from("sjms2:" + jmsPrefix + "ticket?exchangePattern=InOut")
-                .autoStartup(isRouteEnabled)
-                .unmarshal().json(ETicket.class)
-                .bean(ticketingService, "emitTicket").marshal().json();
-
-
-        from("direct:ticketCancel")
-                .autoStartup(isRouteEnabled)
+        //from("sjms2:queue:Amex") from aurelie
+        from("file:data/testFolder")
+                .wireTap("sjms2:M1.AMEX.clientsmkt")
+                .unmarshal().json(JsonLibrary.Jackson, LinkedHashMap.class)
+                .process(exchange -> {
+                    LinkedHashMap<String, Object> jsonMap = exchange.getIn().getBody(LinkedHashMap.class);
+                    Client client = new Client();
+                    client.setIdClient((Integer) jsonMap.get("idClient"));
+                    client.setAge((int) jsonMap.get("age"));
+                    client.setProfession((String) jsonMap.get("profession"));
+                    client.setGenre((String) jsonMap.get("genre"));
+                    double price = ((double) jsonMap.get("prix"));
+                    clientGateway.client(client, price);
+                    exchange.setProperty("client", client);
+                    exchange.setProperty("idClient", client.getIdClient());
+                })
+                .bean(transactionGateway, "transaction")
+                .setExchangePattern(ExchangePattern.InOut)
                 .marshal().json()
-                .to("sjms2:topic:" + jmsPrefix + "cancellation");
+                .to("file:data/folder2");/*//ENVOYER ET RECEVOIR DE LA PART DE SIMON
+                .unmarshal().json(Cashback.class)
+                .bean(cashbackGateway, "cashback")
+                .process(exchange -> {
+                    Cashback result = exchange.getIn().getBody(Cashback.class);
+                    Transaction t = transactionGateway.getMontantTransaction(result.getIdTransaction());
+                    Map<String, Object> jsonOutput = new HashMap<>();
+                    jsonOutput.put("montant", t.getMontantTransaction());
+                    jsonOutput.put("idClient", result.getIdClient());
+                    jsonOutput.put("taux", result.getTauxCashback());
+                    exchange.getIn().setBody(jsonOutput);
+                })
+                .marshal().json()
+                .to("file:data/folderToSlim");//ENVOYER SUR LA QUEUE DE SELIM*/
 
-    }
-
-    private static class ExpiredTransitionalTicketProcessor implements Processor {
-        @Override
-        public void process(Exchange exchange) throws Exception {
-            //https://camel.apache.org/manual/exception-clause.html
-            CamelExecutionException caused = (CamelExecutionException) exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Throwable.class);
-
-
-            exchange.getMessage().setBody(((ExpiredTransitionalTicketException) caused.getCause()).getExpiredTicketId());
-        }
+        //PREPARATION PARTIE SIMON ET SELIM
+        from("file:data/folder") //from simon
+                .unmarshal().json(Cashback.class)
+                .bean(cashbackGateway, "cashback")
+                .process(exchange -> {
+                    Cashback result = exchange.getIn().getBody(Cashback.class);
+                    Transaction t = transactionGateway.getMontantTransaction(result.getIdTransaction());
+                    Map<String, Object> jsonOutput = new HashMap<>();
+                    jsonOutput.put("montant", t.getMontantTransaction());
+                    jsonOutput.put("idClient", result.getIdClient());
+                    jsonOutput.put("taux", result.getTauxCashback());
+                    exchange.getIn().setBody(jsonOutput);
+                })
+                .marshal().json()
+                .multicast()
+                .to("sjms2:M1.AMEX.toAMEXCashback","file:data/folderToSlim");
+        //.to("file:data/folderToSlim");
     }
 }
