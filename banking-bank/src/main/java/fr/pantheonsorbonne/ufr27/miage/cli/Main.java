@@ -31,7 +31,7 @@ public class Main implements Runnable {
             while(true){
                 try {
                     User user = eCommerce.getUserInfoToBank();
-                    if(compteService.login(user.getEmail(), user.getpwd())){
+                    if(compteService.login(user.getEmail(), user.getPwd()) != null){
                         terminal.println("Success ! Bienvenue !");
                         while(true){
                             eCommerce.userFunctionalities(user);
@@ -42,7 +42,7 @@ public class Main implements Runnable {
                 } catch (Exception e) {
                     eCommerce.showErrorMessage(e.getMessage());
                 }
-            }
+          }
     }
 
 }

@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.cli;
 
+import fr.pantheonsorbonne.ufr27.miage.camel.NotificationGateway;
 import fr.pantheonsorbonne.ufr27.miage.dto.User;
 import fr.pantheonsorbonne.ufr27.miage.service.CompteService;
 import fr.pantheonsorbonne.ufr27.miage.service.CustomerService;
@@ -30,6 +31,8 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
     CompteService compteService;
     @Inject
     CustomerService customerService;
+    @Inject
+    NotificationGateway notificationGateway;
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.bankName")
     String bankName;
 
@@ -60,11 +63,11 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
 
         Collection<Notification> notif = notificationService.notificationAuthorisationAvailableForAnAccount(account.getIdAccount());
 
-        if(notif != null){
+        if(notif != null | notif.isEmpty()){
             for(Notification n : notif){
                 terminal.println(n.getTexte());
                 String response = textIO.newStringInputReader().withPossibleValues(Arrays.asList("Yes", "No")).read("Select a response");
-            // here, send a message to the associate gateway
+                notificationGateway.sendResponseSynchro(response,n);
                 terminal.println("Message sent !");
             }
         }else{
