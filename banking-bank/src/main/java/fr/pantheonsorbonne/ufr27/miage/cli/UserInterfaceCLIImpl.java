@@ -50,7 +50,7 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
         for (Functionality functionality : Functionality.values()) {
             functionalityNames.add(functionality.name().toLowerCase());
         }
-        String f = textIO.newStringInputReader().withPossibleValues(functionalityNames).read("Select an option");
+        String f = textIO.newStringInputReader().withPossibleValues(functionalityNames).read("\n Select an option");
 
         if(f.equals(Functionality.NOTIFICATION.name().toLowerCase())){
             this.respondNotification(user);
@@ -63,15 +63,20 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
 
         Collection<Notification> notif = notificationService.notificationAuthorisationAvailableForAnAccount(account.getIdAccount());
 
-        if(notif != null | notif.isEmpty()){
+        if(notif != null && !notif.isEmpty()){
             for(Notification n : notif){
+                terminal.println("\n==================\n");
                 terminal.println(n.getTexte());
+                terminal.println("\n==================\n");
                 String response = textIO.newStringInputReader().withPossibleValues(Arrays.asList("Yes", "No")).read("Select a response");
                 notificationGateway.sendResponseSynchro(response,n);
-                terminal.println("Message sent !");
+                terminal.println("\n==================\n");
+                terminal.println("Message sent !\n");
             }
         }else{
+            terminal.println("\n==================\n");
             terminal.println("Empty notification");
+            terminal.println("\n==================\n");
         }
     }
     @Override
