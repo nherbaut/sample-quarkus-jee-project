@@ -20,6 +20,11 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>com.auth0</groupId>
+        <artifactId>java-jwt</artifactId>
+        <version>3.18.1</version>
+      </dependency>
+      <dependency>
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>${quarkus.platform.artifact-id}</artifactId>
         <version>${quarkus.platform.version}</version>
@@ -40,6 +45,11 @@
       <groupId>fr.pantheonsorbonne.ufr27.miage</groupId>
       <artifactId>banking-commons</artifactId>
       <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>java-jwt</artifactId>
+      <version>3.18.1</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -130,6 +140,14 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-jwt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-jwt-build</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
       <scope>test</scope>
     </dependency>
@@ -148,6 +166,11 @@
       <artifactId>mockito-junit-jupiter</artifactId>
       <version>3.6.0</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.jsonwebtoken</groupId>
+      <artifactId>jjwt-api</artifactId>
+      <version>0.11.2</version>
     </dependency>
   </dependencies>
   <build>

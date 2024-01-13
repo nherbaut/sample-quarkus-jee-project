@@ -1,9 +1,11 @@
 package fr.pantheonsorbonne.ufr27.miage.cli;
 
 import fr.pantheonsorbonne.ufr27.miage.dto.User;
+import fr.pantheonsorbonne.ufr27.miage.exception.TokenGenerationException;
 import fr.pantheonsorbonne.ufr27.miage.service.CompteService;
 import fr.pantheonsorbonne.ufr27.miage.service.CustomerService;
 import fr.pantheonsorbonne.ufr27.miage.service.NotificationService;
+import fr.pantheonsorbonne.ufr27.miage.service.TokenService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.beryx.textio.TextIO;
@@ -30,6 +32,8 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
     CompteService compteService;
     @Inject
     CustomerService customerService;
+    @Inject
+    TokenService tokenService;
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.bankName")
     String bankName;
 
@@ -64,13 +68,21 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
             for(Notification n : notif){
                 terminal.println(n.getTexte());
                 String response = textIO.newStringInputReader().withPossibleValues(Arrays.asList("Yes", "No")).read("Select a response");
-            // here, send a message to the associate gateway
+                if(response.equals("Yes")) {
+                    try {
+                        String token = tokenService.generateToken(user.getEmail());
+                        terminal.println("Token generated and sent: " + token); //pour voir la génération de token
+                    } catch (Exception | TokenGenerationException e) {
+                        terminal.println("Error generating token: " + e.getMessage());
+                    }
+                }
                 terminal.println("Message sent !");
             }
         }else{
             terminal.println("Empty notification");
         }
     }
+
     @Override
     public void accept(TextIO textIO, RunnerData runnerData) {
         this.textIO = textIO;
