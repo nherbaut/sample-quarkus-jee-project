@@ -20,6 +20,16 @@ public class Token {
     @Column(name = "token", nullable = false, length = 255)
     private String token;
 
+    public Token(int idbank, int idaccount, String token) {
+        this.idBank = idbank;
+        this.idAccount = idaccount;
+        this.token = token;
+    }
+
+    public Token() {
+
+    }
+
     public int getIdToken() {
         return idToken;
     }

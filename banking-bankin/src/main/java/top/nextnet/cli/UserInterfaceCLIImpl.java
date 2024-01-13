@@ -1,10 +1,6 @@
 package top.nextnet.cli;
 
 
-import fr.pantheonsorbonne.ufr27.miage.dto.Booking;
-import fr.pantheonsorbonne.ufr27.miage.dto.Gig;
-
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.beryx.textio.TextIO;
@@ -14,6 +10,8 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 //import top.nextnet.resource.VendorService;
 
 import fr.pantheonsorbonne.ufr27.miage.dto.User;
+import top.nextnet.model.Token;
+import top.nextnet.service.TokenService;
 
 
 import java.awt.*;
@@ -24,6 +22,9 @@ import java.util.stream.Collectors;
 public class UserInterfaceCLIImpl implements UserInterfaceCLI {
     TextTerminal<?> terminal;
     TextIO textIO;
+    @Inject
+    TokenService tokenService;
+
 
     public User getUserInfoToBankin(){
         terminal.println("Welcome to bankin !");
@@ -33,6 +34,16 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
 
         return new User(email,password);
     }
+
+    private void showTokenForUser(User user) {
+        Token token = tokenService.getTokenForUser(user);
+        if (token != null) {
+            terminal.println("Your token: " + token.getToken());
+        } else {
+            terminal.println("No token available.");
+        }
+    }
+
     @Override
     public void accept(TextIO textIO, RunnerData runnerData) {
         this.textIO = textIO;

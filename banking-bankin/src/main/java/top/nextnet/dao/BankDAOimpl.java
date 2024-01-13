@@ -1,9 +1,14 @@
 package top.nextnet.dao;
 
-/*
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import top.nextnet.model.Bank;
+
 @ApplicationScoped
 
-public class BankDAOimpl {
+public class BankDAOimpl implements BankDAO{
 
     @PersistenceContext(name = "mysql")
     EntityManager em;
@@ -16,4 +21,3 @@ public class BankDAOimpl {
         }
     }
 }
-    */

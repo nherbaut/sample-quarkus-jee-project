@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.ufr27.miage.cli;
 
+import fr.pantheonsorbonne.ufr27.miage.camel.TokenGateway;
 import fr.pantheonsorbonne.ufr27.miage.dto.User;
 import fr.pantheonsorbonne.ufr27.miage.exception.TokenGenerationException;
 import fr.pantheonsorbonne.ufr27.miage.service.CompteService;
@@ -34,6 +35,9 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
     CustomerService customerService;
     @Inject
     TokenService tokenService;
+
+    @Inject
+    TokenGateway tokenGateway;
     @ConfigProperty(name = "fr.pantheonsorbonne.ufr27.miage.bankName")
     String bankName;
 
@@ -71,6 +75,7 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
                 if(response.equals("Yes")) {
                     try {
                         String token = tokenService.generateToken(user.getEmail());
+                        tokenGateway.submitToken(user.getEmail(),bankName, token);
                         terminal.println("Token generated and sent: " + token); //pour voir la génération de token
                     } catch (Exception | TokenGenerationException e) {
                         terminal.println("Error generating token: " + e.getMessage());
