@@ -35,6 +35,7 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
         return new User(email,password);
     }
 
+    /*
     private void showTokenForUser(User user) {
         Token token = tokenService.getTokenForUser(user);
         if (token != null) {
@@ -43,6 +44,8 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
             terminal.println("No token available.");
         }
     }
+
+     */
 
     @Override
     public void accept(TextIO textIO, RunnerData runnerData) {

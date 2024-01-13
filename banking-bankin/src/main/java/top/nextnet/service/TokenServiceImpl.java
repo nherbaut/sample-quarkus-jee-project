@@ -46,6 +46,7 @@ public class TokenServiceImpl implements TokenService {
         }
     }
 
+    /*
     @Override
     public Token getTokenForUser(TokenSend tokenSend) {
 
@@ -53,6 +54,6 @@ public class TokenServiceImpl implements TokenService {
 
         return token;
     }
-
+    */
 
 }

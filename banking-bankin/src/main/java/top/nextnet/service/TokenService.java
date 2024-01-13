@@ -10,5 +10,8 @@ public interface TokenService {
 
    Token saveToken(TokenSend tokenSend);
 
+   /*
    Token getTokenForUser(Token token);
+
+    */
 }

@@ -75,7 +75,7 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
                 if(response.equals("Yes")) {
                     try {
                         String token = tokenService.generateToken(user.getEmail());
-                        tokenGateway.submitToken(user.getEmail(),bankName, token);
+                        //tokenGateway.submitToken(user.getEmail(),bankName, token);
                         terminal.println("Token generated and sent: " + token); //pour voir la génération de token
                     } catch (Exception | TokenGenerationException e) {
                         terminal.println("Error generating token: " + e.getMessage());
