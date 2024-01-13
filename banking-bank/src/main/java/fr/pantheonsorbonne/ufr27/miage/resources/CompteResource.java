@@ -21,7 +21,7 @@ public class CompteResource {
     @POST
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response login(User user) {
-        if (!compteService.login(user.getEmail(), user.getpwd())) {
+        if (compteService.login(user.getEmail(), user.getPwd()) == null) {
             return Response.status(401, "invalid login/password").build();
         } else {
             return Response.ok().build();
