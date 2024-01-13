@@ -10,14 +10,14 @@ public class User {
         this.email = email;
         this.pwd = pwd;
     }
-
+    public User(){}
     public String getEmail(){
         return this.email;
     }
     public void setEmail(String email){
         this.email = email;
     }
-    public String getpwd(){
+    public String getPwd(){
         return this.pwd;
     }
     public void setPwd(){
