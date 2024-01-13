@@ -33,25 +33,25 @@ public class CompteServiceImpl implements CompteService{
     }
     @Override
     @Transactional
-    public boolean login(String email, String pwd){
+    public Account login(String email, String pwd){
         try{
             Customer customer = customerDAO.findMatchingCustomer(email);
             Account account = accountDAO.findMatchingAccount(customer.getIdCustomer());
             if(this.checkPassword(account.getPassword(),pwd)){
-                return true;
+                return account;
             }
-            return false;
+            return null;
         } catch (BankCustomerNotFoundException | BankAccountNotFoundException e ) {
-            return false;
+            return null;
         }
     }
     @Override
+    @Transactional
     public void login(DemandeAuthorisation demandeAuthorisation) throws BankCustomerNotFoundException, BankAccountNotFoundException {
         try{
             Customer customer = customerDAO.findMatchingCustomer(demandeAuthorisation.getUser().getEmail());
             Account account = accountDAO.findMatchingAccount(customer.getIdCustomer());
 
-            return;
         } catch (BankCustomerNotFoundException e ) {
             throw new BankCustomerNotFoundException();
         } catch (BankAccountNotFoundException e) {

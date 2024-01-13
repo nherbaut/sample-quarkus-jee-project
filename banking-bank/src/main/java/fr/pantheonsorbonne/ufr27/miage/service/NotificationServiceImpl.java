@@ -6,6 +6,7 @@ import fr.pantheonsorbonne.ufr27.miage.dao.NotificationDAO;
 import fr.pantheonsorbonne.ufr27.miage.dto.DemandeAuthorisation;
 import fr.pantheonsorbonne.ufr27.miage.exception.BankAccountNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.BankCustomerNotFoundException;
+import fr.pantheonsorbonne.ufr27.miage.exception.NotificationFoundException;
 import fr.pantheonsorbonne.ufr27.miage.exception.NotificationNotFoundException;
 import fr.pantheonsorbonne.ufr27.miage.model.Account;
 import fr.pantheonsorbonne.ufr27.miage.model.Customer;
@@ -20,6 +21,8 @@ import java.util.*;
 @ApplicationScoped
 public class NotificationServiceImpl implements NotificationService {
 
+    @Inject
+    CompteService compteService;
     @Inject
     NotificationDAO notificationDAO;
     @Inject
@@ -57,7 +60,20 @@ public class NotificationServiceImpl implements NotificationService {
     }
     @Override
     @Transactional
-    public Notification newNotification(DemandeAuthorisation demandeAuthorisation) throws BankCustomerNotFoundException,BankAccountNotFoundException{
+    public void verifyNotificationCreated(DemandeAuthorisation demandeAuthorisation) throws NotificationFoundException.NotificationAuthorisationFoundException {
+        Account a = compteService.login(demandeAuthorisation.getUser().getEmail(),demandeAuthorisation.getUser().getPwd());
+        Collection<Notification> notif = this.notificationAuthorisationAvailableForAnAccount(a.getIdAccount());
+        if(notif != null && !notif.isEmpty()){
+            for(Notification n : notif){
+                if(n.getTexte().equals(demandeAuthorisation.getTexte())){
+                    throw new NotificationFoundException.NotificationAuthorisationFoundException();
+                }
+            }
+        }
+    }
+    @Override
+    @Transactional
+    public void newNotification(DemandeAuthorisation demandeAuthorisation) throws BankCustomerNotFoundException,BankAccountNotFoundException{
         try {
             Calendar cal = Calendar.getInstance();
             cal.setTime(currentDate);
@@ -69,11 +85,21 @@ public class NotificationServiceImpl implements NotificationService {
 
             Notification n = notificationDAO.createNewNotification(demandeAuthorisation.getTexte(), Constante.VALID,a.getIdAccount(),dateFormatSql,Constante.AUTHORIZATION);
 
-            return n;
+            return;
         } catch (BankCustomerNotFoundException e) {
             throw new BankCustomerNotFoundException();
         }catch (BankAccountNotFoundException e) {
             throw new BankAccountNotFoundException();
+        }
+    }
+    @Override
+    @Transactional
+    public Notification updateNotificationHandle(int idNotif){
+        try{
+            Notification n = notificationDAO.updateNotificationEtat(idNotif,Constante.EXPIRED);
+            return n;
+        }catch (NotificationNotFoundException e) {
+            return null;
         }
     }
 
