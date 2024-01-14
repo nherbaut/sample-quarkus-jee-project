@@ -1,6 +1,7 @@
 package top.nextnet.camel;
 
 
+import fr.pantheonsorbonne.ufr27.miage.cli.UserInterface;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.CamelContext;
@@ -23,6 +24,14 @@ public class CamelRoutes extends RouteBuilder {
     public void configure() throws Exception {
 
         camelContext.setTracing(true);
+
+        from("direct:cli")
+                .log("Bank ID: ${header.bankId}, Message Body: ${body}")
+                .to("sjms2:" + jmsPrefix + "authorization?exchangePattern=InOut");
+
+                //.to("direct:authorization");
+                //.bean(eCommerce, "showTest").stop();
+
 
         /*onException(ExpiredTransitionalTicketException.class)
                 .handled(true)

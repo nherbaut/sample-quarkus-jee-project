@@ -28,6 +28,7 @@ public class Main implements Runnable {
         var terminal = TextIoFactory.getTextTerminal();
 
         eCommerce.accept(textIO, new RunnerData(""));
+
             while(true){
                 try {
                     User user = eCommerce.getUserInfoToBank();
@@ -43,6 +44,11 @@ public class Main implements Runnable {
                     eCommerce.showErrorMessage(e.getMessage());
                 }
             }
+
+
+
+
+
     }
 
 }

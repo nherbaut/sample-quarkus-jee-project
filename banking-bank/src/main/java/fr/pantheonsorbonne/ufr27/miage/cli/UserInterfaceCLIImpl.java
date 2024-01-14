@@ -1,5 +1,7 @@
 package fr.pantheonsorbonne.ufr27.miage.cli;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.pantheonsorbonne.ufr27.miage.dto.User;
 import fr.pantheonsorbonne.ufr27.miage.exception.TokenGenerationException;
 import fr.pantheonsorbonne.ufr27.miage.service.CompteService;
@@ -8,6 +10,8 @@ import fr.pantheonsorbonne.ufr27.miage.service.NotificationService;
 import fr.pantheonsorbonne.ufr27.miage.service.TokenService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.apache.camel.Body;
+import org.apache.camel.Header;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -16,10 +20,8 @@ import fr.pantheonsorbonne.ufr27.miage.model.Account;
 import fr.pantheonsorbonne.ufr27.miage.model.Notification;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Collection;
 
 @ApplicationScoped
 public class UserInterfaceCLIImpl implements UserInterfaceCLI {
@@ -95,6 +97,29 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
         terminal.println(errorMessage);
         terminal.getProperties().setPromptColor(Color.white);
     }
+
+    public void processAuthorizationRequest(@Body String jsonBody, @Header("bankId") int bankId) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, String> jsonMap = objectMapper.readValue(jsonBody, Map.class);
+            String email = jsonMap.get("email");
+            showTest(email);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            // Gérer les erreurs de désérialisation JSON ici
+        }
+
+    }
+
+    @Override
+    public void showTest(String email) {
+        terminal.println();
+        terminal.println();
+        terminal.println("--- AUTHORIZATION FROM BANKIN ---");
+        terminal.println("request for: " + email);
+        terminal.println();
+    }
+
 
     @Override
     public void showSuccessMessage(String s) {

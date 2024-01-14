@@ -1,10 +1,15 @@
 package fr.pantheonsorbonne.ufr27.miage.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class User {
+    @JsonProperty("email")
     String email;
+    @JsonProperty("pwd")
     String pwd;
     public User(String email, String pwd){
         this.email = email;
