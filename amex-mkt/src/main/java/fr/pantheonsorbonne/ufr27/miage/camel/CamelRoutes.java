@@ -25,7 +25,7 @@ public class CamelRoutes extends RouteBuilder {
         camelContext.setTracing(true);
 
         //from("sjms2:M1.AMEX.clientsmkt")
-        from("file:data/folder")
+        from("sjms2:M1.AMEX.clientsmkt")
                 .unmarshal().json(JsonLibrary.Jackson, LinkedHashMap.class)
                 .process(exchange -> {
                     LinkedHashMap<String, Object> jsonMap = exchange.getIn().getBody(LinkedHashMap.class);

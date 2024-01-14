@@ -59,7 +59,7 @@ public class CamelRoutes extends RouteBuilder {
                     exchange.setProperty("idClient", client.getIdClient());
                 })
                 .bean(transactionGateway, "transaction")
-                .setExchangePattern(ExchangePattern.InOut)
+                //.setExchangePattern(ExchangePattern.InOut)
                 .marshal().json()
                 .to("file:data/folder2");/*//ENVOYER ET RECEVOIR DE LA PART DE SIMON
                 .unmarshal().json(Cashback.class)

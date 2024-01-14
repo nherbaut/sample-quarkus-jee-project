@@ -23,7 +23,7 @@ public class ClientService {
         Client client = em.find(Client.class, clientRequest.getIdClient());
         ClientLuxe clientLuxe = new ClientLuxe(clientRequest);
         ClientLuxe clientLuxe1 = em2.find(ClientLuxe.class, clientLuxe.getIdClient());
-        if(client!=null && clientLuxe1!=null){
+        if(client!=null || clientLuxe1!=null){
             return false;
         }else{
             if(Objects.equals(clientRequest.getProfession(), "medecin") || Objects.equals(clientRequest.getProfession(), "avocat") ){
