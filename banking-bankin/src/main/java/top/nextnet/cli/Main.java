@@ -55,15 +55,12 @@ public class Main implements Runnable {
                         case 1 -> {
                             Bank selectedBank = eCommerce.getUserBank();
                             User userBank = eCommerce.getUserInfoForBank(selectedBank.getName());
-                            authorizationGateway.sendAuthorizationRequest(selectedBank.getIdBank(), userBank);
+                            authorizationGateway.sendAuthorizationRequest(selectedBank.getGroupName(), userBank);
                         }
                         case 2 -> {
                         }
                         default -> terminal.println("Invalid choice.");
                     }
-
-
-
 
                     isConnected = true;
                 } else {

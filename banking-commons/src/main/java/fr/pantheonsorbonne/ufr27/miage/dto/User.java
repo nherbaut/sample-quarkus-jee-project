@@ -4,13 +4,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 @XmlRootElement
-public class User {
-    @JsonProperty("email")
+public class User implements Serializable {
     String email;
-    @JsonProperty("pwd")
     String pwd;
+
+    public User() {}
+
     public User(String email, String pwd){
         this.email = email;
         this.pwd = pwd;

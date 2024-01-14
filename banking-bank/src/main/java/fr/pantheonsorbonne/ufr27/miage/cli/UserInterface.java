@@ -8,7 +8,7 @@ import org.apache.camel.Header;
 public interface UserInterface {
     void showErrorMessage(String errorMessage);
     void showTest(String email);
-    void processAuthorizationRequest(@Body String jsonBody, @Header("bankId") int bankId);
+    void processAuthorizationRequest(User user);
     void showSuccessMessage(String s);
 
 }

@@ -98,17 +98,8 @@ public class UserInterfaceCLIImpl implements UserInterfaceCLI {
         terminal.getProperties().setPromptColor(Color.white);
     }
 
-    public void processAuthorizationRequest(@Body String jsonBody, @Header("bankId") int bankId) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, String> jsonMap = objectMapper.readValue(jsonBody, Map.class);
-            String email = jsonMap.get("email");
-            showTest(email);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            // Gérer les erreurs de désérialisation JSON ici
-        }
-
+    public void processAuthorizationRequest(User user) {
+        showTest(user.getEmail());
     }
 
     @Override

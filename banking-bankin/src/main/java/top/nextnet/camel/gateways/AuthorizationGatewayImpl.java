@@ -16,10 +16,10 @@ public class AuthorizationGatewayImpl implements top.nextnet.service.Authorizati
     CamelContext context;
 
     @Override
-    public void sendAuthorizationRequest(int bankId, User user) {
+    public void sendAuthorizationRequest(String bankGroup, User user) {
         try (ProducerTemplate producer = context.createProducerTemplate()) {
-            String userJson = convertUserToJson(user);
-            producer.sendBodyAndHeader("direct:cli", userJson, "bankId", bankId);
+            // String userJson = convertUserToJson(user);
+            producer.sendBodyAndHeader("direct:cli", user, "bankGroup", bankGroup);
         } catch (IOException e) {
             e.printStackTrace();
         }
