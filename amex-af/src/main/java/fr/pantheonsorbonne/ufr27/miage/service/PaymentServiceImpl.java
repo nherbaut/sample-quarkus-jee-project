@@ -49,14 +49,13 @@ public class PaymentServiceImpl implements PaymentService{
             throw new RuntimeException(e);
         }
 
-       //if payment is ok, call AmexService to send clientId and ticket price
+       //if payment is ok, call AmexService to send client and ticket price
        if (isPaymentOk(confirmationPayment)) {
            amexService.sendInformationPayment(informationPayment.getClient(), informationPayment.getPrice());
         }
 
         return confirmationPayment;
     }
-
     public boolean isPaymentOk(ConfirmationPayment confirmationPayment){
         return confirmationPayment.isTransactionStatus();
     }
