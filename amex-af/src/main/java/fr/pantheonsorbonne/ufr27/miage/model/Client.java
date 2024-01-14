@@ -10,7 +10,7 @@ public class Client {
     private int idClient;
 
     @Column(name = "Genre", nullable = false)
-    private Genre genre;
+    private String genre;
 
     @Column(name = "Age", nullable = false)
     private int age;
@@ -18,7 +18,7 @@ public class Client {
     @Column(name = "Profession", nullable = false, length = 45)
     private String profession;
 
-    public Client(int idClient, Genre genre, int age, String profession) {
+    public Client(int idClient, String genre, int age, String profession) {
         this.idClient = idClient;
         this.genre = genre;
         this.age = age;
@@ -37,11 +37,11 @@ public class Client {
         this.idClient = idClient;
     }
 
-    public Genre getGenre() {
+    public String getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 

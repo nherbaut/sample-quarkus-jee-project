@@ -26,7 +26,7 @@ public class AmexServiceImplTest {
 
     @Test
     void shouldSendInformationsToAmex() throws InterruptedException {
-        Client client = new Client(123, HOMME, 26, "Ingénieur");
+        Client client = new Client(123, "homme", 26, "Ingénieur");
 
         MockEndpoint endpoint = camelContext.getEndpoint("mock:direct:sendToAmex", MockEndpoint.class);
         endpoint.expectedMessageCount(1);

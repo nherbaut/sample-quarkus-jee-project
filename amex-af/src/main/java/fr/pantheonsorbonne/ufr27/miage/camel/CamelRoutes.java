@@ -1,13 +1,18 @@
 package fr.pantheonsorbonne.ufr27.miage.camel;
 
 
+import fr.pantheonsorbonne.ufr27.miage.dto.Client;
 import fr.pantheonsorbonne.ufr27.miage.dto.ConfirmationPayment;
+import fr.pantheonsorbonne.ufr27.miage.dto.InformationForAmex;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @ApplicationScoped
 public class CamelRoutes extends RouteBuilder {
@@ -32,13 +37,24 @@ public class CamelRoutes extends RouteBuilder {
                 .autoStartup(isRouteEnabled)
                 .setExchangePattern(ExchangePattern.InOut)
                 .marshal().json()
-                .to("sjms2:M1.payment" + userName + "?replyTo=M1.paymentReply" + userName)
+                .to("sjms2:M1.payment.validate?exchangePattern=InOut")
                 .unmarshal().json(ConfirmationPayment.class);
 
         from("direct:sendToAmex")
                 .autoStartup(isRouteEnabled)
                 .marshal().json()
-                .to("sjms2:M1.Amex" + userName);
+                .to("file:data/folder");
+                //.to("sjms2:M1.AMEX.amex");
+
+        //A ENLEVER QUAND LA PARTIE DE SIMON MARCHERA
+        from("sjms2:M1.payment.validate?exchangePattern=InOut")
+                .process(exchange -> {
+                    Map<String, Object> jsonOutput = new HashMap<>();
+                    jsonOutput.put("idTransaction", 0);
+                    jsonOutput.put("transactionStatus", true);
+                    exchange.getIn().setBody(jsonOutput);
+                })
+                .marshal().json();
 
         //only for test
         /*

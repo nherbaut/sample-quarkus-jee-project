@@ -13,7 +13,7 @@ public class ClientDAOImpl implements ClientDAO {
     EntityManager em;
 
     @Override
-    public Client createClient(int idClient, Genre genre, int age, String profession) {
+    public Client createClient(int idClient, String genre, int age, String profession) {
         Client client = new Client(idClient, genre, age, profession);
         em.persist(client);
         return client;

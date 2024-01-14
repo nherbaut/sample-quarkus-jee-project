@@ -35,7 +35,7 @@ public class PaymentServiceImplTest {
     @Mock
     AmexService amexService;
 
-    Client client = new Client(123, HOMME, 26, "Ingénieur");
+    Client client = new Client(123, "homme", 26, "Ingénieur");
 
     @Test
     void should_return_ConfirmationPayment_with_status_OK() {
