@@ -1,5 +1,9 @@
 package com.hotel.service.imp;
 
+import com.hotel.Exception.NoAvailableRoomException;
+import com.hotel.model.Reservation;
+import com.hotel.model.Room;
+import com.hotel.model.User;
 import com.hotel.service.RoomService;
 import fr.pantheonsorbonne.ufr27.miage.dto.AvailabilityDTO;
 import fr.pantheonsorbonne.ufr27.miage.dto.ReservationDTO;
@@ -14,6 +18,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequestScoped
@@ -63,6 +68,7 @@ public class RoomServiceImpl implements RoomService {
 
     }
 
+
     @Override
     public boolean isRoomAvailable(Integer roomId, LocalDate from, LocalDate to) {
 
@@ -70,5 +76,32 @@ public class RoomServiceImpl implements RoomService {
             Select not exists(select 1 from Reservation where not(end_date < ? or start_date > ?))
             """, Integer.class).setParameter(1, from).setParameter(2, to).getSingleResult();
         return isAvailable == 1;
+    }
+
+    @Override
+    public Room findAvailableRoom(LocalDate from, LocalDate to, int numberOfBeds) throws NoAvailableRoomException {
+
+        try{
+            Room room = entityManager.createQuery(
+                            "SELECT r FROM Room r " +
+                                    "WHERE r.id NOT IN (" +
+                                    "   SELECT res.room.id FROM Reservation res " +
+                                    "   WHERE NOT(res.endDate < :startDate OR res.startDate > :endDate)" +
+                                    ") AND r.nbrBed >= :nbrBeds " +
+                                    "ORDER BY r.nbrBed ASC", Room.class)
+                    .setParameter("startDate",from)
+                    .setParameter("endDate", to)
+                    .setParameter("nbrBeds", numberOfBeds)
+                    .setMaxResults(1)
+                    .getSingleResult();
+
+            if(!Objects.isNull(room)){
+                return room;
+            }
+
+        }catch (Exception e){
+            throw new NoAvailableRoomException();
+        }
+        return null;
     }
 }

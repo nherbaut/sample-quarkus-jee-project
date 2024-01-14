@@ -1,93 +1,75 @@
 package fr.pantheonsorbonne.ufr27.miage.dto;
 
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReservationRequestDTO {
-
-    private Integer userId, roomId;
+public class ReservationRequestDTO{
+    private UserDTO user;
     private LocalDate from, to;
-    private List<Integer> optionsId = new ArrayList<>();
+    private List<String> optionsNames = new ArrayList<>();
 
     private String bookingReservationId;
 
     private Integer guests;
 
-    public ReservationRequestDTO(){
-
+    public ReservationRequestDTO() {
     }
-    public ReservationRequestDTO(Integer userId, Integer roomId, LocalDate from, LocalDate to, List<Integer> optionsId, Integer guests) {
-        this.userId = userId;
-        this.roomId = roomId;
+
+    public ReservationRequestDTO(UserDTO user, LocalDate from, LocalDate to, List<String> optionsNames, String bookingReservationId, Integer guests) {
+        this.user = user;
         this.from = from;
         this.to = to;
-        this.optionsId = optionsId;
-        this.guests = guests;
-    }
-
-    public String getBookingReservationId() {
-        return bookingReservationId;
-    }
-
-    public void setBookingReservationId(String bookingReservationId) {
+        this.optionsNames = optionsNames;
         this.bookingReservationId = bookingReservationId;
-    }
-
-    public ReservationRequestDTO(Integer userId, Integer roomId, LocalDate from, LocalDate to, List<Integer> optionsId) {
-        this.userId = userId;
-        this.roomId = roomId;
-        this.from = from;
-        this.to = to;
-        this.optionsId = optionsId;
-    }
-
-    public Integer getGuests() {
-        return guests;
-    }
-
-    public void setGuests(Integer guests) {
         this.guests = guests;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(Integer roomId) {
-        this.roomId = roomId;
-    }
-
-    public LocalDate getFrom() {
-        return from;
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 
     public void setFrom(LocalDate from) {
         this.from = from;
     }
 
-    public LocalDate getTo() {
-        return to;
-    }
-
     public void setTo(LocalDate to) {
         this.to = to;
     }
 
-    public List<Integer> getOptionsId() {
-        return optionsId;
+    public void setOptionsNames(List<String> optionsNames) {
+        this.optionsNames = optionsNames;
     }
 
-    public void setOptionsId(List<Integer> optionsId) {
-        this.optionsId = optionsId;
+    public void setBookingReservationId(String bookingReservationId) {
+        this.bookingReservationId = bookingReservationId;
+    }
+
+    public void setGuests(Integer guests) {
+        this.guests = guests;
+    }
+
+    public UserDTO getUser() {
+        return user;
+    }
+
+    public LocalDate getFrom() {
+        return from;
+    }
+
+    public LocalDate getTo() {
+        return to;
+    }
+
+    public List<String> getOptionsNames() {
+        return optionsNames;
+    }
+
+    public String getBookingReservationId() {
+        return bookingReservationId;
+    }
+
+    public Integer getGuests() {
+        return guests;
     }
 }

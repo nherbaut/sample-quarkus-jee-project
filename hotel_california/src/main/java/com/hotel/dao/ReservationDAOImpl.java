@@ -11,6 +11,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.glassfish.jaxb.core.v2.TODO;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -29,36 +30,37 @@ public class ReservationDAOImpl implements ReservationDAO{
     @Inject
     RoomService roomService;
 
+    @Inject
+    UserDAO userDAO;
+
     @Override
     @Transactional(rollbackOn = SQLException.class)
     public Reservation makeReservation(ReservationRequestDTO request) throws NoAvailableRoomException {
+        //check if the user exist
+        User user = null;
+        boolean doesUserExist = userDAO.doesUserExist(request.getUser());
+        if(doesUserExist == false){
+            user = userDAO.createUser(request.getUser());
+        }
+
         // check if the room is available on those dates
         LocalDate from = request.getFrom();
         LocalDate to = request.getTo();
-        int roomId = request.getRoomId();
 
-        boolean isAvailable = roomService.isRoomAvailable(roomId, from, to);
-        if(!isAvailable){
-            throw new NoAvailableRoomException();
-        }
-        // room
-        Room room =  entityManager.createQuery("SELECT r from Room r where id = :id ", Room.class).setParameter("id", roomId).getSingleResult();
+
+        // finding a room that is available between two dates and have sufficient beds
+        Room room = roomService.findAvailableRoom(request.getFrom(), request.getTo(), request.getGuests());
+
 
         double totalPrice = room.getPrice() * Period.between(from, to).get(ChronoUnit.DAYS);
         Set<ReservationOptions> optionsSet = new HashSet<>();
 
-        if(!request.getOptionsId().isEmpty()){
-            optionsSet = new HashSet<>(entityManager.createQuery("Select o from ReservationOptions  o where id in :ids ", ReservationOptions.class)
-                    .setParameter("ids", request.getOptionsId())
+        if(!request.getOptionsNames().isEmpty()){
+            optionsSet = new HashSet<>(entityManager.createQuery("Select o from ReservationOptions  o where name in :names", ReservationOptions.class)
+                    .setParameter("names", request.getOptionsNames())
                     .getResultList());
             totalPrice += optionsSet.stream().mapToDouble(ReservationOptions::getPrice).sum();
 
-        }
-        // get the user with the current request
-        User user = entityManager.createQuery("select  u from User u where id = :id", User.class).setParameter("id", request.getUserId())
-                .getSingleResult();
-        if(Objects.isNull(user)){
-            throw new RuntimeException("User not found");
         }
 
         Reservation reservation = new Reservation(request.getGuests(), user, room, from, to, totalPrice, optionsSet, StatusEnum.CONFIRMED, request.getBookingReservationId());
