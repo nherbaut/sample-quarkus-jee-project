@@ -1,6 +1,5 @@
 package fr.pantheonsorbonne.ufr27.miage.model;
 
-import fr.pantheonsorbonne.ufr27.miage.dto.Genre;
 import jakarta.persistence.*;
 
 @Entity
@@ -26,7 +25,6 @@ public class Client {
     }
 
     public Client() {
-
     }
 
     public int getIdClient() {

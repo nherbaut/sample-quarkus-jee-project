@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static fr.pantheonsorbonne.ufr27.miage.dto.Genre.HOMME;
-
 
 @QuarkusTest
 @ExtendWith(MockitoExtension.class)
