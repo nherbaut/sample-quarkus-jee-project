@@ -1,102 +1,52 @@
 package fr.pantheonsorbonne.ufr27.miage.model;
 
-
 import jakarta.persistence.*;
 
-import java.time.Instant;
-
-@Table(name = "Ticket", indexes = {
-        @Index(name = "fk_Ticket_3_idx", columnList = "idCustomer"),
-        @Index(name = "fk_Ticket_1_idx", columnList = "idVendor"),
-        @Index(name = "fk_Ticket_2_idx", columnList = "idVenue")
-})
 @Entity
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idTicket", nullable = false)
-    private Integer id;
+    private int idTicket;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "idVenue", nullable = false)
-    private Venue idVenue;
+    @JoinColumn(name = "idClient")
+    private int idClient;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "idVendor", nullable = false)
-    private Vendor idVendor;
+    @Column(name = "montantTransaction", nullable = false)
+    private float montant;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "idCustomer", nullable = true)
-    private Customer idCustomer;
-
-    public Ticket(Integer id) {
-        this.id = id;
+    public Ticket(int idTicket, int idClient, float montant) {
+        this.idTicket = idTicket;
+        this.idClient = idClient;
+        this.montant = montant;
     }
 
     public Ticket() {
+
     }
 
-    public String getSeatReference() {
-        return seatReference;
+    public int getIdTicket() {
+        return idTicket;
     }
 
-    public void setSeatReference(String seatReference) {
-        this.seatReference = seatReference;
+    public void setIdTicket(int idTicket) {
+        this.idTicket = idTicket;
     }
 
-    @Column(nullable = true)
-    private Instant validUntil;
-
-    public Instant getValidUntil() {
-        return validUntil;
+    public int getIdClient() {
+        return idClient;
     }
 
-    public void setValidUntil(Instant validUntil) {
-        this.validUntil = validUntil;
+    public void setIdClient(int idClient) {
+        this.idClient = idClient;
     }
 
-    @Column(nullable = true)
-    private String seatReference;
-
-    public String getTicketKey() {
-        return ticketKey;
+    public float getMontant() {
+        return montant;
     }
 
-    public void setTicketKey(String ticketKey) {
-        this.ticketKey = ticketKey;
+    public void setMontant(float montant) {
+        this.montant = montant;
     }
 
-    private String ticketKey;
-
-    public Customer getIdCustomer() {
-        return idCustomer;
-    }
-
-    public void setIdCustomer(Customer idCustomer) {
-        this.idCustomer = idCustomer;
-    }
-
-    public Vendor getIdVendor() {
-        return idVendor;
-    }
-
-    public void setIdVendor(Vendor idVendor) {
-        this.idVendor = idVendor;
-    }
-
-    public Venue getIdVenue() {
-        return idVenue;
-    }
-
-    public void setIdVenue(Venue idVenue) {
-        this.idVenue = idVenue;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }
