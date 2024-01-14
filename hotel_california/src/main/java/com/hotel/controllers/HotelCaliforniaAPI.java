@@ -14,6 +14,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.util.List;
 
@@ -25,6 +26,8 @@ public class HotelCaliforniaAPI {
     ReservationDAOImpl reservationService;
     @Inject
     ReservationOptionsService reservationOptionsService;
+    @ConfigProperty(name = "hotel.name")
+    String hotelName;
 
     @Path("rooms")
     @GET
@@ -33,18 +36,17 @@ public class HotelCaliforniaAPI {
         return roomService.getRooms();
     }
 
-
     @Path("make_reservation")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @POST
     public ReservationResponseDTO makeReservation(ReservationRequestDTO reservation) {
         try {
            Reservation reservationS =  reservationService.makeReservation(reservation);
-           return new ReservationResponseDTO(reservationS.getId(), true);
+           return new ReservationResponseDTO(reservationS.getId(), true, reservationS.getTotalPrice(), hotelName, reservationS.getBookingReservationId());
         } catch (NoAvailableRoomException e) {
-            return new ReservationResponseDTO(-1, false);
+            return new ReservationResponseDTO(-1, false, 0.0, hotelName, "Reservation failed");
         }
-
     }
 
     @Path("room_options")
@@ -56,12 +58,25 @@ public class HotelCaliforniaAPI {
 
     @Path("cancel_reservation")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @DELETE
     public Response cancelReservation(@QueryParam("reservationNumber") String reservationNumber)  {
         try {
             return reservationService.cancelReservation(reservationNumber)? Response.noContent().build() : Response.status(Response.Status.BAD_REQUEST).build();
         } catch (NoAvailableReservationException e) {
            return  Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+
+    @Path("update_reservation")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @PUT
+    public Response updateReservation(@QueryParam("reservationStatus") String reservationStatus, @QueryParam("reservationNumber") String reservationNumber)  {
+        try {
+            return reservationService.changeReservationStatus(reservationStatus, reservationNumber)? Response.noContent().build() : Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (NoAvailableReservationException e) {
+            return  Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
 }

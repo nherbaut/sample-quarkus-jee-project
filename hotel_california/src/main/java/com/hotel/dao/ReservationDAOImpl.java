@@ -11,14 +11,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import org.glassfish.jaxb.core.v2.TODO;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @ApplicationScoped
@@ -63,7 +61,7 @@ public class ReservationDAOImpl implements ReservationDAO{
 
         }
 
-        Reservation reservation = new Reservation(request.getGuests(), user, room, from, to, totalPrice, optionsSet, StatusEnum.CONFIRMED, request.getBookingReservationId());
+        Reservation reservation = new Reservation(request.getGuests(), user, room, from, to, totalPrice, optionsSet, StatusEnum.PENDING, request.getBookingReservationId());
         return entityManager.merge(reservation);
     }
     @Transactional
@@ -82,6 +80,25 @@ public class ReservationDAOImpl implements ReservationDAO{
             throw new NoAvailableReservationException();
         }
     return false;
+    }
+    @Transactional
+    @Override
+    public boolean changeReservationStatus(String reservationStatus, String bookingReservationId) throws NoAvailableReservationException{
+            StatusEnum status = StatusEnum.valueOf(reservationStatus.toUpperCase());
+            if (status == StatusEnum.CONFIRMED) {
+                Reservation res = null;
+                    res = entityManager.createQuery("select res from Reservation res where bookingReservationId = :reservationNumber", Reservation.class).setParameter("reservationNumber", bookingReservationId).getSingleResult();
+                    if (res != null) {
+                        entityManager.createQuery("update Reservation r set r.status =:reservationStatus where r.bookingReservationId = :reservationNumber")
+                                .setParameter("reservationStatus", status)
+                                .setParameter("reservationNumber", bookingReservationId).executeUpdate();
+                    }
+                    return true;
+            } else if (status == StatusEnum.CANCELED) {
+                cancelReservation(bookingReservationId);
+                return true;
+            }
+        return false;
     }
 
 }

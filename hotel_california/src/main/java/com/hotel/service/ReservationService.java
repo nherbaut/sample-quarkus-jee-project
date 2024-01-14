@@ -13,10 +13,4 @@ public interface ReservationService {
     boolean cancelReservation(String cancellation) throws NoAvailableReservationException;
     boolean isRoomAvailable(ReservationRequestDTO reservation) throws NoAvailableRoomException;
 
-    Reservation saveReservation(Reservation reservation);
-
-    Reservation getReservationById(int reservationId);
-
-    List<Reservation> getAllReservations();
-
 }

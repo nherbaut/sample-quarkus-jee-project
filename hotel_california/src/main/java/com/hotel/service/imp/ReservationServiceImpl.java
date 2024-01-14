@@ -29,19 +29,4 @@ public class ReservationServiceImpl implements ReservationService {
         return false;
     }
 
-    @Override
-    public Reservation saveReservation(Reservation reservation) {
-        return null;
-    }
-
-    @Override
-    public Reservation getReservationById(int reservationId) {
-        return null;
-    }
-
-    @Override
-    public List<Reservation> getAllReservations() {
-        return null;
-    }
-
 }

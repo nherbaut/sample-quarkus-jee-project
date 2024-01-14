@@ -1,9 +1,7 @@
 package com.hotel.service.imp;
 
 import com.hotel.Exception.NoAvailableRoomException;
-import com.hotel.model.Reservation;
 import com.hotel.model.Room;
-import com.hotel.model.User;
 import com.hotel.service.RoomService;
 import fr.pantheonsorbonne.ufr27.miage.dto.AvailabilityDTO;
 import fr.pantheonsorbonne.ufr27.miage.dto.ReservationDTO;
