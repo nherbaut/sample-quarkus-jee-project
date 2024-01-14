@@ -14,6 +14,9 @@ public class Client {
         this.profession = profession;
     }
 
+    public Client() {
+    }
+
     public int getIdClient() {
         return idClient;
     }
