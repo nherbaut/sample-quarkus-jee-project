@@ -29,7 +29,7 @@ public class UserDAOImpl implements UserDAO{
     @Transactional
     @Override
     public User createUser(UserDTO userDTO) {
-        User user = new User(userDTO.getName(), userDTO.getLastName(), userDTO.getEmailAddress(), userDTO.getPhoneNumber());
+        User user = new User(userDTO.getName(), userDTO.getLastName(), userDTO.getPhoneNumber(), userDTO.getEmailAddress());
         return entityManager.merge(user);
     }
 }

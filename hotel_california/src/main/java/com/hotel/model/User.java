@@ -45,10 +45,10 @@ public  class User {
         return Objects.hash(id, phoneNumber, email, firstName, lastName);
     }
 
-    public User(String phoneNumber, String email, String firstName, String lastName) {
-        this.phoneNumber = phoneNumber;
-        this.email = email;
+    public User(String firstName, String lastName, String phoneNumber, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
     }
 }
