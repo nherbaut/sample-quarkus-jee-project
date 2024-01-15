@@ -10,6 +10,7 @@ import com.hotel.service.RoomService;
 import fr.pantheonsorbonne.ufr27.miage.dto.AvailabilityDTO;
 import fr.pantheonsorbonne.ufr27.miage.dto.ReservationRequestDTO;
 import fr.pantheonsorbonne.ufr27.miage.dto.ReservationResponseDTO;
+import fr.pantheonsorbonne.ufr27.miage.dto.UpdateReservationDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -60,23 +61,22 @@ public class HotelCaliforniaAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @DELETE
-    public Response cancelReservation(@QueryParam("reservationNumber") String reservationNumber)  {
+    public UpdateReservationDTO cancelReservation(@QueryParam("reservationNumber") String reservationNumber)  {
         try {
-            return reservationService.cancelReservation(reservationNumber)? Response.noContent().build() : Response.status(Response.Status.BAD_REQUEST).build();
+            return reservationService.cancelReservation(reservationNumber);
         } catch (NoAvailableReservationException e) {
-           return  Response.status(Response.Status.BAD_REQUEST).build();
-        }
+            return new UpdateReservationDTO(reservationNumber, "Reservation not found");        }
     }
 
     @Path("update_reservation")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @PUT
-    public Response updateReservation(@QueryParam("reservationStatus") String reservationStatus, @QueryParam("reservationNumber") String reservationNumber)  {
+    public UpdateReservationDTO updateReservation(@QueryParam("reservationStatus") String reservationStatus, @QueryParam("reservationNumber") String reservationNumber)  {
         try {
-            return reservationService.changeReservationStatus(reservationStatus, reservationNumber)? Response.noContent().build() : Response.status(Response.Status.BAD_REQUEST).build();
+            return reservationService.changeReservationStatus(reservationStatus, reservationNumber);
         } catch (NoAvailableReservationException e) {
-            return  Response.status(Response.Status.BAD_REQUEST).build();
+            return new UpdateReservationDTO(reservationNumber, "Reservation not found");
         }
     }
 }

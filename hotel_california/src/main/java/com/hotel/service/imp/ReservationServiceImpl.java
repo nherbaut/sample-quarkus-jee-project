@@ -6,6 +6,7 @@ import com.hotel.dao.ReservationDAOImpl;
 import com.hotel.model.Reservation;
 import com.hotel.service.ReservationService;
 import fr.pantheonsorbonne.ufr27.miage.dto.ReservationRequestDTO;
+import fr.pantheonsorbonne.ufr27.miage.dto.UpdateReservationDTO;
 import jakarta.inject.Inject;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public boolean cancelReservation(String cancellation) throws NoAvailableReservationException {
+    public UpdateReservationDTO cancelReservation(String cancellation) throws NoAvailableReservationException {
         return reservationDAO.cancelReservation(cancellation);
     }
 

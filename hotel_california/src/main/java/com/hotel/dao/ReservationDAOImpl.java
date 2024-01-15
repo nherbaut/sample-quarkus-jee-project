@@ -5,6 +5,7 @@ import com.hotel.Exception.NoAvailableRoomException;
 import com.hotel.model.*;
 import com.hotel.service.RoomService;
 import fr.pantheonsorbonne.ufr27.miage.dto.ReservationRequestDTO;
+import fr.pantheonsorbonne.ufr27.miage.dto.UpdateReservationDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -66,39 +67,48 @@ public class ReservationDAOImpl implements ReservationDAO{
     }
     @Transactional
     @Override
-    public boolean cancelReservation(String cancelReservation) throws NoAvailableReservationException {
+    public UpdateReservationDTO cancelReservation(String cancelReservation) throws NoAvailableReservationException {
         //Check if there is a reservation
         Reservation res = null;
         try {
             res = entityManager.createQuery("select res from Reservation res where bookingReservationId = :reservationNumber", Reservation.class).setParameter("reservationNumber", cancelReservation).getSingleResult();
             if (res != null){
                 entityManager.createQuery("delete  from Reservation r where bookingReservationId = :reservationNumber").setParameter("reservationNumber", cancelReservation).executeUpdate();
-            return true;
+                return new UpdateReservationDTO(cancelReservation, "Reservation Canceled successfully");
+
             }
         }
         catch (NoResultException noResultException){
             throw new NoAvailableReservationException();
         }
-    return false;
+    return new UpdateReservationDTO(cancelReservation, "Reservation Canceled failed");
     }
     @Transactional
     @Override
-    public boolean changeReservationStatus(String reservationStatus, String bookingReservationId) throws NoAvailableReservationException{
+    public UpdateReservationDTO changeReservationStatus(String reservationStatus, String bookingReservationId) throws NoAvailableReservationException{
             StatusEnum status = StatusEnum.valueOf(reservationStatus.toUpperCase());
             if (status == StatusEnum.CONFIRMED) {
-                Reservation res = null;
+                try {
+                    Reservation res = null;
                     res = entityManager.createQuery("select res from Reservation res where bookingReservationId = :reservationNumber", Reservation.class).setParameter("reservationNumber", bookingReservationId).getSingleResult();
                     if (res != null) {
                         entityManager.createQuery("update Reservation r set r.status =:reservationStatus where r.bookingReservationId = :reservationNumber")
                                 .setParameter("reservationStatus", status)
                                 .setParameter("reservationNumber", bookingReservationId).executeUpdate();
+                        return new UpdateReservationDTO(bookingReservationId, "Reservation Confirmed successfully");
+
                     }
-                    return true;
+                }catch (NoResultException e){
+                    throw  new NoAvailableReservationException();
+                }
+
+                    return new UpdateReservationDTO(bookingReservationId, "Reservation Confirmed successfully");
             } else if (status == StatusEnum.CANCELED) {
-                cancelReservation(bookingReservationId);
-                return true;
+                return cancelReservation(bookingReservationId);
+
             }
-        return false;
+        return new UpdateReservationDTO(bookingReservationId, "Reservation modification failed");
+
     }
 
 }

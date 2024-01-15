@@ -4,13 +4,13 @@ import com.hotel.Exception.NoAvailableReservationException;
 import com.hotel.Exception.NoAvailableRoomException;
 import com.hotel.model.Reservation;
 import fr.pantheonsorbonne.ufr27.miage.dto.ReservationRequestDTO;
+import fr.pantheonsorbonne.ufr27.miage.dto.UpdateReservationDTO;
 
-import java.util.List;
 
 
 public interface ReservationService {
     Reservation makeReservation(ReservationRequestDTO reservation) throws NoAvailableRoomException;
-    boolean cancelReservation(String cancellation) throws NoAvailableReservationException;
+    UpdateReservationDTO cancelReservation(String cancellation) throws NoAvailableReservationException;
     boolean isRoomAvailable(ReservationRequestDTO reservation) throws NoAvailableRoomException;
 
 }
